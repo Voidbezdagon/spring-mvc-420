@@ -7,10 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -169,6 +171,32 @@ public class UserController extends BaseController<User>{
 			}
 		}
 	}
+	
+	@Override
+	public void filterAllByString(String column, String searchName, List<User> result) {
+		switch (column)
+		{
+		case "First Name":
+			result = (ArrayList<User>) result.stream().filter(p -> p.getFirstname().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "Last Name":
+			result = (ArrayList<User>) result.stream().filter(p -> p.getLastname().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "Username":
+			result = (ArrayList<User>) result.stream().filter(p -> p.getUsername().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "Password":
+			result = (ArrayList<User>) result.stream().filter(p -> p.getPassword().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "Admin":
+			if (searchName.equalsIgnoreCase("true"))
+				result = (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == true).collect(Collectors.toList());
+			else
+				result = (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == false).collect(Collectors.toList());
+		}	
+		
+	}
+	
 	//END BASE CONTROLLER
 	
 	@RequestMapping(value = {"loginForm", "/"})
@@ -244,4 +272,12 @@ public class UserController extends BaseController<User>{
         }
         item.setAvatar(filePath);
 	}
+
+	@Override
+	public List<User> customList(Long id) throws InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

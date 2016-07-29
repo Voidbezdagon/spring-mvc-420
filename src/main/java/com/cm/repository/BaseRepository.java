@@ -54,5 +54,5 @@ public abstract class BaseRepository<T extends BaseEntity>{
 		return result;
 	}
 
-	public abstract List<T> getAllByString(String column, String searchString) throws Exception;
+	
 }

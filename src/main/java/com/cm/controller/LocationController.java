@@ -9,12 +9,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Location;
-import com.cm.entity.User;
 import com.cm.service.LocationService;
-import com.cm.service.UserService;
 
 @Controller
 public class LocationController extends BaseController<Location>{
@@ -134,6 +128,41 @@ public class LocationController extends BaseController<Location>{
 			//result.put(item.getId().toString(), item.getLocationname());
 		}
 		return null;
+	}
+
+	@Override
+	public List<Location> customList(Long id) throws InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void filterAllByString(String column, String searchName, List<Location> result) {
+		switch (column)
+		{
+		case "Name":
+			result = (ArrayList<Location>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "Region":
+			result = (ArrayList<Location>) result.stream().filter(p -> p.getRegion().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "City":
+			result = (ArrayList<Location>) result.stream().filter(p -> p.getCity().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "ZIP":
+			result = (ArrayList<Location>) result.stream().filter(p -> p.getZip() == Integer.parseInt(searchName)).collect(Collectors.toList());
+			break;
+		case "Street":
+			result = (ArrayList<Location>) result.stream().filter(p -> p.getStreet().contains(searchName)).collect(Collectors.toList());
+			break;
+		case "Street Number":
+			result = (ArrayList<Location>) result.stream().filter(p -> p.getStreetNumber() == Integer.parseInt(searchName)).collect(Collectors.toList());
+			break;
+		case "Details":
+			result = (ArrayList<Location>) result.stream().filter(p -> p.getDetails().contains(searchName)).collect(Collectors.toList());
+			break;
+		}	
+		
 	}
 
 }

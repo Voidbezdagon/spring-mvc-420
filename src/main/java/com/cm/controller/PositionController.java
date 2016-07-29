@@ -1,8 +1,10 @@
 package com.cm.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cm.entity.Position;
 import com.cm.service.PositionService;
 import com.cm.util.PositionFormValidator;
-import com.cm.util.UserFormValidator;
 
 @Controller
 public class PositionController extends BaseController<Position>{
@@ -103,6 +104,21 @@ public class PositionController extends BaseController<Position>{
 	@Override
 	public void setAvatars(List<Position> List) {
 	}
+	
+	@Override
+	public void filterAllByString(String column, String searchName, List<Position> result) {
+		switch (column)
+		{
+		case "Superior Position":
+			result = (ArrayList<Position>) result.stream().filter(p -> p.getParentId().equals(Long.parseLong(searchName))).collect(Collectors.toList());
+			break;
+		case "Name":
+			result = (ArrayList<Position>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
+			break;
+		}	
+		
+	}
+	
 	//END BASE CONTROLLER
 	
 	public LinkedHashMap<String, String> feedPositionList() throws Exception
@@ -115,6 +131,14 @@ public class PositionController extends BaseController<Position>{
 		}
 		return null;
 	}
+
+	@Override
+	public List<Position> customList(Long id) throws InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 	
 }
