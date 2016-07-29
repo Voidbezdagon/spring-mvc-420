@@ -5,8 +5,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Location;
 import com.cm.entity.LocationItem;
@@ -45,6 +53,39 @@ public class LocationItemsController extends BaseController<LocationItem> {
 			break;
 		}	
 		
+	}
+	
+	@RequestMapping(value="LocationItem/create")
+	public ModelAndView createLocationItem(HttpServletRequest request, @RequestParam Long parentId) throws Exception
+	{
+		request.setAttribute("parentId", parentId);
+		return create(request);
+	}
+	
+	@RequestMapping(value="LocationItem/edit")
+	public ModelAndView editLocationItem(HttpServletRequest request) throws Exception
+	{
+		return edit(request);
+	}
+	
+	@RequestMapping(value="LocationItem/delete")
+	public ModelAndView deleteLocationItem(HttpServletRequest request) throws Exception
+	{
+		return delete(request);
+	}
+	
+	@RequestMapping(value="LocationItem/save")
+	public ModelAndView saveLocationItem(@ModelAttribute LocationItem item, HttpServletRequest request) throws Exception
+	{
+		item.setLocation(locationService.getById(Long.parseLong((String) request.getAttribute("parentId"))));
+		return save(item, request);
+	}
+	
+	@RequestMapping(value = "LocationItem/getAll")
+	public ModelAndView getAllLocationsItem(HttpServletRequest request, @RequestParam Long parentId) throws Exception
+	{
+		request.setAttribute("parentId", parentId);
+		return getAll(request);
 	}
 
 	@Override
