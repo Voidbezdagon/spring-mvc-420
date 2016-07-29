@@ -117,12 +117,13 @@
 							<th>Map Location</th>
 							<th></th>
 							<th></th>
+							<th></th>
 						</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${ItemList.pageList}" var="item">
 								<tr>
-									<th><c:out value="${item.name}"/></th>
+									<th><a href="<%=request.getContextPath()%>/LocationItem/getAll?parentId=<c:out value='${item.id}'/>"><c:out value="${item.name}"/></a></th>
 									<th><c:out value="${item.region}"/></th>
 									<th><c:out value="${item.city}"/></th>
 									<th><c:out value="${item.zip}"/></th>
@@ -132,9 +133,10 @@
 									<th><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#noob<c:out value='${item.name}'/>">Simple collapsible</button></th>
 									<th><a href="<%=request.getContextPath()%>/Location/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 									<th><a href="<%=request.getContextPath()%>/Location/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
+									<th><a href="<%=request.getContextPath()%>/LocationItem/create?parentId=<c:out value='${item.id}'/>">Add Location Item</a></th>
 								</tr>
 								<tr>
-									<td colspan="10">
+									<td colspan="11">
 										<div class="collapse in" id="noob${item.name}">
 											<div class="map" id="map${item.name}"></div>
 										</div>

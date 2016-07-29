@@ -5,9 +5,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Task List</title>
+	<title>Location Item List</title>
 	<!-- Bootstrap CSS -->
-	<%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -17,16 +16,17 @@
 		margin: 20px;
 		}
 		.map {
+		width: 100%;
         height: 300px;
       	}
 	</style>
 </head>
-<body class=".container-fluid" onload="loadMaps();">
+<body class=".container-fluid" onload="collapseMaps()">
 <div class="container myrow-container">
 	<c:import url="/Menu"/>
 			<div class="panel panel-success">
 				<h3 class="panel-title">
-					<div align="left"><b>Location List</b></div>
+					<div align="left"><b>Location Item List</b></div>
 				</h3>
 			</div>
 			<div class="panel-body">
@@ -108,13 +108,9 @@
 						<thead style="background-color: #bce8f1;">
 						<tr>
 							<th>Name</th>
-							<th>Region</th>
-							<th>City</th>
-							<th>ZIP</th>
-							<th>Street</th>
-							<th>Street Number</th>
+							<th>Floor</th>
+							<th>Number</th>
 							<th>Details</th>
-							<th>Map Location</th>
 							<th></th>
 							<th></th>
 						</tr>
@@ -123,53 +119,29 @@
 							<c:forEach items="${ItemList.pageList}" var="item">
 								<tr>
 									<th><c:out value="${item.name}"/></th>
-									<th><c:out value="${item.region}"/></th>
-									<th><c:out value="${item.city}"/></th>
-									<th><c:out value="${item.zip}"/></th>
-									<th><c:out value="${item.street}"/></th>
-									<th><c:out value="${item.streetNumber}"/></th>
+									<th><c:out value="${item.floor}"/></th>
+									<th><c:out value="${item.number}"/></th>
 									<th><c:out value="${item.details}"/></th>	
-									<th></th>
 									<th><a href="<%=request.getContextPath()%>/Location/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 									<th><a href="<%=request.getContextPath()%>/Location/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
 								</tr>
-								<tr>
-									<td class="map" id="map${item.name}" colspan="10">
-									</td>
-									<input type="hidden" class="mapLat" id="mapLat${item.name}" value="${item.lat}"/>
-									<input type="hidden" class="mapLng" id="mapLng${item.name}" value="${item.lng}"/>	
-								</tr>
-								
 							</c:forEach>
 							
 						</tbody>
 					</table>
 				</c:if>
-				
 			</div>
 </div>
 </form>
-			<div class="container">
-			<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#hui">Collapsible</button>
-			<div class="collapse" id="hui">Pi6ka</div>
-			</div>
-			<div class="container">
-			  <h2>Simple Collapsible</h2>
-			  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
-			  <div id="demo" class="collapse">
-			    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-			    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-			  </div>
-			</div>
+			
 <script>
-	
 function loadMaps()
 {
+	
 	allMaps = document.getElementsByClassName('map');
 	allLats = document.getElementsByClassName('mapLat');
 	allLngs = document.getElementsByClassName('mapLng');
-
+	
 	for (key in allMaps)
 	{
 		var mapDiv = document.getElementById(allMaps[key].id);
@@ -185,11 +157,22 @@ function loadMaps()
 		});
 	}
 }
-    </script>
 
+function collapseMaps()
+{
+	allCollapse = document.getElementsByClassName('collapse in');
+	
+	for (key in allCollapse)
+	{
+		allCollapse[key].className = "collapse";
+	}
+}
+</script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBp6RmZ-MOlfJZUyb6mNU43EVEia16s2z0&callback=loadMaps">
 </script>
+
+
 
 </body>
 </html>
