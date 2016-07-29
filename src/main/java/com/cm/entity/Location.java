@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -20,7 +21,7 @@ public class Location extends BaseEntity{
 	private String details;
 	private Float lat;
 	private Float lng;
-	@OneToMany(mappedBy = "location", cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "location", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private List<LocationItem> locationItems;
 	
 	public String getName() {

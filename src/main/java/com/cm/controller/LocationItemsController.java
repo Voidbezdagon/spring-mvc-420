@@ -58,7 +58,7 @@ public class LocationItemsController extends BaseController<LocationItem> {
 	@RequestMapping(value="LocationItem/create")
 	public ModelAndView createLocationItem(HttpServletRequest request, @RequestParam Long parentId) throws Exception
 	{
-		request.setAttribute("parentId", parentId);
+		request.getSession().setAttribute("parentId", parentId);
 		return create(request);
 	}
 	
@@ -77,14 +77,17 @@ public class LocationItemsController extends BaseController<LocationItem> {
 	@RequestMapping(value="LocationItem/save")
 	public ModelAndView saveLocationItem(@ModelAttribute LocationItem item, HttpServletRequest request) throws Exception
 	{
-		item.setLocation(locationService.getById(Long.parseLong((String) request.getAttribute("parentId"))));
+		System.out.println(request.getSession().getAttribute("parentId"));
+		item.setLocation(locationService.getById((long) request.getSession().getAttribute("parentId")));
+		request.getSession().removeAttribute("parentId");
 		return save(item, request);
 	}
 	
 	@RequestMapping(value = "LocationItem/getAll")
-	public ModelAndView getAllLocationsItem(HttpServletRequest request, @RequestParam Long parentId) throws Exception
+	public ModelAndView getAllLocationsItem(HttpServletRequest request) throws Exception
 	{
-		request.setAttribute("parentId", parentId);
+		if (request.getAttribute("parentId") != null)
+			request.setAttribute("parentId", request.getAttribute("parentId"));
 		return getAll(request);
 	}
 

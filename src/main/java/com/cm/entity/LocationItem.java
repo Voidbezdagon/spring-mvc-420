@@ -1,6 +1,8 @@
 package com.cm.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -13,7 +15,7 @@ public class LocationItem extends BaseEntity{
 	private Integer floor;
 	private Integer number;
 	private String details;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "locationId")
 	private Location location;
 	
