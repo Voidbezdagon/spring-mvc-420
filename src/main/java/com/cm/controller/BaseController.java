@@ -80,8 +80,8 @@ public abstract class BaseController<T extends BaseEntity>{
 			items = Integer.parseInt(itemsPerPage);
 		
 		
-		if(request.getParameter("id")!=null){
-			ItemList = customList(Long.parseLong(request.getParameter("id")));
+		if(request.getParameter("parentId")!=null){
+			ItemList = customList(Long.parseLong(request.getParameter("parentid")));
 		} else {
 			ItemList = (List<T>) baseService.getAll();
 		}
