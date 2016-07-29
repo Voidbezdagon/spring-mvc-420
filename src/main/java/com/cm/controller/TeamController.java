@@ -2,16 +2,14 @@ package com.cm.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -114,6 +112,18 @@ public class TeamController extends BaseController<Team>{
 	@Override
 	public void setAvatars(List<Team> List) {
 	}
+	
+	@Override
+	public void filterAllByString(String column, String searchName, List<Team> result) {
+		switch (column)
+		{
+		case "Team Name":
+			result = (ArrayList<Team>) result.stream().filter(p -> p.getTeamname().contains(searchName)).collect(Collectors.toList());
+			break;
+		}	
+		
+	}
+	
 	//END BASE CONTROLLER
 	
 	public LinkedHashMap<String, String> feedTeamList() throws Exception
@@ -126,4 +136,12 @@ public class TeamController extends BaseController<Team>{
 		}
 		return null;
 	}
+
+	@Override
+	public List<Team> customList(Long id) throws InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

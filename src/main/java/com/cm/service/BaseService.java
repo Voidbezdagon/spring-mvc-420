@@ -43,7 +43,5 @@ public class BaseService<T extends BaseEntity>{
 		return baseRepository.getByString(column, searchString);
 	}
 	
-	public List<T> getAllByString(String column, String searchString) throws Exception {
-		return baseRepository.getAllByString(column, searchString);
-	}
+	
 }

@@ -1,6 +1,5 @@
 package com.cm.controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -12,11 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.BaseEntity;
-import com.cm.entity.User;
 import com.cm.service.BaseService;
 import com.cm.util.ReflectionHelper;
 
@@ -82,11 +79,15 @@ public abstract class BaseController<T extends BaseEntity>{
 		if (itemsPerPage != null)
 			items = Integer.parseInt(itemsPerPage);
 		
-		if (searchName == null || searchName.equals(""))
-			ItemList = (List<T>) baseService.getAll();
-		else
-			ItemList = (List<T>) baseService.getAllByString(searchColumn ,searchName);
 		
+		if(request.getParameter("id")!=null){
+			ItemList = customList(Long.parseLong(request.getParameter("id")));
+		} else {
+			ItemList = (List<T>) baseService.getAll();
+		}
+		if(searchName!=null){
+			filterAllByString(searchColumn ,searchName, ItemList);
+		}
 		setAvatars(ItemList);
 			
 		if (sortColumn != null)
@@ -136,4 +137,6 @@ public abstract class BaseController<T extends BaseEntity>{
 	public abstract void feedSort(List<T> List, String column);
 	public abstract void feedSortLists(LinkedHashMap<String, String> Map);
 	public abstract void setAvatars(List<T> List) throws Exception; 
+	public abstract List<T> customList(Long id) throws InstantiationException, IllegalAccessException;
+	public abstract void filterAllByString(String searchColumn ,String searchName, List<T> result);
 }

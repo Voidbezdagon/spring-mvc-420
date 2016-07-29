@@ -1,7 +1,6 @@
 package com.cm.repository;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.hibernate.SessionFactory;
@@ -41,31 +40,5 @@ public class UserRepository extends BaseRepository<User>{
 			return null;
 		else
 			return result.get(0);
-	}
-
-	@Override
-	public List<User> getAllByString(String column, String searchString) throws Exception {
-		ArrayList<User> result = new ArrayList<User>();
-		switch (column)
-		{
-		case "First Name":
-			result = (ArrayList<User>) getAll().stream().filter(p -> p.getFirstname().contains(searchString)).collect(Collectors.toList());
-			break;
-		case "Last Name":
-			result = (ArrayList<User>) getAll().stream().filter(p -> p.getLastname().contains(searchString)).collect(Collectors.toList());
-			break;
-		case "Username":
-			result = (ArrayList<User>) getAll().stream().filter(p -> p.getUsername().contains(searchString)).collect(Collectors.toList());
-			break;
-		case "Password":
-			result = (ArrayList<User>) getAll().stream().filter(p -> p.getPassword().contains(searchString)).collect(Collectors.toList());
-			break;
-		case "Admin":
-			if (searchString.equalsIgnoreCase("true"))
-				result = (ArrayList<User>) getAll().stream().filter(p -> p.getAdmin() == true).collect(Collectors.toList());
-			else
-				result = (ArrayList<User>) getAll().stream().filter(p -> p.getAdmin() == false).collect(Collectors.toList());
-		}	
-		return result;
 	}
 }
