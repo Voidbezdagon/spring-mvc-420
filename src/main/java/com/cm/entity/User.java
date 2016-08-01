@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User extends BaseEntity{
@@ -25,6 +26,8 @@ public class User extends BaseEntity{
 	private Position position;
 	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "users", fetch = FetchType.EAGER)
 	private List<Team> teams;
+	@OneToMany(mappedBy="user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	List<ScheduleActivityReport> scheduleActivityReports;
 	
 	public List<Team> getTeams() {
 		return teams;
@@ -74,4 +77,11 @@ public class User extends BaseEntity{
 	public void setPosition(Position position) {
 		this.position = position;
 	}
+	public List<ScheduleActivityReport> getScheduleActivityReports() {
+		return scheduleActivityReports;
+	}
+	public void setScheduleActivityReports(List<ScheduleActivityReport> scheduleActivityReports) {
+		this.scheduleActivityReports = scheduleActivityReports;
+	}
+	
 }
