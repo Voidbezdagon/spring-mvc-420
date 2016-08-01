@@ -48,16 +48,18 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 		
 	}
 
-	@Override
-	public List<ScheduleActivity> customList(Long id) throws InstantiationException, IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void filterAllByString(String searchColumn, String searchName, List<ScheduleActivity> result) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ScheduleActivity> customList(HttpServletRequest request)
+			throws InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
