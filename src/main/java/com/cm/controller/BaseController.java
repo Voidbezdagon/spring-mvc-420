@@ -81,7 +81,8 @@ public abstract class BaseController<T extends BaseEntity>{
 		
 		
 		if(request.getParameter("parentId")!=null){
-			ItemList = customList(Long.parseLong(request.getParameter("parentid")));
+			if (!request.getParameter("parentId").equals(""))
+				ItemList = customList(Long.parseLong(request.getParameter("parentId")));
 		} else {
 			ItemList = (List<T>) baseService.getAll();
 		}

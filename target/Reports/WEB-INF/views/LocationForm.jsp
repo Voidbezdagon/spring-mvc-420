@@ -12,7 +12,11 @@ pageEncoding="UTF-8" %>
 	<title>User Management Form</title>
 	<!-- Bootstrap CSS -->
 	<%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"/>
+ 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<style type="text/css">
 	.myrow-container{
 	margin: 20px;
@@ -21,9 +25,34 @@ pageEncoding="UTF-8" %>
         width: 100%;
         height: 400px;
       }
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #fullAddress {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
+
+      #fullAddress:focus {
+        border-color: #4d90fe;
+      }
 	</style>
 </head>
-<body class=".container-fluid" onload="loadMaps();">
+<body class=".container-fluid">
 	<div class="container myrow-container">
 				<div class="panel panel-success">
 					<div class="panel-heading">
@@ -52,15 +81,15 @@ pageEncoding="UTF-8" %>
 								<div class="form-group">
 									<div class="control-label col-xs-3"> <form:label path="city" >City</form:label> </div>
 									<div class="col-xs-6">
-										<form:input cssClass="form-control" path="city" value="${itemObject.city}"/>
+										<form:input cssClass="form-control" path="city" value="${itemObject.city}" onchange="setAddress()" onkeyup="setAddress()" onpaste="setAddress()"/>
 										<form:errors path="city" cssClass="error"/>
 									</div>
 								</div> 
 							
 							<div class="form-group">
-								<div class="control-label col-xs-3"><form:label path="zip">ZIP</form:label></div>
+								<div class="control-label col-xs-3"><form:label path="zip" >ZIP</form:label></div>
 								<div class="col-xs-6">
-									<form:input cssClass="form-control" path="zip" value="${itemObject.zip}"/>
+									<form:input cssClass="form-control" path="zip" value="${itemObject.zip}" onchange="setAddress()" onkeyup="setAddress()" onpaste="setAddress()"/>
 									<form:errors path="zip" cssClass="error"/>
 								</div>
 							</div>
@@ -68,15 +97,15 @@ pageEncoding="UTF-8" %>
 							<div class="form-group">
 								<div class="control-label col-xs-3"><form:label path="street">Street</form:label></div>
 								<div class="col-xs-6">
-									<form:input cssClass="form-control" path="street" value="${itemObject.street}"/>
+									<form:input cssClass="form-control" path="street" value="${itemObject.street}" onchange="setAddress()" onkeyup="setAddress()" onpaste="setAddress()"/>
 									<form:errors path="street" cssClass="error"/>
 								</div>
 							</div>
 							
 							<div class="form-group">
-								<div class="control-label col-xs-3"><form:label path="streetNumber">Street Number</form:label></div>
+								<div class="control-label col-xs-3"><form:label path="streetNumber" >Street Number</form:label></div>
 								<div class="col-xs-6">
-									<form:input cssClass="form-control" path="streetNumber" value="${itemObject.streetNumber}"/>
+									<form:input cssClass="form-control" path="streetNumber" value="${itemObject.streetNumber}" onchange="setAddress()" onkeyup="setAddress()" onpaste="setAddress()"/>
 									<form:errors path="streetNumber" cssClass="error"/>
 								</div>
 							</div>
@@ -92,6 +121,7 @@ pageEncoding="UTF-8" %>
 							<div class="form-group">
 								<div class="control-label col-xs-3"><form:label path="lat">Map Location</form:label></div>
 								<div class="col-xs-6">
+									<input class="controls" id="fullAddress"/>
 									<div class="map" id="map" ></div>	
 									<form:hidden path="lat" value="${itemObject.lat}"/>
 									<form:hidden path="lng" value="${itemObject.lng}"/>
@@ -104,6 +134,7 @@ pageEncoding="UTF-8" %>
 									<div class="col-xs-4">
 									</div>
 									<div class="col-xs-4">
+										
 										<input type="submit" id="<%=request.getContextPath()%>/Location/save" class="btn btn-primary" value="Submit"/>
 									</div>
 									<div class="col-xs-4">
@@ -113,13 +144,15 @@ pageEncoding="UTF-8" %>
 										
 							
 						</form:form>
+						<button onclick="triggerPlaceChange()">Kur</button>
 					</div>
 				</div>	
 	</div>	
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	
 	<script>
+	var searchBox;
+	var places;
 	function loadMaps()
 	{
 		var lt = 42.135;
@@ -146,16 +179,54 @@ pageEncoding="UTF-8" %>
 		    map:map,
 		    draggable: true
 		});
-
+		
 		google.maps.event.addListener(marker, 'dragend', function(evt){
 		    document.getElementById('lat').value = evt.latLng.lat().toFixed(3);
 		    document.getElementById('lng').value = evt.latLng.lng().toFixed(3);
 		});
+		
+		var input = document.getElementById('fullAddress');
+		searchBox = new google.maps.places.SearchBox(input);
+		map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+		
+		google.maps.event.addListener(searchBox, 'places_changed', function () {
+			   places = searchBox.getPlaces();
+			   if (places[0].geometry.viewport) {
+			      map.fitBounds(places[0].geometry.viewport);
+			   } else {
+			      map.setCenter(places[0].geometry.location);
+			      map.setZoom(8); 
+			   }
+			   
+			   marker.setPosition(places[0].geometry.location);
+			   document.getElementById('lat').value = places[0].geometry.location.lat().toFixed(3);
+			  
+			   document.getElementById('lng').value = places[0].geometry.location.lng().toFixed(3);
+			   
+		});
 	}
+	
+	function triggerPlaceChange()
+	{
+		google.maps.event.trigger(searchBox, 'places_changed');
+		alert("kur");
+	}
+	
+	function setAddress()
+	{
+		var city = document.getElementById('city').value;
+		var zip = document.getElementById('zip').value;
+		var street = document.getElementById('street').value;
+		var streetNumber = document.getElementById('streetNumber').value;
+		
+		document.getElementById('fullAddress').value = (zip + " " + city + " " + street + " " + streetNumber);
+	}
+	
     </script>
-
-	<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBp6RmZ-MOlfJZUyb6mNU43EVEia16s2z0&callback=loadMaps">
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBp6RmZ-MOlfJZUyb6mNU43EVEia16s2z0&libraries=places&callback=loadMaps">
 	</script>
+	
+	
 	
 </body>

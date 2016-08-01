@@ -46,7 +46,6 @@
           <ul class="dropdown-menu">
           	<li><a href="<%=request.getContextPath()%>/Location/getAll">Location List</a></li>
             <li><a href="<%=request.getContextPath()%>/Location/create">Create Location</a></li>
-            <li><a href="<%=request.getContextPath()%>/Location/create">Create Location Item</a></li>
           </ul>
         </li>
       </ul>
