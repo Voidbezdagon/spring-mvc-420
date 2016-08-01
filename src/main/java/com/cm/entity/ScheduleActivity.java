@@ -17,18 +17,18 @@ import org.hibernate.annotations.FetchMode;
 public class ScheduleActivity extends BaseEntity {
 	private static final long serialVersionUID = -6454954275786468970L;
 	
-	String description;
+	private String description;
 	
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="scheduleId")
-	Schedule schedule;
+	private Schedule schedule;
 	
 	@OneToMany(mappedBy="scheduleActivity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
-	List<ScheduleActivityReport> scheduleActivityReports;
+	private List<ScheduleActivityReport> scheduleActivityReports;
 	
 	@OneToOne(mappedBy = "scheduleActivity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
-	ScheduleActivityReport scheduleActivityReport;
+	private ScheduleActivityReport scheduleActivityReport;
 	
 
 	public String getDescription() {
