@@ -54,13 +54,13 @@ pageEncoding="UTF-8" %>
 								</div> 
 							
 							<div class="form-group">
-								<div class="control-label col-xs-3"><form:label path="assignedTeam">Assigned Team</form:label></div>
+								<div class="control-label col-xs-3"><label name="assignedTeam.id">Assigned Team</label></div>
 								<div class="col-xs-6">
-									<form:select path="assignedTeam">
+									<select id="assignedTeam.id" name="assignedTeam.id">
 									<c:forEach var="team" items="${teamList}">
-									   <form:option value="${team.id}">${team.teamname}</form:option>
+									   <option value="${team.id}">${team.teamname}</option>
 									</c:forEach>
-									</form:select>
+									</select>
 								</div>
 							</div>
 							

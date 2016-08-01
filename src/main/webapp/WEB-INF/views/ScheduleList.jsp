@@ -141,7 +141,7 @@
 										<div class="collapse" id="bot${item.title}">
 											<c:forEach items="${item.activities}" var="activity">
 												<div>
-													<c:out value="${activity.description}"/>
+													<c:out value="${activity.description}"/>   <a href="<%=request.getContextPath()%>/ScheduleActivity/delete?id=<c:out value='${activity.id}'/>">Delete</a>
 												</div>
 											</c:forEach>
 										</div>

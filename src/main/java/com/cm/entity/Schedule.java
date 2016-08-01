@@ -62,4 +62,16 @@ public class Schedule extends BaseEntity{
 	public void setAssignedTeam(Team assignedTeam) {
 		this.assignedTeam = assignedTeam;
 	}
+	public List<ScheduleActivity> getActivities() {
+		return activities;
+	}
+	public void setActivities(List<ScheduleActivity> activities) {
+		this.activities = activities;
+	}
+	public List<ScheduleReport> getReports() {
+		return reports;
+	}
+	public void setReports(List<ScheduleReport> reports) {
+		this.reports = reports;
+	}
 }

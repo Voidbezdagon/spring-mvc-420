@@ -61,6 +61,8 @@ public class ScheduleController extends BaseController<Schedule>{
 	@RequestMapping(value="Schedule/edit")
 	public ModelAndView editSchedule(HttpServletRequest request) throws Exception
 	{
+		List<Team> teamList = teamService.getAll();
+		request.setAttribute("teamList", teamList);
 		return edit(request);
 	}
 	

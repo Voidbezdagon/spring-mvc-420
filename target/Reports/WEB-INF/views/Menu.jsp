@@ -48,6 +48,13 @@
             <li><a href="<%=request.getContextPath()%>/Location/create">Create Location</a></li>
           </ul>
         </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Schedule<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          	<li><a href="<%=request.getContextPath()%>/Schedule/getAll">Schedule List</a></li>
+            <li><a href="<%=request.getContextPath()%>/Schedule/create">Create Schedule</a></li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	<c:if test="${empty loggedUser}"><li><a href="loginForm"><span class="glyphicon glyphicon-log-in"></span>Login</a></li></c:if>
