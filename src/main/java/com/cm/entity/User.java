@@ -10,6 +10,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 public class User extends BaseEntity{
 
@@ -25,8 +28,13 @@ public class User extends BaseEntity{
     @JoinColumn(name="position")
 	private Position position;
 	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "users", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Team> teams;
+	@OneToMany(mappedBy = "creator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<ScheduleReport> reports;
 	@OneToMany(mappedBy="user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	List<ScheduleActivityReport> scheduleActivityReports;
 	
 	public List<Team> getTeams() {

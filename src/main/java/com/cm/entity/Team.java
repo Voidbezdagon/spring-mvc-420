@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Team extends BaseEntity{
@@ -16,8 +20,12 @@ public class Team extends BaseEntity{
 	@Column(unique = true)
 	private String teamname;
 	@ManyToMany(cascade = CascadeType.MERGE ,fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
     @JoinTable
     private List<User> users;
+	@OneToMany(mappedBy = "assignedTeam", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Schedule> schedules;
 
 	public String getTeamname() {
 		return teamname;

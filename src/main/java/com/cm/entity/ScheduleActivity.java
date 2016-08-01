@@ -4,10 +4,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class ScheduleActivity extends BaseEntity {
@@ -16,13 +20,14 @@ public class ScheduleActivity extends BaseEntity {
 	String description;
 	
 	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name="schedule")
+	@JoinColumn(name="scheduleId")
 	Schedule schedule;
 	
-	@OneToMany(mappedBy="scheduleActivity", cascade = CascadeType.MERGE, orphanRemoval = true)
+	@OneToMany(mappedBy="scheduleActivity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
+	@Fetch(value = FetchMode.SUBSELECT)
 	List<ScheduleActivityReport> scheduleActivityReports;
 	
-	@OneToOne(mappedBy = "scheduleActivity", cascade = CascadeType.MERGE, orphanRemoval = true)
+	@OneToOne(mappedBy = "scheduleActivity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
 	ScheduleActivityReport scheduleActivityReport;
 	
 

@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 public class Location extends BaseEntity{
 
@@ -22,6 +25,7 @@ public class Location extends BaseEntity{
 	private Float lat;
 	private Float lng;
 	@OneToMany(mappedBy = "location", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<LocationItem> locationItems;
 	
 	public String getName() {

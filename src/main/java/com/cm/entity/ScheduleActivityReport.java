@@ -5,17 +5,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 public class ScheduleActivityReport extends BaseEntity {
 	private static final long serialVersionUID = -6454954275786468970L;
 	boolean isFinished;
 	
 	@OneToOne
-	@JoinColumn(name="scheduleActivity")
+	@JoinColumn(name="scheduleActivityId")
 	ScheduleActivity scheduleActivity;
 	
 	@ManyToOne
-	@JoinColumn(name="user")
+	@JoinColumn(name="userId")
 	User user;
 
 	public boolean getIsFinished() {
