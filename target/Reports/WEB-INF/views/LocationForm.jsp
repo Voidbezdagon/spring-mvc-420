@@ -205,11 +205,6 @@ pageEncoding="UTF-8" %>
 		});
 	}
 	
-	function triggerPlaceChange()
-	{
-		google.maps.event.trigger(searchBox, 'places_changed');
-	}
-	
 	function setAddress()
 	{
 		var city = document.getElementById('city').value;

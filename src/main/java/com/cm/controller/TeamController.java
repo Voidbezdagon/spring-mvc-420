@@ -138,7 +138,7 @@ public class TeamController extends BaseController<Team>{
 	}
 
 	@Override
-	public List<Team> customList(Long id) throws InstantiationException, IllegalAccessException {
+	public List<Team> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
