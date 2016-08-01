@@ -90,7 +90,7 @@ public abstract class BaseController<T extends BaseEntity>{
 		}
 		
 		if(searchName!=null){
-			filterAllByString(searchColumn ,searchName, ItemList);
+			ItemList = filterAllByString(searchColumn ,searchName, ItemList);
 		}
 		setAvatars(ItemList);
 			
@@ -142,5 +142,5 @@ public abstract class BaseController<T extends BaseEntity>{
 	public abstract void feedSortLists(LinkedHashMap<String, String> Map);
 	public abstract void setAvatars(List<T> List) throws Exception; 
 	public abstract List<T> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException;
-	public abstract void filterAllByString(String searchColumn ,String searchName, List<T> result);
+	public abstract List<T> filterAllByString(String searchColumn ,String searchName, List<T> result);
 }

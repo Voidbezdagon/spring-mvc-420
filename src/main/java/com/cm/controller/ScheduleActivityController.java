@@ -50,9 +50,8 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 
 
 	@Override
-	public void filterAllByString(String searchColumn, String searchName, List<ScheduleActivity> result) {
-		// TODO Auto-generated method stub
-		
+	public List<ScheduleActivity> filterAllByString(String searchColumn, String searchName, List<ScheduleActivity> result) {
+		return result;
 	}
 
 	@Override

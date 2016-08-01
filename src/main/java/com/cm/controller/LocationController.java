@@ -137,32 +137,24 @@ public class LocationController extends BaseController<Location>{
 	}
 
 	@Override
-	public void filterAllByString(String column, String searchName, List<Location> result) {
+	public List<Location> filterAllByString(String column, String searchName, List<Location> result) {
 		switch (column)
 		{
 		case "Name":
-			result = (ArrayList<Location>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<Location>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
 		case "Region":
-			result = (ArrayList<Location>) result.stream().filter(p -> p.getRegion().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<Location>) result.stream().filter(p -> p.getRegion().contains(searchName)).collect(Collectors.toList());
 		case "City":
-			result = (ArrayList<Location>) result.stream().filter(p -> p.getCity().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<Location>) result.stream().filter(p -> p.getCity().contains(searchName)).collect(Collectors.toList());
 		case "ZIP":
-			result = (ArrayList<Location>) result.stream().filter(p -> p.getZip() == Integer.parseInt(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<Location>) result.stream().filter(p -> p.getZip() == Integer.parseInt(searchName)).collect(Collectors.toList());
 		case "Street":
-			result = (ArrayList<Location>) result.stream().filter(p -> p.getStreet().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<Location>) result.stream().filter(p -> p.getStreet().contains(searchName)).collect(Collectors.toList());
 		case "Street Number":
-			result = (ArrayList<Location>) result.stream().filter(p -> p.getStreetNumber() == Integer.parseInt(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<Location>) result.stream().filter(p -> p.getStreetNumber() == Integer.parseInt(searchName)).collect(Collectors.toList());
 		case "Details":
-			result = (ArrayList<Location>) result.stream().filter(p -> p.getDetails().contains(searchName)).collect(Collectors.toList());
-			break;
-		}	
-		
+			return (ArrayList<Location>) result.stream().filter(p -> p.getDetails().contains(searchName)).collect(Collectors.toList());
+		}
+		return result;	
 	}
-
 }

@@ -89,7 +89,8 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 	}
 
 	@Override
-	public void filterAllByString(String searchColumn, String searchName, List<ScheduleReport> result) {
+	public List<ScheduleReport> filterAllByString(String searchColumn, String searchName, List<ScheduleReport> result) {
+		return result;
 		
 	}
 

@@ -173,27 +173,24 @@ public class UserController extends BaseController<User>{
 	}
 	
 	@Override
-	public void filterAllByString(String column, String searchName, List<User> result) {
+	public List<User> filterAllByString(String column, String searchName, List<User> result) {
 		switch (column)
 		{
 		case "First Name":
-			result = (ArrayList<User>) result.stream().filter(p -> p.getFirstname().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<User>) result.stream().filter(p -> p.getFirstname().contains(searchName)).collect(Collectors.toList());
 		case "Last Name":
-			result = (ArrayList<User>) result.stream().filter(p -> p.getLastname().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<User>) result.stream().filter(p -> p.getLastname().contains(searchName)).collect(Collectors.toList());
 		case "Username":
-			result = (ArrayList<User>) result.stream().filter(p -> p.getUsername().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<User>) result.stream().filter(p -> p.getUsername().contains(searchName)).collect(Collectors.toList());
 		case "Password":
-			result = (ArrayList<User>) result.stream().filter(p -> p.getPassword().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<User>) result.stream().filter(p -> p.getPassword().contains(searchName)).collect(Collectors.toList());
 		case "Admin":
 			if (searchName.equalsIgnoreCase("true"))
-				result = (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == true).collect(Collectors.toList());
+				return (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == true).collect(Collectors.toList());
 			else
-				result = (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == false).collect(Collectors.toList());
-		}	
+				return (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == false).collect(Collectors.toList());
+		}
+		return result;	
 		
 	}
 	

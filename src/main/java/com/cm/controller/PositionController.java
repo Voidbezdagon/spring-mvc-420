@@ -106,17 +106,15 @@ public class PositionController extends BaseController<Position>{
 	}
 	
 	@Override
-	public void filterAllByString(String column, String searchName, List<Position> result) {
+	public List<Position> filterAllByString(String column, String searchName, List<Position> result) {
 		switch (column)
 		{
 		case "Superior Position":
-			result = (ArrayList<Position>) result.stream().filter(p -> p.getParentId().equals(Long.parseLong(searchName))).collect(Collectors.toList());
-			break;
+			return (ArrayList<Position>) result.stream().filter(p -> p.getParentId().equals(Long.parseLong(searchName))).collect(Collectors.toList());
 		case "Name":
-			result = (ArrayList<Position>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
-			break;
-		}	
-		
+			return (ArrayList<Position>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
+		}
+		return result;	
 	}
 	
 	//END BASE CONTROLLER

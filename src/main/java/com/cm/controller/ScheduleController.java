@@ -144,20 +144,16 @@ public class ScheduleController extends BaseController<Schedule>{
 	}
 
 	@Override	
-	public void filterAllByString(String searchColumn, String searchName, List<Schedule> result) {
+	public List<Schedule> filterAllByString(String searchColumn, String searchName, List<Schedule> result) {
 		switch (searchName)
 		{
-		case "Title": result = (ArrayList<Schedule>) result.stream().filter(p -> p.getTitle().contains(searchName)).collect(Collectors.toList());
-			break;
-		case "Description": result = (ArrayList<Schedule>) result.stream().filter(p -> p.getDescription().contains(searchName)).collect(Collectors.toList());
-			break;
-		case "Start Date": result = (ArrayList<Schedule>) result.stream().filter(p -> p.getStartDate().toString().contains(searchName)).collect(Collectors.toList());
-			break;
-		case "Recurring Time": result = (ArrayList<Schedule>) result.stream().filter(p -> p.getRecurringTime().toString().contains(searchName)).collect(Collectors.toList());
-			break;
-		case "Assigned Team": result = (ArrayList<Schedule>) result.stream().filter(p -> p.getAssignedTeam().getTeamname().contains(searchName)).collect(Collectors.toList());
-			break;
+		case "Title": return (ArrayList<Schedule>) result.stream().filter(p -> p.getTitle().contains(searchName)).collect(Collectors.toList());
+		case "Description": return (ArrayList<Schedule>) result.stream().filter(p -> p.getDescription().contains(searchName)).collect(Collectors.toList());
+		case "Start Date": return (ArrayList<Schedule>) result.stream().filter(p -> p.getStartDate().toString().contains(searchName)).collect(Collectors.toList());
+		case "Recurring Time": return (ArrayList<Schedule>) result.stream().filter(p -> p.getRecurringTime().toString().contains(searchName)).collect(Collectors.toList());
+		case "Assigned Team": return (ArrayList<Schedule>) result.stream().filter(p -> p.getAssignedTeam().getTeamname().contains(searchName)).collect(Collectors.toList());
 		}
+		return result;
 		
 	}
 

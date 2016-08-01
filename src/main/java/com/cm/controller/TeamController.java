@@ -114,13 +114,13 @@ public class TeamController extends BaseController<Team>{
 	}
 	
 	@Override
-	public void filterAllByString(String column, String searchName, List<Team> result) {
+	public List<Team> filterAllByString(String column, String searchName, List<Team> result) {
 		switch (column)
 		{
 		case "Team Name":
-			result = (ArrayList<Team>) result.stream().filter(p -> p.getTeamname().contains(searchName)).collect(Collectors.toList());
-			break;
-		}	
+			return (ArrayList<Team>) result.stream().filter(p -> p.getTeamname().contains(searchName)).collect(Collectors.toList());
+		}
+		return result;	
 		
 	}
 	

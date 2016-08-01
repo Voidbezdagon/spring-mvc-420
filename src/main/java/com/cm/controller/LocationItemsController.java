@@ -44,26 +44,21 @@ public class LocationItemsController extends BaseController<LocationItem> {
 	}
 	
 	@Override
-	public void filterAllByString(String column, String searchName, List<LocationItem> result) {
+	public List<LocationItem> filterAllByString(String column, String searchName, List<LocationItem> result) {
 		switch (column)
 		{
 		case "Name":
-			result = (ArrayList<LocationItem>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
 		case "Floor":
-			result = (ArrayList<LocationItem>) result.stream().filter(p -> p.getFloor() == Integer.parseInt(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getFloor() == Integer.parseInt(searchName)).collect(Collectors.toList());
 		case "Number":
-			result = (ArrayList<LocationItem>) result.stream().filter(p -> p.getNumber() == Integer.parseInt(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getNumber() == Integer.parseInt(searchName)).collect(Collectors.toList());
 		case "Details":
-			result = (ArrayList<LocationItem>) result.stream().filter(p -> p.getDetails().contains(searchName)).collect(Collectors.toList());
-			break;
+			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getDetails().contains(searchName)).collect(Collectors.toList());
 		case "Location":
-			result = (ArrayList<LocationItem>) result.stream().filter(p -> p.getLocation().getName().contains(searchName)).collect(Collectors.toList());
-			break;
-		}	
-		
+			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getLocation().getName().contains(searchName)).collect(Collectors.toList());
+		}
+		return result;	
 	}
 	
 	@RequestMapping(value="LocationItem/create")
@@ -97,8 +92,10 @@ public class LocationItemsController extends BaseController<LocationItem> {
 	@RequestMapping(value = "LocationItem/getAll")
 	public ModelAndView getAllLocationsItem(HttpServletRequest request) throws Exception
 	{
-		if (request.getAttribute("parentId") != null)
-			request.setAttribute("parentId", request.getAttribute("parentId"));
+		if (request.getParameter("parentId") != null || request.getParameter("parentId").equals(""))
+		{
+			request.setAttribute("parentId", request.getParameter("parentId").toString());
+		}
 		return getAll(request);
 	}
 
