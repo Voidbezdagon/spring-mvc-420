@@ -27,12 +27,16 @@ import com.cm.entity.Schedule;
 import com.cm.entity.Team;
 import com.cm.entity.User;
 import com.cm.service.ScheduleService;
+import com.cm.service.TeamService;
 
 @Controller
 public class ScheduleController extends BaseController<Schedule>{
 	
 	@Autowired
 	ScheduleService scheduleService;
+	
+	@Autowired
+	TeamService teamService;
 	
 	/*@Autowired
 	@Qualifier("scheduleValidator")
@@ -49,6 +53,8 @@ public class ScheduleController extends BaseController<Schedule>{
 	@RequestMapping(value="Schedule/create")
 	public ModelAndView createSchedule(HttpServletRequest request) throws Exception
 	{
+		List<Team> teamList = teamService.getAll();
+		request.setAttribute("teamList", teamList);
 		return create(request);
 	}
 	
