@@ -131,7 +131,7 @@ public class LocationController extends BaseController<Location>{
 	}
 
 	@Override
-	public List<Location> customList(Long id) throws InstantiationException, IllegalAccessException {
+	public List<Location> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException {
 		// TODO Auto-generated method stub
 		return null;
 	}

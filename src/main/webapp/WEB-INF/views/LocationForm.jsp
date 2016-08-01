@@ -144,7 +144,6 @@ pageEncoding="UTF-8" %>
 										
 							
 						</form:form>
-						<button onclick="triggerPlaceChange()">Kur</button>
 					</div>
 				</div>	
 	</div>	
@@ -204,12 +203,6 @@ pageEncoding="UTF-8" %>
 			   document.getElementById('lng').value = places[0].geometry.location.lng().toFixed(3);
 			   
 		});
-	}
-	
-	function triggerPlaceChange()
-	{
-		google.maps.event.trigger(searchBox, 'places_changed');
-		alert("kur");
 	}
 	
 	function setAddress()

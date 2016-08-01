@@ -274,7 +274,7 @@ public class UserController extends BaseController<User>{
 	}
 
 	@Override
-	public List<User> customList(Long id) throws InstantiationException, IllegalAccessException {
+	public List<User> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException {
 		// TODO Auto-generated method stub
 		return null;
 	}

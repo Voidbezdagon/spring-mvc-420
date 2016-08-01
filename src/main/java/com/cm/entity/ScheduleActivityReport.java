@@ -13,7 +13,9 @@ public class ScheduleActivityReport extends BaseEntity {
 	@OneToOne
 	@JoinColumn(name="scheduleActivityId")
 	private ScheduleActivity scheduleActivity;
-	
+	@ManyToOne
+	@JoinColumn(name="scheduleReportId")
+	private ScheduleReport scheduleReport;
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private User user;
@@ -41,6 +43,10 @@ public class ScheduleActivityReport extends BaseEntity {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
+	public ScheduleReport getScheduleReport() {
+		return scheduleReport;
+	}
+	public void setScheduleReport(ScheduleReport scheduleReport) {
+		this.scheduleReport = scheduleReport;
+	}
 }

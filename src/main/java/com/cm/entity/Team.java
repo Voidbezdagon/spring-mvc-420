@@ -39,4 +39,10 @@ public class Team extends BaseEntity{
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+	public List<Schedule> getSchedules() {
+		return schedules;
+	}
+	public void setSchedules(List<Schedule> schedules) {
+		this.schedules = schedules;
+	}
 }

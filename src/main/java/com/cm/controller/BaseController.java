@@ -80,12 +80,15 @@ public abstract class BaseController<T extends BaseEntity>{
 			items = Integer.parseInt(itemsPerPage);
 		
 		
-		if(request.getParameter("parentId")!=null){
-			if (!request.getParameter("parentId").equals(""))
-				ItemList = customList(Long.parseLong(request.getParameter("parentId")));
-		} else {
+		if(customList(request) != null)
+		{
+			ItemList = customList(request);
+		} 
+		else 
+		{
 			ItemList = (List<T>) baseService.getAll();
 		}
+		
 		if(searchName!=null){
 			filterAllByString(searchColumn ,searchName, ItemList);
 		}
@@ -138,6 +141,6 @@ public abstract class BaseController<T extends BaseEntity>{
 	public abstract void feedSort(List<T> List, String column);
 	public abstract void feedSortLists(LinkedHashMap<String, String> Map);
 	public abstract void setAvatars(List<T> List) throws Exception; 
-	public abstract List<T> customList(Long id) throws InstantiationException, IllegalAccessException;
+	public abstract List<T> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException;
 	public abstract void filterAllByString(String searchColumn ,String searchName, List<T> result);
 }

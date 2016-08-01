@@ -1,6 +1,7 @@
 package com.cm.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,10 +27,20 @@ public class LocationItemsController extends BaseController<LocationItem> {
 	@Autowired
 	private LocationService locationService;
 	
-	public List<LocationItem> customList(Long id) throws InstantiationException, IllegalAccessException{
-		Location location = locationService.getById(id);
-		List<LocationItem> locationItems = location.getLocationItems();
-		return locationItems;
+	@Override
+	public List<LocationItem> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException{
+		if(request.getParameter("parentId")!=null)
+		{
+			if (!request.getParameter("parentId").equals(""))
+			{
+				Long id = Long.parseLong(request.getParameter("parentId"));
+				Location location = locationService.getById(id);
+				List<LocationItem> locationItems = location.getLocationItems();
+				return locationItems;
+			}
+		}
+			
+		return null;
 	}
 	
 	@Override
@@ -93,14 +104,33 @@ public class LocationItemsController extends BaseController<LocationItem> {
 
 	@Override
 	public void feedSort(List<LocationItem> List, String column) {
-		// TODO Auto-generated method stub
-		
+		switch (column)
+		{
+		case "Name":
+			Collections.sort(List, (p1, p2) -> p1.getName().compareTo(p2.getName()));
+			break;
+		case "Floor":
+			Collections.sort(List, (p1, p2) -> p1.getFloor().compareTo(p2.getFloor()));
+			break;
+		case "Number":
+			Collections.sort(List, (p1, p2) -> p1.getNumber().compareTo(p2.getNumber()));
+			break;
+		case "Details":
+			Collections.sort(List, (p1, p2) -> p1.getDetails().compareTo(p2.getDetails()));
+			break;
+		case "Location":
+			Collections.sort(List, (p1, p2) -> p1.getLocation().getName().compareTo(p2.getLocation().getName()));
+			break;
+		}	
 	}
 
 	@Override
 	public void feedSortLists(LinkedHashMap<String, String> Map) {
-		// TODO Auto-generated method stub
-		
+		Map.put("name", "Name");
+		Map.put("floor", "Floor");
+		Map.put("number", "Number");
+		Map.put("details", "Details");
+		Map.put("location", "Location");
 	}
 
 	@Override
@@ -108,6 +138,4 @@ public class LocationItemsController extends BaseController<LocationItem> {
 		// TODO Auto-generated method stub
 		
 	}
-
-	
 }

@@ -133,7 +133,7 @@ public class PositionController extends BaseController<Position>{
 	}
 
 	@Override
-	public List<Position> customList(Long id) throws InstantiationException, IllegalAccessException {
+	public List<Position> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
