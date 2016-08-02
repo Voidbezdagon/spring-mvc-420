@@ -9,15 +9,36 @@ pageEncoding="UTF-8" %>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Schedule Management Form</title>
-	<!-- Bootstrap CSS -->
-	<%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<style type="text/css">
-	.myrow-container{
-	margin: 20px;
-	}
-	</style>
+
+<title>Hospital Software</title>
+<%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="Resources/CSS/style.css">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+	integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+	crossorigin="anonymous">
+       </script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+	crossorigin="anonymous">
+       </script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 <body class=".container-fluid">
 	<div class="container myrow-container">
@@ -45,13 +66,13 @@ pageEncoding="UTF-8" %>
 									<form:errors path="description" cssClass="error"/>
 								</div>
 							</div>
-								<div class="form-group">
-									<div class="control-label col-xs-3"> <form:label path="recurringTime" >Recurring Time</form:label> </div>
-									<div class="col-xs-6">
-										<form:input cssClass="form-control" path="recurringTime" value="${itemObject.recurringTime}"/>
-										<form:errors path="recurringTime" cssClass="error"/>
-									</div>
-								</div> 
+							<div class="form-group">
+								<div class="control-label col-xs-3"> <form:label path="recurringTime" >Recurring Time</form:label> </div>
+								<div class="col-xs-6">
+									<form:input cssClass="form-control" path="recurringTime" value="${itemObject.recurringTime}"/>
+									<form:errors path="recurringTime" cssClass="error"/>
+								</div>
+							</div> 
 							
 							<div class="form-group">
 								<div class="control-label col-xs-3"><label name="assignedTeam.id">Assigned Team</label></div>
@@ -63,6 +84,17 @@ pageEncoding="UTF-8" %>
 									</select>
 								</div>
 							</div>
+							
+							<div class="form-group">
+								<div class="control-label col-xs-3"><form:label path="startDate">Start Date: </form:label></div>
+									<div class='input-group date col-xs-6' id='datetimepicker1'>
+										<input type="text" class="form-control" name="startDate" id="startDate"
+											value="<fmt:formatDate value='${itemObject.startDate}' pattern='yyyy-MM-dd HH:mm:ss' />" />
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+								</div>
 							
 							<div class="form-group">
 								<div class="row">
@@ -80,8 +112,13 @@ pageEncoding="UTF-8" %>
 					</div>
 				</div>	
 	</div>	
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+			$(function () {
+				$('#datetimepicker1').datetimepicker({
+					
+					format: 'YYYY-M-D HH:mm:ss'
+				});
+			});
+	</script>
 	
 </body>
