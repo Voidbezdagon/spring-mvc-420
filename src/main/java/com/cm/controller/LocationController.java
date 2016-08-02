@@ -9,8 +9,12 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Location;
 import com.cm.service.LocationService;
+import com.cm.util.LocationFormValidator;
 
 @Controller
 public class LocationController extends BaseController<Location>{
@@ -26,14 +31,14 @@ public class LocationController extends BaseController<Location>{
 	@Autowired
 	private LocationService locationService;
 	
-	/*@Autowired
-	@Qualifier("teamValidator")
+	@Autowired
+	@Qualifier("locationValidator")
 	private LocationFormValidator validator;
 
 	@InitBinder("item")
 	private void initBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
-	}*/
+	}
 	
 	//START BASE CONTROLLER
 	
@@ -56,23 +61,15 @@ public class LocationController extends BaseController<Location>{
 	}
 	
 	@RequestMapping(value="Location/save")
-	public ModelAndView saveLocation(@ModelAttribute("item") Location item, BindingResult bindingResult, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request) throws Exception
+	public ModelAndView saveLocation(@ModelAttribute("item") @Validated Location item, BindingResult bindingResult, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request) throws Exception
 	{	
-		/*if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			if (item.getId() == null)
 				return create(request);
 			else
 				return edit(request);
-		}*/
-		
-		/*List<User> noob = new ArrayList<User>();
-		for (User user : item.getUsers())
-		{
-			if (user.getId() != null)
-				noob.add(userService.getById(user.getId()));
 		}
-		
-		item.setUsers(noob);*/
+
 		return save(item, request);
 	}
 	

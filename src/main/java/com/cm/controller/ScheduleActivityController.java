@@ -6,21 +6,35 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.ScheduleActivity;
-import com.cm.service.ScheduleActivityService;
 import com.cm.service.ScheduleService;
+import com.cm.util.ScheduleActivityFormValidator;
 
 @Controller
 public class ScheduleActivityController extends BaseController<ScheduleActivity>{
 	
 	@Autowired
 	private ScheduleService scheduleService;
+	
+	@Autowired
+	@Qualifier("scheduleActivityValidator")
+	private ScheduleActivityFormValidator validator;
+	
+	@InitBinder("item")
+	private void initBinder1(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 	
 	@RequestMapping(value = "ScheduleActivity/create")
 	public ModelAndView createScheduleActivity (HttpServletRequest request, @RequestParam long parentId) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
@@ -34,10 +48,17 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 	}
 	
 	@RequestMapping(value = "ScheduleActivity/save")
-	public ModelAndView saveScheduleActivity (HttpServletRequest request, @ModelAttribute ScheduleActivity scheduleActivity) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public ModelAndView saveScheduleActivity (HttpServletRequest request, @ModelAttribute("item") @Validated ScheduleActivity item, BindingResult bindingResult) throws Exception{
+		if (bindingResult.hasErrors()) {
+			if (item.getId() == null)
+				return create(request);
+			else
+				return edit(request);
+		}
+		
 		long parentId = Long.parseLong(request.getParameter("parentId"));
-		scheduleActivity.setSchedule(scheduleService.getById(parentId));
-		return save(scheduleActivity, request);
+		item.setSchedule(scheduleService.getById(parentId));
+		return save(item, request);
 	}
 
 	@Override

@@ -67,6 +67,11 @@
     <bean id="userValidator" class="com.cm.util.UserFormValidator" />
     <bean id="positionValidator" class="com.cm.util.PositionFormValidator" />
     <bean id="teamValidator" class="com.cm.util.TeamFormValidator" />
+    <bean id="scheduleValidator" class="com.cm.util.ScheduleFormValidator" />
+    <bean id="scheduleActivityValidator" class="com.cm.util.ScheduleActivityFormValidator" />
+    <bean id="locationValidator" class="com.cm.util.LocationFormValidator" />
+    <bean id="locationItemValidator" class="com.cm.util.LocationItemValidator" />
+    <bean id="reportValidator" class="com.cm.util.ReportFormValidator" />
     
     <bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -76,7 +81,7 @@
     
     <bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
 		<constructor-arg>
-			<value>/home/void/workspace/Content Management/upload</value>
+			<value>/home/kostadin/workspace/spring-mvc-420/upload</value>
 		</constructor-arg>
 	</bean>
     <tx:annotation-driven />

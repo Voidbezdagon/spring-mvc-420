@@ -11,23 +11,24 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cm.entity.Location;
-import com.cm.entity.LocationItem;
-import com.cm.entity.Position;
 import com.cm.entity.Schedule;
 import com.cm.entity.Team;
 import com.cm.entity.User;
 import com.cm.service.ScheduleService;
 import com.cm.service.TeamService;
+import com.cm.util.ScheduleFormValidator;
+import com.cm.util.UserFormValidator;
 
 @Controller
 public class ScheduleController extends BaseController<Schedule>{
@@ -38,16 +39,16 @@ public class ScheduleController extends BaseController<Schedule>{
 	@Autowired
 	TeamService teamService;
 	
-	/*@Autowired
+	@Autowired
 	@Qualifier("scheduleValidator")
-	private ScheduleFormValidator validator;*/
+	private ScheduleFormValidator validator;
 	
 	@InitBinder("item")
-    public void initBinder(WebDataBinder binder) {
+    private void initBinder(WebDataBinder binder) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
-        //binder.setValidator(validator);
+        binder.setValidator(validator);
 	}
 	
 	@RequestMapping(value="Schedule/create")
@@ -73,23 +74,15 @@ public class ScheduleController extends BaseController<Schedule>{
 	}
 	
 	@RequestMapping(value="Schedule/save")
-	public ModelAndView saveSchedule(@ModelAttribute("item") Schedule item, BindingResult bindingResult, HttpServletRequest request) throws Exception
+	public ModelAndView saveSchedule(@ModelAttribute("item") @Validated Schedule item, BindingResult bindingResult, HttpServletRequest request) throws Exception
 	{	
-		/*if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			if (item.getId() == null)
 				return create(request);
 			else
 				return edit(request);
-		}*/
-		
-		/*List<User> noob = new ArrayList<User>();
-		for (User user : item.getUsers())
-		{
-			if (user.getId() != null)
-				noob.add(userService.getById(user.getId()));
 		}
 		
-		item.setUsers(noob);*/
 		return save(item, request);
 	}
 	

@@ -9,23 +9,36 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Location;
 import com.cm.entity.LocationItem;
 import com.cm.service.LocationService;
+import com.cm.util.LocationItemValidator;
 
 @Controller
 public class LocationItemsController extends BaseController<LocationItem> {
 	
 	@Autowired
 	private LocationService locationService;
+	
+	@Autowired
+	@Qualifier("locationItemValidator")
+	private LocationItemValidator validator;
+	
+	@InitBinder("item")
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 	
 	@Override
 	public List<LocationItem> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException{
@@ -81,8 +94,15 @@ public class LocationItemsController extends BaseController<LocationItem> {
 	}
 	
 	@RequestMapping(value="LocationItem/save")
-	public ModelAndView saveLocationItem(@ModelAttribute LocationItem item, HttpServletRequest request) throws Exception
+	public ModelAndView saveLocationItem(@ModelAttribute("item") @Validated LocationItem item, BindingResult bindingResult, HttpServletRequest request) throws Exception
 	{
+		if (bindingResult.hasErrors()) {
+			if (item.getId() == null)
+				return create(request);
+			else
+				return edit(request);
+		}
+		
 		System.out.println(request.getSession().getAttribute("parentId"));
 		item.setLocation(locationService.getById((long) request.getSession().getAttribute("parentId")));
 		request.getSession().removeAttribute("parentId");
