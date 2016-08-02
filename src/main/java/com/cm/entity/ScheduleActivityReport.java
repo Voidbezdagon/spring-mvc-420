@@ -10,7 +10,7 @@ public class ScheduleActivityReport extends BaseEntity {
 	private static final long serialVersionUID = -6454954275786468970L;
 	boolean isFinished;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="scheduleActivityId")
 	private ScheduleActivity scheduleActivity;
 	@ManyToOne

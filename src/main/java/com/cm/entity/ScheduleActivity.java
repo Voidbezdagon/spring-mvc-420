@@ -26,10 +26,6 @@ public class ScheduleActivity extends BaseEntity {
 	@OneToMany(mappedBy="scheduleActivity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<ScheduleActivityReport> scheduleActivityReports;
-	
-	@OneToOne(mappedBy = "scheduleActivity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
-	private ScheduleActivityReport scheduleActivityReport;
-	
 
 	public String getDescription() {
 		return description;
