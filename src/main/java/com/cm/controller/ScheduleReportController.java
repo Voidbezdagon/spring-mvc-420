@@ -105,15 +105,26 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 				return create(request);
 			else
 				return edit(request);
+		}*/
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		
+		item.setDate(sdf.parse(sdf.format(date)));
+		
 		}
 
 		Long srId = srService.create(item);
 		
-		for (ScheduleActivityReport noob : item.getActivityReports())
+		if (item.getActivityReports() != null)
 		{
-			noob.setScheduleReport(srService.getById(srId));
-			noob.setUser((User) request.getSession().getAttribute("LOGGED_USER"));
-			sarService.create(noob);
+			for (ScheduleActivityReport noob : item.getActivityReports())
+			{
+				noob.setScheduleReport(srService.getById(srId));
+				noob.setUser((User) request.getSession().getAttribute("LOGGED_USER"));
+				sarService.create(noob);
+			}
 		}
 		
 		return new ModelAndView("redirect:/Schedule/getAll");

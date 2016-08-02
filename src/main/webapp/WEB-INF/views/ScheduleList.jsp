@@ -119,6 +119,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
+							<th></th>
 						</tr>
 						</thead>
 						<tbody>
@@ -135,18 +136,26 @@
 									<th><a href="<%=request.getContextPath()%>/Schedule/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 									<th><a href="<%=request.getContextPath()%>/Schedule/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
 									<th><a href="<%=request.getContextPath()%>/ScheduleActivity/create?parentId=<c:out value='${item.id}'/>">Create Activity</a></th>
+									<th><a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=<c:out value='${item.id}'/>">Create Report</a></th>
 								</tr>
 								<tr>
-									<td colspan="11">
+									<td colspan="12">
 										<div class="collapse" id="bot${item.title}">
 											<c:forEach items="${item.activities}" var="activity">
 												<div>
-													<c:out value="${activity.description}"/>   <a href="<%=request.getContextPath()%>/ScheduleActivity/delete?id=<c:out value='${activity.id}'/>">Delete</a>
+													<c:out value="${activity.description}"/><a href="<%=request.getContextPath()%>/ScheduleActivity/delete?id=<c:out value='${activity.id}'/>">Delete</a>
 												</div>
 											</c:forEach>
 										</div>
 										<div class="collapse" id="noob${item.title}">
-											
+											<c:forEach items="${item.reports}" var="report">
+												<h3><c:out value="${report.date}"/>: <c:out value="${report.description}"/></h3>
+												<ul>
+													<c:forEach items="${report.activityReports}" var="aReport">
+														<li><c:out value="${aReport.scheduleActivity.description}"/>  <c:out value="${aReport.isFinished}"/></li>
+													</c:forEach>
+												</ul>
+											</c:forEach>
 										</div>
 										
 									</td>

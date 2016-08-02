@@ -28,6 +28,9 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 	private ScheduleService scheduleService;
 	
 	@Autowired
+	private ScheduleActivityService saService;
+	
+	@Autowired
 	@Qualifier("scheduleActivityValidator")
 	private ScheduleActivityFormValidator validator;
 	
@@ -57,6 +60,11 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 		}
 		
 		long parentId = Long.parseLong(request.getParameter("parentId"));
+		scheduleActivity.setSchedule(scheduleService.getById(parentId));
+		
+		saService.create(scheduleActivity);
+		
+		return new ModelAndView("redirect:/Schedule/getAll");
 		item.setSchedule(scheduleService.getById(parentId));
 		return save(item, request);
 	}
