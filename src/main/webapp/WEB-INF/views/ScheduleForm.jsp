@@ -13,10 +13,6 @@ pageEncoding="UTF-8" %>
 <title>Hospital Software</title>
 <%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="Resources/CSS/style.css">
-
-<link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 	crossorigin="anonymous">
@@ -77,7 +73,7 @@ pageEncoding="UTF-8" %>
 							<div class="form-group">
 								<div class="control-label col-xs-3"><label name="assignedTeam.id">Assigned Team</label></div>
 								<div class="col-xs-6">
-									<select id="assignedTeam.id" name="assignedTeam.id">
+									<select class="form-control" id="assignedTeam.id" name="assignedTeam.id">
 									<c:forEach var="team" items="${teamList}">
 									   <option value="${team.id}">${team.teamname}</option>
 									</c:forEach>
@@ -87,12 +83,14 @@ pageEncoding="UTF-8" %>
 							
 							<div class="form-group">
 								<div class="control-label col-xs-3"><form:label path="startDate">Start Date: </form:label></div>
-									<div class='input-group date col-xs-6' id='datetimepicker1'>
+								<div class=" col-xs-6">
+									<div class='input-group date' id='datetimepicker1'>
 										<input type="text" class="form-control" name="startDate" id="startDate"
 											value="<fmt:formatDate value='${itemObject.startDate}' pattern='yyyy-MM-dd HH:mm:ss' />" />
 										<span class="input-group-addon"> <span
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
+									</div>
 									</div>
 								</div>
 							
@@ -115,7 +113,6 @@ pageEncoding="UTF-8" %>
 	<script type="text/javascript">
 			$(function () {
 				$('#datetimepicker1').datetimepicker({
-					
 					format: 'YYYY-M-D HH:mm:ss'
 				});
 			});

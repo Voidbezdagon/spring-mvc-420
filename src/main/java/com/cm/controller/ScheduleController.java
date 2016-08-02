@@ -90,6 +90,7 @@ public class ScheduleController extends BaseController<Schedule>{
 		}
 		
 		item.setUsers(noob);*/
+		System.out.println("Kur");
 		return save(item, request);
 	}
 	

@@ -39,14 +39,13 @@ pageEncoding="UTF-8" %>
 							</div> 
 							
 							<div class="form-group">
-								<div class="control-label col-xs-3"> <form:label path="users">Members</form:label> </div>
+								<div class="control-label col-xs-3"> <label >Members</label> </div>
 								<div class="col-xs-6">
-								<c:forEach var="noobs" items="${userList}" varStatus="status">
-									<label name="users[${status.index}].id" id="users[${status.index}].id">${noobs.username}</label>	
-									<input type="checkbox" name="users[${status.index}].id" id="users[${status.index}].id" value="${noobs.id}"/>			
-								</c:forEach>
-								
-									<!-- <form:select path="users" items="${userList}" multiple="true" itemValue="id" itemLabel="username" class="form-control input-sm" /> -->
+								<form:select path="users" class="selectpicker" multiple="true">
+									<c:forEach var="noobs" items="${userList}" varStatus="status">
+										<option value="${noobs.id}">${noobs.username}</option>
+									</c:forEach>
+								</form:select>			
 								</div>
 							</div> 
 							
@@ -65,8 +64,5 @@ pageEncoding="UTF-8" %>
 					</div>
 				</div>	
 	</div>	
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	
 </body>

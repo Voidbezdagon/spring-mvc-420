@@ -22,6 +22,9 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 	@Autowired
 	private ScheduleService scheduleService;
 	
+	@Autowired
+	private ScheduleActivityService saService;
+	
 	@RequestMapping(value = "ScheduleActivity/create")
 	public ModelAndView createScheduleActivity (HttpServletRequest request, @RequestParam long parentId) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		request.setAttribute("parentId", parentId);
@@ -37,7 +40,10 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 	public ModelAndView saveScheduleActivity (HttpServletRequest request, @ModelAttribute ScheduleActivity scheduleActivity) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		long parentId = Long.parseLong(request.getParameter("parentId"));
 		scheduleActivity.setSchedule(scheduleService.getById(parentId));
-		return save(scheduleActivity, request);
+		
+		saService.create(scheduleActivity);
+		
+		return new ModelAndView("redirect:/Schedule/getAll");
 	}
 
 	@Override

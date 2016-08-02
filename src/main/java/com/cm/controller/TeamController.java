@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cm.entity.ScheduleActivityReport;
 import com.cm.entity.Team;
 import com.cm.entity.User;
 import com.cm.service.TeamService;
@@ -42,6 +44,36 @@ public class TeamController extends BaseController<Team>{
 
 	@InitBinder("item")
 	private void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(List.class, "users", new CustomCollectionEditor(List.class)
+        {
+              @Override
+              protected Object convertElement(Object element)
+              {
+                  Long id = null;
+                  if(element instanceof String && !((String)element).equals("")){
+                      //From the JSP 'element' will be a String
+                      try{
+                          id = Long.parseLong((String) element);
+                      }
+                      catch (NumberFormatException e) {
+                          System.out.println("Element was " + ((String) element));
+                          e.printStackTrace();
+                      }
+                  }
+                  else if(element instanceof Long) {
+                      //From the database 'element' will be a Long
+                      id = (Long) element;
+                  }
+
+    			  try {
+					return id != null ? userService.getById(id) : null;
+    			  } catch (InstantiationException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+    			  }
+				return null;  
+              }
+        });
 		binder.setValidator(validator);
 	}
 	
@@ -78,14 +110,14 @@ public class TeamController extends BaseController<Team>{
 				return edit(request);
 		}
 		
-		List<User> noob = new ArrayList<User>();
+		/*List<User> noob = new ArrayList<User>();
 		for (User user : item.getUsers())
 		{
 			if (user.getId() != null)
 				noob.add(userService.getById(user.getId()));
 		}
 		
-		item.setUsers(noob);
+		item.setUsers(noob);*/
 		return save(item, request);
 	}
 	
