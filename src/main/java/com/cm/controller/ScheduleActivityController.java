@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.ScheduleActivity;
+import com.cm.service.ScheduleActivityService;
 import com.cm.service.ScheduleService;
 import com.cm.util.ScheduleActivityFormValidator;
 
@@ -60,13 +61,11 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 		}
 		
 		long parentId = Long.parseLong(request.getParameter("parentId"));
-		scheduleActivity.setSchedule(scheduleService.getById(parentId));
+		item.setSchedule(scheduleService.getById(parentId));
 		
-		saService.create(scheduleActivity);
+		saService.create(item);
 		
 		return new ModelAndView("redirect:/Schedule/getAll");
-		item.setSchedule(scheduleService.getById(parentId));
-		return save(item, request);
 	}
 
 	@Override

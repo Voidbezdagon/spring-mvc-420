@@ -105,7 +105,7 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 				return create(request);
 			else
 				return edit(request);
-		}*/
+		}
 		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -113,7 +113,6 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 		
 		item.setDate(sdf.parse(sdf.format(date)));
 		
-		}
 
 		Long srId = srService.create(item);
 		

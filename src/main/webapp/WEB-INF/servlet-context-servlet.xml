@@ -81,7 +81,7 @@
     
     <bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
 		<constructor-arg>
-			<value>/home/kostadin/workspace/spring-mvc-420/upload</value>
+			<value>/home/void/workspace/Content Management/upload</value>
 		</constructor-arg>
 	</bean>
     <tx:annotation-driven />

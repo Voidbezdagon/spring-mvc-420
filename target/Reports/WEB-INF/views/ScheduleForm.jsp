@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>Hospital Software</title>
+<title>Schedule Management Form</title>
 <%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
