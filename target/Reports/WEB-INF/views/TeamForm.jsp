@@ -24,8 +24,9 @@ pageEncoding="UTF-8" %>
 	</style>
 </head>
 <body class=".container-fluid">
+<div id="page-wrapper" align="center">
 	<div class="container myrow-container">
-				<div class="panel panel-success">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							Team Management Form
@@ -45,7 +46,7 @@ pageEncoding="UTF-8" %>
 							<div class="form-group">
 								<div class="control-label col-xs-3"> <label >Members</label> </div>
 								<div class="col-xs-6">
-								<form:select path="users" class="selectpicker" multiple="true">
+								<form:select path="users" class="selectpicker  form-control" multiple="true">
 									<c:forEach var="noobs" items="${userList}" varStatus="status">
 										<option value="${noobs.id}">${noobs.username}</option>
 									</c:forEach>
@@ -58,7 +59,7 @@ pageEncoding="UTF-8" %>
 									<div class="col-xs-4">
 									</div>
 									<div class="col-xs-4">
-										<input type="submit" id="<%=request.getContextPath()%>/Team/save" class="btn btn-primary" value="Submit"/>
+										<input type="submit" id="<%=request.getContextPath()%>/Team/save" class="btn btn-default form-control" value="Submit"/>
 									</div>
 									<div class="col-xs-4">
 									</div>
@@ -68,5 +69,6 @@ pageEncoding="UTF-8" %>
 					</div>
 				</div>	
 	</div>	
+	</div>
 	
 </body>

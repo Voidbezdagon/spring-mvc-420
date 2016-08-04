@@ -137,6 +137,7 @@
 								title: '<c:out value="${noob.title}"/>',
 								start: new Date(i),
 								scheduleId: '<c:out value="${noob.id}"/>',
+								hasReport: 1,
 								color: '#00b300'
 							});
 						}
@@ -146,14 +147,15 @@
 							{
 								title: '<c:out value="${noob.title}"/>',
 								start: new Date(i),
-								scheduleId: '<c:out value="${noob.id}"/>'
+								scheduleId: '<c:out value="${noob.id}"/>',
+								hasReport: 0
 
 							});
 						}
 					}
 			</c:if>
 		</c:forEach>
-		 
+		
 		var calendar = $('#calendar').fullCalendar(
 		{
 			events: eventArray,
@@ -169,9 +171,65 @@
 		    	    enableStackAnimation: false, // enables different type of popin's animation
 		    	    openOnEvent: true, // set to 'false' to init on load
 		    	    setEvent: 'click', // use your event like 'mouseover', 'touchmove', etc.
-		    	    template: 
-		    	    	'<a href="<%=request.getContextPath()%>/Schedule/edit?id='+ event.scheduleId +'"><button class="btn btn-default" style="margin-top:110px; margin-left: 80px;">Edit Event</button></a>' + 
-		    	    	'<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" style="margin-top: 110px;">Create Report</button></a>'
+		    	    template: function (element) {
+		    	    	if ((event.hasReport == 0) && (moment(event.start).format('YYYY-MM-DD') == moment(new Date()).format('YYYY-MM-DD')))
+		    	    	{
+		    	    		var guz;
+		    	    		guz = '<a href="<%=request.getContextPath()%>/Schedule/edit?id='+ event.scheduleId +'"><button class="btn btn-default" style="margin-top:110px; margin-left: 65px;">Edit Event</button></a>' + 
+			    	    	'<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" style="margin-top: 110px; margin-left: 20px;">Create Report</button></a>'
+		    	    		<c:forEach items="${ItemList}" var="item">
+		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
+		    	    				{
+			    	    				guz = guz + '<ul style="display: inline-block; float: left">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
+		    	    						console.log(guz);
+		    	    					</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					
+		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+	    	    							<c:forEach items="${activity.scheduleActivityReports}" var="report">
+		    	    							if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
+	    	    								guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+	    	    								console.log(guz);
+	    	    							</c:forEach>
+    	    							</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					return guz
+		    	    				}
+		    	    		</c:forEach>
+		    	    	}
+		    	    	else
+		    	    	{
+		    	    		var guz;
+		    	    		guz = '<a href="<%=request.getContextPath()%>/Schedule/edit?id='+ event.scheduleId +'"><button class="btn btn-default" style="margin-top:110px; margin-left: 65px;">Edit Event</button></a>' + 
+			    	    	'<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" style="margin-top: 110px; margin-left: 20px;" disabled>Create Report</button></a>'
+		    	    		<c:forEach items="${ItemList}" var="item">
+		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
+		    	    				{
+		    	    					guz = guz + '<ul style="display: inline-block; float: left">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
+		    	    						console.log(guz);
+		    	    					</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					
+		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						<c:forEach items="${activity.scheduleActivityReports}" var="report">
+			    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
+		    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+		    	    							console.log(guz);
+		    	    						</c:forEach>
+	    	    						</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					return guz
+		    	    				}
+		    	    		</c:forEach>
+		    	    	}
+		    	    } 
+		    	    	
 		    	}); 		
 		    }
 			

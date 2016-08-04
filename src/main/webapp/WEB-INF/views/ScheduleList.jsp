@@ -188,11 +188,13 @@
 		    	    					guz = guz + '</ul>';
 		    	    					
 		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
-		    	    					<c:forEach items="${item.activities.scheduleActivityReports}" var="report">
-		    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
-	    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
-	    	    							console.log(guz);
-	    	    						</c:forEach>
+		    	    					<c:forEach items="${item.activities}" var="activity">
+	    	    							<c:forEach items="${activity.scheduleActivityReports}" var="report">
+		    	    							if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
+	    	    								guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+	    	    								console.log(guz);
+	    	    							</c:forEach>
+    	    							</c:forEach>
 		    	    					guz = guz + '</ul>';
 		    	    					return guz
 		    	    				}
@@ -214,10 +216,12 @@
 		    	    					guz = guz + '</ul>';
 		    	    					
 		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
-		    	    					<c:forEach items="${item.activities.scheduleActivityReports}" var="report">
-		    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
-	    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
-	    	    							console.log(guz);
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						<c:forEach items="${activity.scheduleActivityReports}" var="report">
+			    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
+		    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+		    	    							console.log(guz);
+		    	    						</c:forEach>
 	    	    						</c:forEach>
 		    	    					guz = guz + '</ul>';
 		    	    					return guz
