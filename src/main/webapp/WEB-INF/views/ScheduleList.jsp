@@ -23,19 +23,72 @@
 		.myrow-container {
 		margin: 20px;
 		}
-		.map {
-		width: 100%;
-        height: 300px;
-      	}
+		.myrow-container {
+			margin: 20px;
+		}
+		
+		.arrow {
+			float: right;
+			line-height: 1.42857
+		}
+		
+		.glyphicon.arrow:before {
+			content: "\e079"
+		}
+		
+		.active>a>.glyphicon.arrow:before {
+			content: "\e114"
+		}
+		
+		.fa.arrow:before {
+			content: "\f104"
+		}
+		
+		.active>a>.fa.arrow:before {
+			content: "\f107"
+		}
+		
+		.plus-times {
+			float: right
+		}
+		
+		.fa.plus-times:before {
+			content: "\f067"
+		}
+		
+		.active>a>.fa.plus-times {
+			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+			-webkit-transform: rotate(45deg);
+			-moz-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			-o-transform: rotate(45deg);
+			transform: rotate(45deg)
+		}
+		
+		.plus-minus {
+			float: right
+		}
+		
+		.fa.plus-minus:before {
+			content: "\f067"
+		}
+		
+		.active>a>.fa.plus-minus:before {
+			content: "\f068"
+		}
+		
+		.myrow-container {
+			margin: 20px;
+		}
       	.fc-content:hover
       	{
       		cursor: pointer;
       	}
 	</style>
 </head>
-<body class=".container-fluid">
-<div class="container myrow-container">
-	<div id="wrapper">
+<body class="container-fluid">
+<div id="wrapper">
+	
 	<c:import url="/Menu"/>
 	<div id="page-wrapper">
 	<input type="hidden" id="contextPath" value="<%=request.getContextPath()%>"/>
