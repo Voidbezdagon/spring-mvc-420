@@ -1,6 +1,7 @@
 <%@ page language = "java" contentType = "text/html; charset=UTF-8"
 	pageEncoding = "UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,8 +11,12 @@
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.css">
+	  <link rel="stylesheet" href="http://labs.voronianski.com/jquery.avgrund.js/avgrund.css">
 		<%-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.print.css">  --%>
 	  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+	  <script src="http://labs.voronianski.com/media/js/jquery.avgrund.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
 	  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	  <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.js"></script>
 	<style type="text/css">
@@ -22,92 +27,24 @@
 		width: 100%;
         height: 300px;
       	}
+      	.fc-content:hover
+      	{
+      		cursor: pointer;
+      	}
 	</style>
 </head>
-<body class=".container-fluid" onload="collapseMaps()">
+<body class=".container-fluid">
 <div class="container myrow-container">
 	<c:import url="/Menu"/>
+	<input type="hidden" id="contextPath" value="<%=request.getContextPath()%>"/>
+	<div id="calendar"></div>
 			<div class="panel panel-success">
 				<h3 class="panel-title">
 					<div align="left"><b>Schedule List</b></div>
 				</h3>
 			</div>
 			<div class="panel-body">
-				<c:if test="${empty ItemList}">
-					There are no locations.
-				</c:if>
-				<c:if test="${not empty ItemList}">
-					<c:set var="object" value="${ItemList.pageList[0]}" />
-					<form action="<%=request.getContextPath()%>/Schedule/getAll" id="scheduleFilterForm">
-						<div class="row">
-							<div class="col-md-2">Search:
-							<select name="searchColumn${itemClass['class'].simpleName}" id="searchColumn${itemClass['class'].simpleName}">
-									<c:forEach var="field" items="${columnNames}">
-										<c:if test="${searchColumn == field.value}">
-											<option value="${field.value}" label="${field.value}" selected="selected"/>
-										</c:if>
-										<c:if test="${searchColumn != field.value}">
-											<option value="${field.value}" label="${field.value}"/>
-										</c:if>
-									</c:forEach>
-									</select></div>
-							<div class="col-md-2"><input type="text" name="searchName${itemClass['class'].simpleName}" id="searchName${itemClass['class'].simpleName}" value="${searchName}"></div>
-							<div class="col-md-2">
-							Sort By:
-									<select name="sortColumn${itemClass['class'].simpleName}" id="sortColumn${itemClass['class'].simpleName}">
-									<c:forEach var="field" items="${columnNames}">
-										<c:if test="${sortColumn == field.value}">
-											<option value="${field.value}" label="${field.value}" selected="selected"/>
-										</c:if>
-										<c:if test="${sortColumn != field.value}">
-											<option value="${field.value}" label="${field.value}"/>
-										</c:if>
-									</c:forEach>
-									</select>
-							</div>
-							<div class="col-md-2">
-									<select name="sortOrder${itemClass['class'].simpleName}" id="sortOrder${itemClass['class'].simpleName}">
-									<c:if test="${sortOrder == 'ascending'}">
-									   <option value="ascending" label="ascending" selected="selected"/>
-									</c:if>
-									<c:if test="${sortOrder != 'ascending'}">
-									   <option value="ascending" label="ascending"/>
-									</c:if>
-									   <c:if test="${sortOrder == 'descending'}">
-									   <option value="descending" label="descending" selected="selected"/>
-									</c:if>
-									<c:if test="${sortOrder != 'descending'}">
-									   <option value="descending" label="descending"/>
-									</c:if>
-									</select>
-							</div>
-							Items per page: 
-							<select name="itemsPerPage${itemClass['class'].simpleName}" id="itemsPerPage${itemClass['class'].simpleName}" onchange="this.form.submit()">
-								<c:forEach var="i" begin="1" end="3">
-									<c:if test="${i == itemsPerPage}"><option value="${i}" label="${i}" selected="selected"/></c:if>
-									<c:if test="${i != itemsPerPage}"><option value="${i}" label="${i}"/></c:if>
-								</c:forEach>
-							</select>
-							<div class="col-md-1"><input class="btn btn-success" type='submit' value='Submit'/></div>
-						<div class="row">
-						<c:if test="${maxPages != 1}">
-							<c:if test="${page == 0}">
-							<div class="col-md-1"></div>
-							<div class="col-md-1"><button class="btn btn-success" onclick="this.form.submit()" name="page${itemClass['class'].simpleName}" id="page${itemClass['class'].simpleName}" value='${page + 1}'>${page + 1}</button></div>
-							</c:if>
-							<c:if test="${page == (maxPages - 1)}">
-							<div class="col-md-1"><button class="btn btn-success" onclick="this.form.submit()" name="page${itemClass['class'].simpleName}" id="page${itemClass['class'].simpleName}" value='${page - 1}'>${page - 1}</button></div>
-							<div class="col-md-1"></div>
-							</c:if>
-							<c:if test="${page > 0 && page < (maxPages-1)}">
-							<div class="col-md-1"><button class="btn btn-success" onclick="this.form.submit()" name="page${itemClass['class'].simpleName}" id="page${itemClass['class'].simpleName}" value='${page - 1}'>${page - 1}</button></div>
-							<div class="col-md-1"><button class="btn btn-success" onclick="this.form.submit()" name="page${itemClass['class'].simpleName}" id="page${itemClass['class'].simpleName}" value='${page + 1}'>${page + 1}</button></div>
-							</c:if>
-						</c:if>
-						</div>
-						</div>
-					</form>
-					
+					<c:set var="now" value='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:").format(new java.util.Date()).substring(0, 10)%>'/>
 					<table class="table table-hover table-bordered">
 						<thead style="background-color: #bce8f1;">
 						<tr>
@@ -126,7 +63,8 @@
 						</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${ItemList.pageList}" var="item">
+							
+							<c:forEach items="${ItemList}" var="item">
 								<tr>
 									<th><c:out value="${item.title}"/></th>
 									<th><c:out value="${item.description}"/></th>
@@ -168,16 +106,130 @@
 							
 						</tbody>
 					</table>
-				</c:if>
 			</div>
 </div>
-<div id='calendar'></div>
+
 <script>
 
+	var contextPath = document.getElementById("contextPath");
+	
+	
 	$(document).ready(function()
-	{
-		var schedules = <c:out value="${ItemList.pageList}"/>
+	{	
+		eventArray = [];
+		<c:forEach items="${ItemList}" var="noob">
+			<c:if test="${noob.recurringTime > 0}">
+				for (i = new Date('<c:out value="${noob.startDate}"/>'); i < new Date(2016, 7, 21); i.setDate(i.getDate() + <c:out value="${noob.recurringTime}"/>))
+					{
+						
+						var hasReport = 0;
+						<c:forEach items="${noob.reports}" var="report">
+							var reportDate = moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD');
+							if (reportDate === moment(i).format('YYYY-MM-DD'))
+							{
+								hasReport = 1;
+							}
+						</c:forEach>
+						if (hasReport === 1)
+						{
+							eventArray.push(
+							{
+								title: '<c:out value="${noob.title}"/>',
+								start: new Date(i),
+								scheduleId: '<c:out value="${noob.id}"/>',
+								hasReport: 1,
+								color: '#00b300'
+							});
+						}
+						else
+						{
+							eventArray.push(
+							{
+								title: '<c:out value="${noob.title}"/>',
+								start: new Date(i),
+								scheduleId: '<c:out value="${noob.id}"/>',
+								hasReport: 0
+
+							});
+						}
+					}
+			</c:if>
+		</c:forEach>
 		
+		var calendar = $('#calendar').fullCalendar(
+		{
+			events: eventArray,
+			
+			eventRender: function(event, element) {
+		        element.avgrund({
+		    	    width: 380, // max is 640px
+		    	    height: 280, // max is 350px
+		    	    showClose: true, // switch to 'true' for enabling close button
+		    	    showCloseText: 'Close', // type your text for close button
+		    	    closeByEscape: true, // enables closing popup by 'Esc'..
+		    	    closeByDocument: true, // ..and by clicking document itself
+		    	    enableStackAnimation: false, // enables different type of popin's animation
+		    	    openOnEvent: true, // set to 'false' to init on load
+		    	    setEvent: 'click', // use your event like 'mouseover', 'touchmove', etc.
+		    	    template: function (element) {
+		    	    	if ((event.hasReport == 0) && (moment(event.start).format('YYYY-MM-DD') == moment(new Date()).format('YYYY-MM-DD')))
+		    	    	{
+		    	    		var guz;
+		    	    		guz = '<a href="<%=request.getContextPath()%>/Schedule/edit?id='+ event.scheduleId +'"><button class="btn btn-default" style="margin-top:110px; margin-left: 65px;">Edit Event</button></a>' + 
+			    	    	'<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" style="margin-top: 110px; margin-left: 20px;">Create Report</button></a>'
+		    	    		<c:forEach items="${ItemList}" var="item">
+		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
+		    	    				{
+			    	    				guz = guz + '<ul style="display: inline-block; float: left">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
+		    	    						console.log(guz);
+		    	    					</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					
+		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
+		    	    					<c:forEach items="${item.activities.scheduleActivityReports}" var="report">
+		    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
+	    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+	    	    							console.log(guz);
+	    	    						</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					return guz
+		    	    				}
+		    	    		</c:forEach>
+		    	    	}
+		    	    	else
+		    	    	{
+		    	    		var guz;
+		    	    		guz = '<a href="<%=request.getContextPath()%>/Schedule/edit?id='+ event.scheduleId +'"><button class="btn btn-default" style="margin-top:110px; margin-left: 65px;">Edit Event</button></a>' + 
+			    	    	'<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" style="margin-top: 110px; margin-left: 20px;" disabled>Create Report</button></a>'
+		    	    		<c:forEach items="${ItemList}" var="item">
+		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
+		    	    				{
+		    	    					guz = guz + '<ul style="display: inline-block; float: left">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
+		    	    						console.log(guz);
+		    	    					</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					
+		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
+		    	    					<c:forEach items="${item.activities.scheduleActivityReports}" var="report">
+		    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
+	    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+	    	    							console.log(guz);
+	    	    						</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					return guz
+		    	    				}
+		    	    		</c:forEach>
+		    	    	}
+		    	    } 
+		    	    	
+		    	}); 		
+		    }
+			
+		});
 	});
 </script>
 </body>

@@ -107,15 +107,19 @@ pageEncoding="UTF-8" %>
 							</div>
 						
 						</form:form>
+						<input type="hidden" id="startDateHidden" value="${item.startDate}"/>
 					</div>
 				</div>	
 	</div>	
 	<script type="text/javascript">
+			
 			$(function () {
 				$('#datetimepicker1').datetimepicker({
 					format: 'YYYY-M-D HH:mm:ss'
 				});
 			});
+			
+			document.getElementById("startDate").value = document.getElementById("startDateHidden").value;
 	</script>
 	
 </body>

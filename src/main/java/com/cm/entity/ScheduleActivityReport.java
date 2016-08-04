@@ -1,5 +1,7 @@
 package com.cm.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -7,8 +9,11 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class ScheduleActivityReport extends BaseEntity {
+	
 	private static final long serialVersionUID = -6454954275786468970L;
+	
 	boolean isFinished;
+	private Date date;
 	
 	@ManyToOne
 	@JoinColumn(name="scheduleActivityId")
@@ -27,7 +32,15 @@ public class ScheduleActivityReport extends BaseEntity {
 	public void setIsFinished(boolean isFinished) {
 		this.isFinished = isFinished;
 	}
+	
+	public Date getDate() {
+		return date;
+	}
 
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
 	public ScheduleActivity getScheduleActivity() {
 		return scheduleActivity;
 	}

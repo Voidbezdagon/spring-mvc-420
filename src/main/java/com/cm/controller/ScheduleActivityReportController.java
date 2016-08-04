@@ -1,5 +1,8 @@
 package com.cm.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -21,9 +24,17 @@ public class ScheduleActivityReportController extends BaseController<ScheduleAct
 	private ScheduleActivityReportService sars;
 
 	@RequestMapping(value="ScheduleActivityReport/customSave")
-	public ModelAndView editActivityReport(HttpServletRequest request, @ModelAttribute ScheduleActivityReport scheduleActivityReport){
+	public ModelAndView editActivityReport(HttpServletRequest request, @ModelAttribute ScheduleActivityReport scheduleActivityReport) throws ParseException{
+		
 		scheduleActivityReport.setIsFinished(true);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		
+		scheduleActivityReport.setDate(sdf.parse(sdf.format(date)));
+		
 		sars.update(scheduleActivityReport);
+		
 		ModelAndView mav = new ModelAndView("redirect:getAll");
 		return mav;
 	}
