@@ -14,6 +14,10 @@
 <%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	crossorigin="anonymous">
 <style type="text/css">
 .myrow-container {
 	margin: 20px;
@@ -60,9 +64,9 @@
 						<div class="row">
 							<div class="col-xs-4"></div>
 							<div class="col-xs-4">
-								<input class="form-control" type="submit"
+								<input type="submit"
 									id="<%=request.getContextPath()%>/Position/save"
-									class="btn btn-default" value="Submit" />
+									class="btn btn-default form-control" value="Submit" />
 							</div>
 							<div class="col-xs-4"></div>
 						</div>

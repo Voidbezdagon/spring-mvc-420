@@ -35,7 +35,9 @@
 </head>
 <body class=".container-fluid">
 <div class="container myrow-container">
+	<div id="wrapper">
 	<c:import url="/Menu"/>
+	<div id="page-wrapper">
 	<input type="hidden" id="contextPath" value="<%=request.getContextPath()%>"/>
 	<div id="calendar"></div>
 			<div class="panel panel-success">
@@ -106,6 +108,8 @@
 							
 						</tbody>
 					</table>
+			</div>
+			</div>
 			</div>
 </div>
 
