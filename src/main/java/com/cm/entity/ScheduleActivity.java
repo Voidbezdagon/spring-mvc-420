@@ -43,11 +43,11 @@ public class ScheduleActivity extends BaseEntity {
 		this.schedule = schedule;
 	}
 
-	public List<ScheduleActivityReport> getActivityReports() {
+	public List<ScheduleActivityReport> getScheduleActivityReports() {
 		return scheduleActivityReports;
 	}
 
-	public void setActivityReports(List<ScheduleActivityReport> scheduleActivityReports) {
+	public void setScheduleActivityReports(List<ScheduleActivityReport> scheduleActivityReports) {
 		this.scheduleActivityReports = scheduleActivityReports;
 	}
 	
