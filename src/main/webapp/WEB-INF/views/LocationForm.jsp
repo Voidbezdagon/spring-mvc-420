@@ -53,8 +53,9 @@ pageEncoding="UTF-8" %>
 	</style>
 </head>
 <body class=".container-fluid">
+<div id="page-wrapper" align="center">
 	<div class="container myrow-container">
-				<div class="panel panel-success">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							Location Management Form 
@@ -135,7 +136,7 @@ pageEncoding="UTF-8" %>
 									</div>
 									<div class="col-xs-4">
 										
-										<input type="submit" id="<%=request.getContextPath()%>/Location/save" class="btn btn-primary" value="Submit"/>
+										<input type="submit" id="<%=request.getContextPath()%>/Location/save" class="btn btn-default form-control" value="Submit"/>
 									</div>
 									<div class="col-xs-4">
 									</div>
@@ -148,7 +149,7 @@ pageEncoding="UTF-8" %>
 				</div>	
 	</div>	
 	
-	
+	</div>
 	<script>
 	var searchBox;
 	var places;
