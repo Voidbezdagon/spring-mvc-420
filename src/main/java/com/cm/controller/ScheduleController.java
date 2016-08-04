@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Schedule;
+import com.cm.entity.ScheduleReport;
 import com.cm.entity.Team;
 import com.cm.entity.User;
 import com.cm.service.ScheduleService;
@@ -126,6 +127,7 @@ public class ScheduleController extends BaseController<Schedule>{
 	@Override
 	public List<Schedule> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException {
 		User user = (User) request.getSession().getAttribute("LOGGED_USER");
+
 		if (user.getAdmin() != true)
 		{
 			List<Team> teams = user.getTeams();
