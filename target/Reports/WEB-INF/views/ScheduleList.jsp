@@ -9,8 +9,11 @@
 	<!-- Bootstrap CSS -->
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.css">
+		<%-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.print.css">  --%>
+	  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	  <script src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.js"></script>
 	<style type="text/css">
 		.myrow-container {
 		margin: 20px;
@@ -168,6 +171,15 @@
 				</c:if>
 			</div>
 </div>
+<div id='calendar'></div>
+<script>
+
+	$(document).ready(function()
+	{
+		var schedules = <c:out value="${ItemList.pageList}"/>
+		
+	});
+</script>
 </body>
 </html>
 	
