@@ -22,6 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Location;
+import com.cm.entity.LocationItem;
+import com.cm.entity.Position;
+import com.cm.entity.User;
+import com.cm.service.LocationItemService;
 import com.cm.service.LocationService;
 import com.cm.util.LocationFormValidator;
 
@@ -30,6 +34,9 @@ public class LocationController extends BaseController<Location>{
 
 	@Autowired
 	private LocationService locationService;
+	
+	@Autowired
+	private LocationItemService locationItemService;
 	
 	@Autowired
 	@Qualifier("locationValidator")
@@ -57,6 +64,13 @@ public class LocationController extends BaseController<Location>{
 	@RequestMapping(value="Location/delete")
 	public ModelAndView deleteLocation(HttpServletRequest request) throws Exception
 	{
+		Long id = Long.parseLong(request.getParameter("id"));
+		
+		for (LocationItem li : locationService.getById(id).getLocationItems())
+		{
+			locationItemService.delete(li.getId());
+		}
+		
 		return delete(request);
 	}
 	

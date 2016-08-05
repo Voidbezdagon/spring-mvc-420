@@ -22,14 +22,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Location;
 import com.cm.entity.LocationItem;
+import com.cm.service.LocationItemService;
 import com.cm.service.LocationService;
 import com.cm.util.LocationItemValidator;
+import com.cm.util.ReflectionHelper;
 
 @Controller
 public class LocationItemsController extends BaseController<LocationItem> {
 	
 	@Autowired
 	private LocationService locationService;
+	
+	@Autowired
+	private LocationItemService locationItemService;
 	
 	@Autowired
 	@Qualifier("locationItemValidator")
@@ -90,7 +95,8 @@ public class LocationItemsController extends BaseController<LocationItem> {
 	@RequestMapping(value="LocationItem/delete")
 	public ModelAndView deleteLocationItem(HttpServletRequest request) throws Exception
 	{
-		return delete(request);
+		locationItemService.delete(Long.parseLong(request.getParameter("id")));
+		return new ModelAndView("redirect:/Location/getAll");
 	}
 	
 	@RequestMapping(value="LocationItem/save")
@@ -103,10 +109,15 @@ public class LocationItemsController extends BaseController<LocationItem> {
 				return edit(request);
 		}
 		
-		System.out.println(request.getSession().getAttribute("parentId"));
 		item.setLocation(locationService.getById((long) request.getSession().getAttribute("parentId")));
 		request.getSession().removeAttribute("parentId");
-		return save(item, request);
+		
+		if (item.getId() == null)
+			locationItemService.create(item);
+		else
+			locationItemService.update(item);
+		
+		return new ModelAndView("redirect:/Location/getAll");
 	}
 	
 	@RequestMapping(value = "LocationItem/getAll")

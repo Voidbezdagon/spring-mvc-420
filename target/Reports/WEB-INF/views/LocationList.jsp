@@ -248,6 +248,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
+							<th></th>
 						</tr>
 						</thead>
 						<tbody>
@@ -264,9 +265,10 @@
 									<th><a class="text-muted" href="<%=request.getContextPath()%>/Location/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 									<th><a class="text-muted" href="<%=request.getContextPath()%>/Location/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
 									<th><a class="text-muted" href="<%=request.getContextPath()%>/LocationItem/create?parentId=<c:out value='${item.id}'/>">Add Location Item</a></th>
+									<th><a class="text-muted" href="<%=request.getContextPath()%>/LocationItem/getAll?parentId=<c:out value='${item.id}'/>">View Location Items</a></th>
 								</tr>
 								<tr>
-									<td colspan="11">
+									<td colspan="12">
 										<div class="collapse in" id="noob${item.name}">
 											<div class="map" id="map${item.name}"></div>
 										</div>

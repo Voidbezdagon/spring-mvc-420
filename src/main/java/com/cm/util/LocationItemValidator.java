@@ -5,12 +5,13 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.cm.entity.Location;
+import com.cm.entity.LocationItem;
 
 public class LocationItemValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> paramClass) {
-		return Location.class.equals(paramClass);
+		return LocationItem.class.equals(paramClass);
 	}
 
 	@Override
@@ -23,7 +24,7 @@ public class LocationItemValidator implements Validator {
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(err, "details", "details.required");
 		
-		Location item = (Location) obj;
+		LocationItem item = (LocationItem) obj;
 		if (!item.getName().matches("[a-zA-Z]+"))
 			err.rejectValue("name", "name.invalid");
 	}
