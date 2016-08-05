@@ -15,19 +15,11 @@ public class AuthInterceptor implements HandlerInterceptor{
 		if( !request.getRequestURI().equals("/content/loginUser") &&
 		    !request.getRequestURI().equals("/content/logoutUser") &&
 		    !request.getRequestURI().equals("/content/loginForm") &&
-		    !request.getRequestURI().equals("/content/createTestAdmin"))
+		    !request.getRequestURI().equals("/content/createTestAdmin") &&
+		    !request.getRequestURI().equals("/content/Menu"))
 		  {
 			  User loggedUser = (User) request.getSession().getAttribute("LOGGED_USER");
-			  if(loggedUser == null)
-			  {
-				  response.sendRedirect("/content/loginForm");
-				  return false;
-			  }   
-			  if(loggedUser.getAdmin() == false)
-			  {
-				  response.sendRedirect("/content/loginForm");
-				  return false;
-			  }  
+			 
 		  }
 		  return true;
 	}

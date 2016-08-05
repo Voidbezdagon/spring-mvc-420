@@ -90,6 +90,8 @@ public class ScheduleController extends BaseController<Schedule>{
 	@RequestMapping(value = "Schedule/getAll")
 	public ModelAndView getAllSchedules(HttpServletRequest request) throws Exception
 	{
+		User user = (User) request.getSession().getAttribute("LOGGED_USER");
+		request.setAttribute("logged_user", user);
 		return getAll(request);
 	}
 
@@ -103,6 +105,8 @@ public class ScheduleController extends BaseController<Schedule>{
 			break;
 		case "Start Date": Collections.sort(List, (p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
 			break;
+		case "End Date": Collections.sort(List, (p1, p2) -> p1.getEndDate().compareTo(p2.getEndDate()));
+			break;
 		case "Recurring Time": Collections.sort(List, (p1, p2) -> p1.getRecurringTime().compareTo(p2.getRecurringTime()));
 			break;
 		case "Assigned Team": Collections.sort(List, (p1, p2) -> p1.getAssignedTeam().getTeamname().compareTo(p2.getAssignedTeam().getTeamname()));
@@ -115,6 +119,7 @@ public class ScheduleController extends BaseController<Schedule>{
 		Map.put("title", "Title");
 		Map.put("description", "Description");
 		Map.put("startDate", "Start Date");
+		Map.put("endDate", "End Date");
 		Map.put("recurringTime", "Recurring Time");
 		Map.put("assignedTeam", "Assigned Team");
 	}
@@ -153,6 +158,7 @@ public class ScheduleController extends BaseController<Schedule>{
 		case "Title": return (ArrayList<Schedule>) result.stream().filter(p -> p.getTitle().contains(searchName)).collect(Collectors.toList());
 		case "Description": return (ArrayList<Schedule>) result.stream().filter(p -> p.getDescription().contains(searchName)).collect(Collectors.toList());
 		case "Start Date": return (ArrayList<Schedule>) result.stream().filter(p -> p.getStartDate().toString().contains(searchName)).collect(Collectors.toList());
+		case "End Date": return (ArrayList<Schedule>) result.stream().filter(p -> p.getEndDate().toString().contains(searchName)).collect(Collectors.toList());
 		case "Recurring Time": return (ArrayList<Schedule>) result.stream().filter(p -> p.getRecurringTime().toString().contains(searchName)).collect(Collectors.toList());
 		case "Assigned Team": return (ArrayList<Schedule>) result.stream().filter(p -> p.getAssignedTeam().getTeamname().contains(searchName)).collect(Collectors.toList());
 		}
