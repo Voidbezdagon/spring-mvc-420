@@ -22,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Position;
+import com.cm.entity.User;
 import com.cm.service.PositionService;
+import com.cm.service.UserService;
 import com.cm.util.PositionFormValidator;
 
 @Controller
@@ -30,6 +32,9 @@ public class PositionController extends BaseController<Position>{
 
 	@Autowired
 	private PositionService positionService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	@Qualifier("positionValidator")
@@ -58,6 +63,24 @@ public class PositionController extends BaseController<Position>{
 	@RequestMapping(value="Position/delete")
 	public ModelAndView deletePosition(HttpServletRequest request) throws Exception
 	{
+		Long id = Long.parseLong(request.getParameter("id"));
+		List<Position> positions = positionService.getAll();
+		for (Position i : positions)
+		{
+			if (i.getParentId().equals(id))
+			{
+				i.setParentId((long) 0);
+				positionService.update(i);
+			}
+		}		
+
+		Position pos = positionService.getById(id);
+		for (User u : pos.getUsers())
+		{
+			u.setPosition(null);
+			userService.update(u);
+		}
+		
 		return delete(request);
 	}
 	

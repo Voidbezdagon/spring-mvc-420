@@ -5,6 +5,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -19,9 +20,15 @@ public class Team extends BaseEntity{
 
 	@Column(unique = true)
 	private String teamname;
-	@ManyToMany(cascade = CascadeType.MERGE ,fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {
+            CascadeType.MERGE,
+            CascadeType.PERSIST
+		}
+		, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-    @JoinTable
+	@JoinTable(name = "Users_Teams",
+    joinColumns = {@JoinColumn(name = "teamId")},
+    inverseJoinColumns = @JoinColumn(name = "userId"))
     private List<User> users;
 	@OneToMany(mappedBy = "assignedTeam", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)

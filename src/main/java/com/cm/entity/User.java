@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,11 +25,19 @@ public class User extends BaseEntity{
 	private String password;
 	private String avatar;
 	private Boolean admin;
-	@ManyToOne
-    @JoinColumn(name="position")
+	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name="positionId")
 	private Position position;
-	@ManyToMany(cascade = CascadeType.MERGE, mappedBy = "users", fetch = FetchType.EAGER)
+	@ManyToMany(cascade = 
+		{
+            CascadeType.MERGE,
+            CascadeType.PERSIST
+		}
+		, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JoinTable(name = "Users_Teams",
+    joinColumns = {@JoinColumn(name = "userId")},
+    inverseJoinColumns = @JoinColumn(name = "teamId"))
 	private List<Team> teams;
 	@OneToMany(mappedBy = "creator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)

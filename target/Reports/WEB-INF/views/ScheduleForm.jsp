@@ -38,7 +38,7 @@ pageEncoding="UTF-8" %>
 </head>
 <body class=".container-fluid">
 	<div class="container myrow-container">
-				<div class="panel panel-success">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							Schedule Management Form
@@ -99,7 +99,7 @@ pageEncoding="UTF-8" %>
 									<div class="col-xs-4">
 									</div>
 									<div class="col-xs-4">
-										<input type="submit" id="<%=request.getContextPath()%>/Schedule/save" class="btn btn-primary" value="Submit"/>
+										<input type="submit" id="<%=request.getContextPath()%>/Schedule/save" class="btn btn-default form-control" value="Submit"/>
 									</div>
 									<div class="col-xs-4">
 									</div>
