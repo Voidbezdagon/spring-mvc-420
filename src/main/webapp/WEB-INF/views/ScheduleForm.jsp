@@ -93,6 +93,19 @@ pageEncoding="UTF-8" %>
 									</div>
 									</div>
 								</div>
+								
+								<div class="form-group">
+								<div class="control-label col-xs-3"><form:label path="endDate">End Date: </form:label></div>
+								<div class=" col-xs-6">
+									<div class='input-group date' id='datetimepicker2'>
+										<input type="text" class="form-control" name="endDate" id="endDate"
+											value="<fmt:formatDate value='${itemObject.endDate}' pattern='yyyy-MM-dd HH:mm:ss' />" />
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+									</div>
+								</div>
 							
 							<div class="form-group">
 								<div class="row">
@@ -108,6 +121,7 @@ pageEncoding="UTF-8" %>
 						
 						</form:form>
 						<input type="hidden" id="startDateHidden" value="${item.startDate}"/>
+						<input type="hidden" id="endDateHidden" value="${item.endDate}"/>
 					</div>
 				</div>	
 	</div>	
@@ -120,6 +134,14 @@ pageEncoding="UTF-8" %>
 			});
 			
 			document.getElementById("startDate").value = document.getElementById("startDateHidden").value;
+			
+			$(function () {
+				$('#datetimepicker2').datetimepicker({
+					format: 'YYYY-M-D HH:mm:ss'
+				});
+			});
+			
+			document.getElementById("endDate").value = document.getElementById("endDateHidden").value;
 	</script>
 	
 </body>
