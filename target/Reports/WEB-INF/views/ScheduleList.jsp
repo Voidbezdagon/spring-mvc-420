@@ -373,7 +373,7 @@
 		eventArray = [];
 		<c:forEach items="${ItemList}" var="noob">
 			<c:if test="${noob.recurringTime > 0}">
-				for (i = new Date('<c:out value="${noob.startDate}"/>'); i < new Date(2016, 7, 21); i.setDate(i.getDate() + <c:out value="${noob.recurringTime}"/>))
+				for (i = new Date('<c:out value="${noob.startDate}"/>'); i <= new Date('<c:out value="${noob.endDate}"/>'); i.setDate(i.getDate() + <c:out value="${noob.recurringTime}"/>))
 					{
 						
 						var hasReport = 0;
@@ -446,7 +446,7 @@
 	    	    							<c:forEach items="${activity.scheduleActivityReports}" var="report">
 		    	    							if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
 	    	    								guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
-	    	    								console.log(guz);
+	    	    								console.log('<c:out value="${report.isFinished}"/>');
 	    	    							</c:forEach>
     	    							</c:forEach>
 		    	    					guz = guz + '</ul>';
@@ -474,7 +474,7 @@
 		    	    						<c:forEach items="${activity.scheduleActivityReports}" var="report">
 			    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
 		    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
-		    	    							console.log(guz);
+		    	    							console.log('hui');
 		    	    						</c:forEach>
 	    	    						</c:forEach>
 		    	    					guz = guz + '</ul>';

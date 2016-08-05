@@ -39,12 +39,6 @@ public class User extends BaseEntity{
     joinColumns = {@JoinColumn(name = "userId")},
     inverseJoinColumns = @JoinColumn(name = "teamId"))
 	private List<Team> teams;
-	@OneToMany(mappedBy = "creator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<ScheduleReport> reports;
-	@OneToMany(mappedBy="user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	List<ScheduleActivityReport> scheduleActivityReports;
 	
 	public List<Team> getTeams() {
 		return teams;
@@ -93,12 +87,6 @@ public class User extends BaseEntity{
 	}
 	public void setPosition(Position position) {
 		this.position = position;
-	}
-	public List<ScheduleActivityReport> getScheduleActivityReports() {
-		return scheduleActivityReports;
-	}
-	public void setScheduleActivityReports(List<ScheduleActivityReport> scheduleActivityReports) {
-		this.scheduleActivityReports = scheduleActivityReports;
 	}
 	
 }

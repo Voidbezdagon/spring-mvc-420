@@ -121,7 +121,7 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 			for (ScheduleActivityReport noob : item.getActivityReports())
 			{
 				noob.setScheduleReport(srService.getById(srId));
-				noob.setUser((User) request.getSession().getAttribute("LOGGED_USER"));
+				noob.setDate(sdf.parse(sdf.format(date)));
 				sarService.create(noob);
 			}
 		}

@@ -11,6 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"/>
 <link rel="stylesheet"
 	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.css">
 <link rel="stylesheet"
@@ -107,6 +108,14 @@
 .fc-content:hover {
 	cursor: pointer;
 }
+#heading-button:hover
+{
+	text-decoration: none;
+}
+#heading-button:focus
+{
+	text-decoration: none;
+}
 </style>
 </head>
 <body class="container-fluid">
@@ -114,13 +123,20 @@
 		<c:import url="/Menu" />
 		<div id="page-wrapper">
 			<c:if test="${logged_user.admin==true}">
+			
+				
 				<div class="panel panel-default">
+				<a href="#" id="heading-button" data-toggle="collapse" data-target="#schedule-crud">
 					<div class="panel-title">
+					
 						<h3 align="center" style="font-size: 1.3em;">
+						
 							<b>Schedule List</b>
 						</h3>
 					</div>
+				</a>
 				</div>
+				<div class="collapse" id="schedule-crud">
 				<div class="panel-body">
 					<c:set var="now"
 						value='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:").format(new java.util.Date()).substring(0, 10)%>' />
@@ -345,8 +361,10 @@
 								</tbody>
 							</table>
 						</div>
+						</div>						</div>
+
 					</c:if>
-				</div>
+				
 			</c:if>
 			<input type="hidden" id="contextPath"
 				value="<%=request.getContextPath()%>" />
@@ -358,7 +376,7 @@
 				</div>
 			</div>
 			<div id="calendar"></div>
-
+		</div>
 		</div>
 	</div>
 	</div>
@@ -373,7 +391,7 @@
 		eventArray = [];
 		<c:forEach items="${ItemList}" var="noob">
 			<c:if test="${noob.recurringTime > 0}">
-				for (i = new Date('<c:out value="${noob.startDate}"/>'); i < new Date(2016, 7, 21); i.setDate(i.getDate() + <c:out value="${noob.recurringTime}"/>))
+				for (i = new Date('<c:out value="${noob.startDate}"/>'); i <= new Date('<c:out value="${noob.endDate}"/>'); i.setDate(i.getDate() + <c:out value="${noob.recurringTime}"/>))
 					{
 						
 						var hasReport = 0;
@@ -429,43 +447,14 @@
 		    	    	if ((event.hasReport == 0) && (moment(event.start).format('YYYY-MM-DD') == moment(new Date()).format('YYYY-MM-DD')))
 		    	    	{
 		    	    		var guz;
-		    	    		guz = '<a href="<%=request.getContextPath()%>/Schedule/edit?id='+ event.scheduleId +'"><button class="btn btn-default" style="margin-top:110px; margin-left: 65px;">Edit Event</button></a>' + 
-			    	    	'<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" style="margin-top: 110px; margin-left: 20px;">Create Report</button></a>'
+		    	    		guz = '<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" >Create Report</button></a>'
 		    	    		<c:forEach items="${ItemList}" var="item">
 		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
 		    	    				{
+		    	    					guz = guz + '<div style="height:215px ; width:360px; border:1px solid #ccc; overflow:auto; margin-top: 10px;">';
 			    	    				guz = guz + '<ul style="display: inline-block; float: left">';
 		    	    					<c:forEach items="${item.activities}" var="activity">
 		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
-		    	    						console.log(guz);
-		    	    					</c:forEach>
-		    	    					guz = guz + '</ul>';
-		    	    					
-		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
-		    	    					<c:forEach items="${item.activities}" var="activity">
-	    	    							<c:forEach items="${activity.scheduleActivityReports}" var="report">
-		    	    							if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
-	    	    								guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
-	    	    								console.log(guz);
-	    	    							</c:forEach>
-    	    							</c:forEach>
-		    	    					guz = guz + '</ul>';
-		    	    					return guz
-		    	    				}
-		    	    		</c:forEach>
-		    	    	}
-		    	    	else
-		    	    	{
-		    	    		var guz;
-		    	    		guz = '<a href="<%=request.getContextPath()%>/Schedule/edit?id='+ event.scheduleId +'"><button class="btn btn-default" style="margin-top:110px; margin-left: 65px;">Edit Event</button></a>' + 
-			    	    	'<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default" style="margin-top: 110px; margin-left: 20px;" disabled>Create Report</button></a>'
-		    	    		<c:forEach items="${ItemList}" var="item">
-		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
-		    	    				{
-		    	    					guz = guz + '<ul style="display: inline-block; float: left">';
-		    	    					<c:forEach items="${item.activities}" var="activity">
-		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
-		    	    						console.log(guz);
 		    	    					</c:forEach>
 		    	    					guz = guz + '</ul>';
 		    	    					
@@ -474,10 +463,43 @@
 		    	    						<c:forEach items="${activity.scheduleActivityReports}" var="report">
 			    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
 		    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
-		    	    							console.log(guz);
 		    	    						</c:forEach>
 	    	    						</c:forEach>
 		    	    					guz = guz + '</ul>';
+		    	    					guz = guz + '</div>';
+		    	    					return guz
+		    	    				}
+		    	    		</c:forEach>
+		    	    	}
+		    	    	else
+		    	    	{
+		    	    		var guz;
+		    	    		guz = '<a href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=' + event.scheduleId + '"><button class="btn btn-default"  disabled>Create Report</button></a>'
+		    	    		<c:forEach items="${ItemList}" var="item">
+		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
+		    	    				{
+		    	    					guz = guz + '<div style="height:215px ; width:360px; border:1px solid #ccc; overflow:auto; margin-top: 10px;">';
+		    	    					guz = guz + '<ul style="display: inline-block; float: left">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
+		    	    					</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					
+		    	    					guz = guz + '<ul style="display: inline-block; list-style: none;">';
+		    	    					<c:forEach items="${item.activities}" var="activity">
+		    	    						<c:if test="${empty activity.scheduleActivityReports}">
+		    	    							guz = guz + '<li>&nbsp;</li>';
+		    	    						</c:if>
+		    	    						<c:if test="${not empty activity.scheduleActivityReports}">
+			    	    						<c:forEach items="${activity.scheduleActivityReports}" var="report">
+			    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
+		    	    									guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+		    	    							</c:forEach>
+		    	    						</c:if>
+			    	    						
+	    	    						</c:forEach>
+		    	    					guz = guz + '</ul>';
+		    	    					guz = guz + '</div>';
 		    	    					return guz
 		    	    				}
 		    	    		</c:forEach>

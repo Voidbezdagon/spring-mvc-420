@@ -21,9 +21,6 @@ public class ScheduleReport extends BaseEntity{
 	private String description;
 	private Date date;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "creatorId")
-	private User creator;
-	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "scheduleId")
 	private Schedule schedule;
 	@OneToMany(mappedBy = "scheduleReport", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -41,12 +38,6 @@ public class ScheduleReport extends BaseEntity{
 	}
 	public void setDate(Date date) {
 		this.date = date;
-	}
-	public User getCreator() {
-		return creator;
-	}
-	public void setCreator(User creator) {
-		this.creator = creator;
 	}
 	public Schedule getSchedule() {
 		return schedule;

@@ -21,9 +21,6 @@ public class ScheduleActivityReport extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name="scheduleReportId")
 	private ScheduleReport scheduleReport;
-	@ManyToOne
-	@JoinColumn(name="userId")
-	private User user;
 
 	public boolean getIsFinished() {
 		return isFinished;
@@ -47,14 +44,6 @@ public class ScheduleActivityReport extends BaseEntity {
 
 	public void setScheduleActivity(ScheduleActivity scheduleActivity) {
 		this.scheduleActivity = scheduleActivity;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 	public ScheduleReport getScheduleReport() {
 		return scheduleReport;
