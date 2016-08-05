@@ -22,9 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cm.entity.Schedule;
+import com.cm.entity.ScheduleActivity;
 import com.cm.entity.ScheduleActivityReport;
+import com.cm.entity.ScheduleReport;
 import com.cm.entity.Team;
 import com.cm.entity.User;
+import com.cm.service.ScheduleActivityService;
+import com.cm.service.ScheduleReportService;
+import com.cm.service.ScheduleService;
 import com.cm.service.TeamService;
 import com.cm.service.UserService;
 import com.cm.util.TeamFormValidator;
@@ -36,7 +42,16 @@ public class TeamController extends BaseController<Team>{
 	private TeamService teamService;
 	
 	@Autowired
+	private ScheduleService scheduleService;
+	
+	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	ScheduleActivityService scheduleActivityService;
+	
+	@Autowired
+	ScheduleReportService scheduleReportService;
 	
 	@Autowired
 	@Qualifier("teamValidator")
@@ -96,6 +111,22 @@ public class TeamController extends BaseController<Team>{
 	@RequestMapping(value="Team/delete")
 	public ModelAndView deleteTeam(HttpServletRequest request) throws Exception
 	{
+		Long id = Long.parseLong(request.getParameter("id"));
+		
+		List<Schedule> schedules = scheduleService.getAll();
+		for(Schedule s : schedules)
+		{
+			for (ScheduleActivity sa : s.getActivities())
+			{
+				scheduleActivityService.delete(sa.getId());
+			}
+			for (ScheduleReport sr : s.getReports())
+			{
+				scheduleReportService.delete(sr.getId());
+			}
+			scheduleService.delete(s.getId());
+		}
+		
 		return delete(request);
 	}
 	
@@ -110,14 +141,7 @@ public class TeamController extends BaseController<Team>{
 				return edit(request);
 		}
 		
-		/*List<User> noob = new ArrayList<User>();
-		for (User user : item.getUsers())
-		{
-			if (user.getId() != null)
-				noob.add(userService.getById(user.getId()));
-		}
 		
-		item.setUsers(noob);*/
 		return save(item, request);
 	}
 	

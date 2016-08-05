@@ -23,9 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.Schedule;
+import com.cm.entity.ScheduleActivity;
 import com.cm.entity.ScheduleReport;
 import com.cm.entity.Team;
 import com.cm.entity.User;
+import com.cm.service.ScheduleActivityService;
+import com.cm.service.ScheduleReportService;
 import com.cm.service.ScheduleService;
 import com.cm.service.TeamService;
 import com.cm.util.ScheduleFormValidator;
@@ -36,6 +39,12 @@ public class ScheduleController extends BaseController<Schedule>{
 	
 	@Autowired
 	ScheduleService scheduleService;
+	
+	@Autowired
+	ScheduleActivityService scheduleActivityService;
+	
+	@Autowired
+	ScheduleReportService scheduleReportService;
 	
 	@Autowired
 	TeamService teamService;
@@ -71,6 +80,19 @@ public class ScheduleController extends BaseController<Schedule>{
 	@RequestMapping(value="Schedule/delete")
 	public ModelAndView deleteSchedule(HttpServletRequest request) throws Exception
 	{
+		Long id = Long.parseLong(request.getParameter("id"));
+		
+		Schedule schedule = scheduleService.getById(id);
+		
+		for (ScheduleActivity sa : schedule.getActivities())
+		{
+			scheduleActivityService.delete(sa.getId());
+		}
+		for (ScheduleReport sr : schedule.getReports())
+		{
+			scheduleReportService.delete(sr.getId());
+		}
+		
 		return delete(request);
 	}
 	
