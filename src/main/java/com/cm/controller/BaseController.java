@@ -100,7 +100,6 @@ public abstract class BaseController<T extends BaseEntity>{
 		PagedListHolder<T> PageList = generatePageList(ItemList, items, page);
 		
 		ModelAndView mav = new ModelAndView(item.getClass().getSimpleName() + "List");
-		System.out.println(request.getRequestURI());
 		if (request.getRequestURI().equals("/content/Schedule/getAll"))
 			mav.addObject("ItemList", ItemList);
 		else

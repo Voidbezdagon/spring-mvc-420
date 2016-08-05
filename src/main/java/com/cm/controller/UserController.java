@@ -129,7 +129,6 @@ public class UserController extends BaseController<User>{
 	public ModelAndView menu(HttpServletRequest request)
 	{
 		User loggedUser = (User) request.getSession().getAttribute("LOGGED_USER");
-		
 		request.setAttribute("loggedUser", loggedUser);
 		ModelAndView mav = new ModelAndView("Menu");
 		return mav;
