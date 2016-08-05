@@ -106,6 +106,7 @@
 							<th>Title</th>
 							<th>Description</th>
 							<th>Start Date</th>
+							<th>End Date</th>
 							<th>Recurring Time</th>
 							<th>Assigned Team</th>
 							<th></th>
@@ -124,6 +125,7 @@
 									<th><c:out value="${item.title}"/></th>
 									<th><c:out value="${item.description}"/></th>
 									<th><c:out value="${item.startDate}"/></th>
+									<th><c:out value="${item.endDate}"/></th>
 									<th><c:out value="${item.recurringTime}"/></th>
 									<th><c:out value="${item.assignedTeam.teamname}"/></th>
 									<th><c:out value=""/></th>

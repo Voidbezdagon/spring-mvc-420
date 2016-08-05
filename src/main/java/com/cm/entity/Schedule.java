@@ -21,6 +21,7 @@ public class Schedule extends BaseEntity{
 	private String title;
 	private String description;
 	private Date startDate;
+	private Date endDate;
 	private Long recurringTime;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "assignedTeamId")
@@ -74,4 +75,11 @@ public class Schedule extends BaseEntity{
 	public void setReports(List<ScheduleReport> reports) {
 		this.reports = reports;
 	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	
 }
