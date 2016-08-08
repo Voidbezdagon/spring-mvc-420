@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Task List</title>
+	<title>Location List</title>
 	<!-- Bootstrap CSS -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -262,7 +262,7 @@
 									<th><c:out value="${item.street}"/></th>
 									<th><c:out value="${item.streetNumber}"/></th>
 									<th><c:out value="${item.details}"/></th>	
-									<th><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#noob<c:out value='${item.name}'/>">Simple collapsible</button></th>
+									<th><button type="button" class="btn btn-default" data-toggle="collapse" data-target="#noob<c:out value='${item.name}'/>">Map</button></th>
 									<th><a class="text-muted" href="<%=request.getContextPath()%>/Location/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 									<th><a class="text-muted" href="<%=request.getContextPath()%>/Location/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
 									<th><a class="text-muted" href="<%=request.getContextPath()%>/LocationItem/create?parentId=<c:out value='${item.id}'/>">Add Location Item</a></th>

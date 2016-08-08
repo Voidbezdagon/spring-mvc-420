@@ -58,39 +58,37 @@ public class TeamController extends BaseController<Team>{
 	private TeamFormValidator validator;
 
 	@InitBinder("item")
-	private void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(List.class, "users", new CustomCollectionEditor(List.class)
-        {
-              @Override
-              protected Object convertElement(Object element)
-              {
-                  Long id = null;
-                  if(element instanceof String && !((String)element).equals("")){
-                      //From the JSP 'element' will be a String
-                      try{
-                          id = Long.parseLong((String) element);
-                      }
-                      catch (NumberFormatException e) {
-                          System.out.println("Element was " + ((String) element));
-                          e.printStackTrace();
-                      }
-                  }
-                  else if(element instanceof Long) {
-                      //From the database 'element' will be a Long
-                      id = (Long) element;
-                  }
-
-    			  try {
-					return id != null ? userService.getById(id) : null;
-    			  } catch (InstantiationException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-    			  }
-				return null;  
-              }
-        });
-		binder.setValidator(validator);
-	}
+    private void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(List.class, "users", new CustomCollectionEditor(List.class)
+       {
+             @Override
+             protected Object convertElement(Object element)
+             {
+                 Long id = null;
+                 if(element instanceof String && !((String)element).equals("")){
+                     //From the JSP 'element' will be a String
+                     try{
+                         id = Long.parseLong((String) element);
+                     }
+                     catch (NumberFormatException e) {
+                         System.out.println("Element was " + ((String) element));
+                         e.printStackTrace();
+                     }
+                 }
+                 else if(element instanceof Long) {
+                     //From the database 'element' will be a Long
+                     id = (Long) element;
+                 }                  try {
+                    return id != null ? userService.getById(id) : null;
+                 } catch (InstantiationException | IllegalAccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                 }
+                return null;  
+             }
+       });
+        binder.setValidator(validator);
+    }
 	
 	//START BASE CONTROLLER
 	

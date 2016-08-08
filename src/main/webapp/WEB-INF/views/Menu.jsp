@@ -24,11 +24,11 @@
 	<!-- Top Menu Items -->
 	<ul class="nav navbar-right navbar-ex1-collapse top-nav" style="margin-right:0.05%;">
 		<c:if test="${empty loggedUser}">
-			<li><a class="text-muted" href="loginForm"><span
+			<li><a class="text-muted" href="<%=request.getContextPath()%>/loginForm"><span
 					class="glyphicon glyphicon-log-in"></span>Login</a></li>
 		</c:if>
 		<c:if test="${not empty loggedUser}">
-			<li><a class="text-muted" href="logoutUser"><span
+			<li><a class="text-muted" href="<%=request.getContextPath()%>/logoutUser"><span
 					class="glyphicon glyphicon-log-out"></span>Log Out</a></li>
 		</c:if>
 	</ul>
