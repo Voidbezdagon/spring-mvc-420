@@ -175,7 +175,8 @@ public class ScheduleController extends BaseController<Schedule>{
 
 	@Override	
 	public List<Schedule> filterAllByString(String searchColumn, String searchName, List<Schedule> result) {
-		switch (searchName)
+		
+		switch (searchColumn)
 		{
 		case "Title": return (ArrayList<Schedule>) result.stream().filter(p -> p.getTitle().contains(searchName)).collect(Collectors.toList());
 		case "Description": return (ArrayList<Schedule>) result.stream().filter(p -> p.getDescription().contains(searchName)).collect(Collectors.toList());
