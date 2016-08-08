@@ -212,7 +212,7 @@ public class UserController extends BaseController<User>{
 		if (loggingUser != null)
 		{
 			request.getSession().setAttribute("LOGGED_USER", loggingUser);
-			return new ModelAndView("redirect:Schedule/getAll");
+			return new ModelAndView("redirect:/Schedule/getAll");
 		}
 		return new ModelAndView("loginForm");
 	}

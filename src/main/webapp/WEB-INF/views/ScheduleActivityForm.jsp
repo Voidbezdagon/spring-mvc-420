@@ -20,8 +20,9 @@ pageEncoding="UTF-8" %>
 	</style>
 </head>
 <body class=".container-fluid">
+<div id="page-wrapper" align="center">
 	<div class="container myrow-container">
-				<div class="panel panel-success">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							Schedule Activity Management Form
@@ -46,7 +47,7 @@ pageEncoding="UTF-8" %>
 									<div class="col-xs-4">
 									</div>
 									<div class="col-xs-4">
-										<input type="submit" id="<%=request.getContextPath()%>/ScheduleActivity/save" class="btn btn-primary" value="Submit"/>
+										<input type="submit" id="<%=request.getContextPath()%>/ScheduleActivity/save" class="btn btn-default form-control" value="Submit"/>
 									</div>
 									<div class="col-xs-4">
 									</div>
@@ -56,7 +57,7 @@ pageEncoding="UTF-8" %>
 					</div>
 				</div>	
 	</div>	
-	
+	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	

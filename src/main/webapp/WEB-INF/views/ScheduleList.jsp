@@ -124,8 +124,6 @@
 		<c:import url="/Menu" />
 		<div id="page-wrapper">
 			<c:if test="${logged_user.admin==true}">
-
-
 				<div class="panel panel-default">
 					<a href="#" id="heading-button" data-toggle="collapse"
 						data-target="#schedule-crud">
@@ -144,7 +142,7 @@
 							value='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:").format(new java.util.Date()).substring(0, 10)%>' />
 						<c:if test="${empty ItemList}">
 					There are no Schedules.
-				</c:if>
+						</c:if>
 						<c:if test="${not empty ItemList}">
 							<c:set var="object" value="${ItemList[0]}" />
 							<form action="<%=request.getContextPath()%>/Schedule/getAll">
@@ -329,30 +327,67 @@
 											<tr>
 												<td colspan="12">
 													<div class="collapse" id="bot${item.title}">
-														<c:forEach items="${item.activities}" var="activity">
-															<div>
-																<c:out value="${activity.description}" />
-																<a
-																	href="<%=request.getContextPath()%>/ScheduleActivity/delete?id=<c:out value='${activity.id}'/>">Delete</a>
-															</div>
-														</c:forEach>
+														<div align="center">
+															<table
+																class="table table-striped table-hover table-bordered">
+																<h4>
+																	<b>Activities</b>
+																</h4>
+																<tbody>
+																	<c:forEach items="${item.activities}" var="activity">
+
+																		<tr>
+																			<td  class="col-md-11"><c:out value="${activity.description}" /></td>
+																			<td class="col-md-1"><a
+																				href="<%=request.getContextPath()%>/ScheduleActivity/delete?id=<c:out value='${activity.id}'/>">Delete</a></td>
+																		</tr>
+
+																	</c:forEach>
+																</tbody>
+															</table>
+														</div>
 													</div>
 													<div class="collapse" id="noob${item.title}">
-														<c:forEach items="${item.reports}" var="report">
-															<h3>
-																<c:out value="${report.date}" />
-																:
-																<c:out value="${report.description}" />
-															</h3>
-															<ul>
-																<c:forEach items="${report.activityReports}"
-																	var="aReport">
-																	<li><c:out
-																			value="${aReport.scheduleActivity.description}" /> <c:out
-																			value="${aReport.isFinished}" /></li>
-																</c:forEach>
-															</ul>
-														</c:forEach>
+														<div align="center">
+															<table
+																class="table table-striped table-hover table-bordered">
+																<h4>
+																	<b>Reports</b>
+																</h4>
+																<tbody>
+																	<c:forEach items="${item.reports}" var="report">
+
+
+																		<tr>
+																			<td class="col-md-6"><c:out
+																					value="${report.date}" /></td>
+																			<td class="col-md-6"><c:out
+																					value="${report.description}" /></td>
+																		</tr>
+																		<tr>
+																			<td colspan="2"><c:forEach
+																					items="${report.activityReports}" var="aReport">
+																					<table
+																						class="table table-striped table-hover table-bordered">
+																						<tbody>
+																							<tr>
+																								<td class="col-md-11"><c:out
+																										value="${aReport.scheduleActivity.description}" /></td>
+																								<td class="col-md-1"
+																									style="text-align: center; font-size: 2em;"><i
+																									class="fa fa-check-square-o"
+																									style="color: green;"></i></td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</c:forEach></td>
+																		</tr>
+
+
+																	</c:forEach>
+																</tbody>
+															</table>
+														</div>
 													</div>
 
 												</td>
@@ -363,11 +398,9 @@
 									</tbody>
 								</table>
 							</div>
+						</c:if>
 					</div>
 				</div>
-
-			</c:if>
-
 			</c:if>
 			<input type="hidden" id="contextPath"
 				value="<%=request.getContextPath()%>" />
@@ -381,9 +414,6 @@
 			<div id="calendar"></div>
 		</div>
 	</div>
-	</div>
-	</div>
-
 	<script>
 
 	var contextPath = document.getElementById("contextPath");

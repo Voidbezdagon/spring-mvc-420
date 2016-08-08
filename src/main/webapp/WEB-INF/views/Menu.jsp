@@ -36,6 +36,7 @@
 	<div class=" navbar-default sidebar navbar-ex1-collapse " role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul id="side-menu" class="nav in">
+			<c:if test="${loggedUser.admin==true }">
 				<li><a class="text-muted" href="javascript:;" data-toggle="collapse"
 					data-target="#users"><i class="fa fa-fw fa-user"></i> Users <i
 						class="fa fa-fw fa-caret-down"></i></a>
@@ -72,14 +73,17 @@
 						<li><a class="text-muted"  href="<%=request.getContextPath()%>/Location/create">Create
 								Location</a></li>
 					</ul></li>
+					</c:if>
 				<li><a class="text-muted" href="javascript:;" data-toggle="collapse"
 					data-target="#schedule"><i class="fa fa-fw fa-calendar"></i>
 						Schedule <i class="fa fa-fw fa-caret-down"></i></a>
 					<ul id="schedule" class="nav nav-second-level collapse">
 						<li><a class="text-muted"  href="<%=request.getContextPath()%>/Schedule/getAll">Schedule
 								List</a></li>
+								<c:if test="${loggedUser.admin==true }">
 						<li><a class="text-muted"  href="<%=request.getContextPath()%>/Schedule/create">Create
 								Schedule</a></li>
+								</c:if>
 					</ul></li>
 			</ul>
 		</div>
