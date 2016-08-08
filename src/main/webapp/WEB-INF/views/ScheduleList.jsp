@@ -299,7 +299,7 @@
 								</thead>
 								<tbody>
 
-									<c:forEach items="${ItemList}" var="item">
+									<c:forEach items="${ItemPageList.pageList}" var="item">
 										<tr>
 											<th><c:out value="${item.title}" /></th>
 											<th><c:out value="${item.description}" /></th>

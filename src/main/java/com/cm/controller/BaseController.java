@@ -89,8 +89,8 @@ public abstract class BaseController<T extends BaseEntity>{
 			ItemList = (List<T>) baseService.getAll();
 		}
 		
-		if(searchName!=null){
-			ItemList = filterAllByString(searchColumn ,searchName, ItemList);
+		if(searchName != null){
+			ItemList = filterAllByString(searchColumn, searchName, ItemList);
 		}
 		setAvatars(ItemList);
 			
@@ -101,7 +101,10 @@ public abstract class BaseController<T extends BaseEntity>{
 		
 		ModelAndView mav = new ModelAndView(item.getClass().getSimpleName() + "List");
 		if (request.getRequestURI().equals("/content/Schedule/getAll"))
+		{
 			mav.addObject("ItemList", ItemList);
+			mav.addObject("ItemPageList", PageList);
+		}
 		else
 			mav.addObject("ItemList", PageList);
 		mav.addObject("page", PageList.getPage());
