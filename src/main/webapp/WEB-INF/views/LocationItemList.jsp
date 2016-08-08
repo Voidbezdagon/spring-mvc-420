@@ -55,8 +55,9 @@
 				</c:if>
 				<c:if test="${not empty ItemList}">
 					<c:set var="object" value="${ItemList.pageList[0]}" />
-					<form action="<%=request.getContextPath()%>/LocationItem/getAll?<c:out value='${parentId}'/>">
-					<div class="row">
+					<form
+						action="<%=request.getContextPath()%>/LocationItem/getAll?<c:out value='${parentId}'/>">
+						<div class="row">
 							<div class="col-md-2">
 								Search by:
 								<div class="col-md-10">
@@ -147,7 +148,7 @@
 									<input class="btn btn-default " type="submit" value='Submit' />
 								</div>
 							</div>
-							<div class="col-md-1 col-md-offset-1" style="margin-top:18px;">
+							<div class="col-md-1 col-md-offset-1" style="margin-top: 18px;">
 								<c:if test="${maxPages != 1}">
 									<c:if test="${page == 0}">
 										<div class="col-md-1"></div>
@@ -184,37 +185,37 @@
 								</c:if>
 							</div>
 						</div>
-					<input type="hidden" name="parentId" id="parentId"
-						value="${parentId}" />
+						<input type="hidden" name="parentId" id="parentId"
+							value="${parentId}" />
 					</form>
 					<div class="row" style="margin-top: 40px;">
 						<table class="table table-striped table-hover table-bordered">
 							<thead>
-							<tr>
-								<th>Name</th>
-								<th>Floor</th>
-								<th>Number</th>
-								<th>Details</th>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${ItemList.pageList}" var="item">
 								<tr>
-									<th><c:out value="${item.name}" /></th>
-									<th><c:out value="${item.floor}" /></th>
-									<th><c:out value="${item.number}" /></th>
-									<th><c:out value="${item.details}" /></th>
-									<th><a class="text-muted"
-										href="<%=request.getContextPath()%>/LocationItem/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
-									<th><a class="text-muted"
-										href="<%=request.getContextPath()%>/LocationItem/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
+									<th>Name</th>
+									<th>Floor</th>
+									<th>Number</th>
+									<th>Details</th>
+									<th></th>
+									<th></th>
 								</tr>
-							</c:forEach>
+							</thead>
+							<tbody>
+								<c:forEach items="${ItemList.pageList}" var="item">
+									<tr>
+										<th><c:out value="${item.name}" /></th>
+										<th><c:out value="${item.floor}" /></th>
+										<th><c:out value="${item.number}" /></th>
+										<th><c:out value="${item.details}" /></th>
+										<th><a class="text-muted"
+											href="<%=request.getContextPath()%>/LocationItem/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
+										<th><a class="text-muted"
+											href="<%=request.getContextPath()%>/LocationItem/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
+									</tr>
+								</c:forEach>
 
-						</tbody>
-					</table>
+							</tbody>
+						</table>
 					</div>
 				</c:if>
 			</div>
