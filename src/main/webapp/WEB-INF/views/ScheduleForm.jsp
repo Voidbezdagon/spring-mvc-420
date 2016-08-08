@@ -91,6 +91,7 @@ pageEncoding="UTF-8" %>
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
 									</div>
+									<form:errors path="startDate" cssClass="error"/>
 									</div>
 								</div>
 								
@@ -104,6 +105,7 @@ pageEncoding="UTF-8" %>
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
 									</div>
+										<form:errors path="endDate" cssClass="error"/>
 									</div>
 								</div>
 							

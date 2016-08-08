@@ -27,5 +27,7 @@ public class UserFormValidator implements Validator{
 			err.rejectValue("lastname", "lastname.invalid");
 		if (!user.getUsername().matches("[a-zA-Z0-9_-]+"))
 			err.rejectValue("username", "username.invalid");
+		if (!user.getPassword().matches("^[^\\s]+$"))
+			err.rejectValue("password", "password.invalid");
 	}
 }

@@ -93,7 +93,7 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 	@RequestMapping(value="ScheduleReport/create")
 	public ModelAndView createScheduleReport(HttpServletRequest request) throws Exception
 	{
-		request.setAttribute("parentSchedule", scheduleService.getById(Long.parseLong(request.getParameter("parentId"))));
+		request.getSession().setAttribute("parentSchedule", scheduleService.getById(Long.parseLong(request.getParameter("parentId"))));
 		return create(request);
 	}
 	
@@ -125,7 +125,7 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 				sarService.create(noob);
 			}
 		}
-		
+		request.getSession().removeAttribute("parentSchedule");
 		return new ModelAndView("redirect:/Schedule/getAll");
 	}
 	

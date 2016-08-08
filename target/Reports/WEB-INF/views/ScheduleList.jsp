@@ -136,7 +136,7 @@
 					</div>
 				</a>
 				</div>
-				<div  id="schedule-crud">
+				<div class="collapse" id="schedule-crud">
 				<div class="panel-body">
 					<c:set var="now"
 						value='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:").format(new java.util.Date()).substring(0, 10)%>' />

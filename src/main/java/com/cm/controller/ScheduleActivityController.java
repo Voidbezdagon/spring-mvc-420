@@ -48,7 +48,8 @@ public class ScheduleActivityController extends BaseController<ScheduleActivity>
 	
 	@RequestMapping(value = "ScheduleActivity/delete")
 	public ModelAndView deleteScheduleActivity (HttpServletRequest request) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
-		return delete(request);
+		saService.delete(Long.parseLong(request.getParameter("id")));
+		return new ModelAndView("redirect:/Schedule/getAll");
 	}
 	
 	@RequestMapping(value = "ScheduleActivity/save")

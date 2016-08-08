@@ -100,6 +100,8 @@ public class ScheduleController extends BaseController<Schedule>{
 	public ModelAndView saveSchedule(@ModelAttribute("item") @Validated Schedule item, BindingResult bindingResult, HttpServletRequest request) throws Exception
 	{	
 		if (bindingResult.hasErrors()) {
+			List<Team> teamList = teamService.getAll();
+			request.setAttribute("teamList", teamList);
 			if (item.getId() == null)
 				return create(request);
 			else
