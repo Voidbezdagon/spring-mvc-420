@@ -52,6 +52,7 @@ pageEncoding="UTF-8" %>
 									<form:hidden path="id" value="${itemObject.id}"/>
 									<form:input cssClass="form-control" path="title" value="${itemObject.title}"/>
 									<form:errors path="title" cssClass="error"/>
+									<span><c:out value="${duplicateTitle}"/></span>
 								</div>
 							</div> 
 							
@@ -91,6 +92,7 @@ pageEncoding="UTF-8" %>
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
 									</div>
+									<form:errors path="startDate" cssClass="error"/>
 									</div>
 								</div>
 								
@@ -104,6 +106,7 @@ pageEncoding="UTF-8" %>
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
 									</div>
+										<form:errors path="endDate" cssClass="error"/>
 									</div>
 								</div>
 							

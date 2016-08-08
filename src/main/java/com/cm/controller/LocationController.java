@@ -84,7 +84,15 @@ public class LocationController extends BaseController<Location>{
 				return edit(request);
 		}
 
-		return save(item, request);
+		try {
+			return save(item, request);
+		} catch (Exception e) {
+			request.setAttribute("duplicateName", "A Location with this Name already exists");
+			if (item.getId() == null)
+				return create(request);
+			else
+				return edit(request);	
+		}
 	}
 	
 	@RequestMapping(value = "Location/getAll")

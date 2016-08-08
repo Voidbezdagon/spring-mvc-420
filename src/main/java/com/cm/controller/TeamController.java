@@ -140,7 +140,16 @@ public class TeamController extends BaseController<Team>{
 		}
 		
 		
-		return save(item, request);
+		try {
+			return save(item, request);
+		} catch (Exception e) {
+			request.setAttribute("userList", userService.getAll());
+			request.setAttribute("duplicateName", "A Team with this Name already exists");
+			if (item.getId() == null)
+				return create(request);
+			else
+				return edit(request);	
+		}
 	}
 	
 	@RequestMapping(value = "Team/getAll")

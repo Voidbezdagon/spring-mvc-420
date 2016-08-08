@@ -95,9 +95,22 @@ public class PositionController extends BaseController<Position>{
 				return edit(request);
 		}
 		
+		if (item.getParentId() == 0)
+			item.setLevel((long) 0);
+		else
+			item.setLevel(positionService.getById(item.getParentId()).getLevel() + 1);
 		
 		
-		return save(item, request);
+		try {
+			return save(item, request);
+		} catch (Exception e) {
+			request.setAttribute("positionList", positionService.getAll());
+			request.setAttribute("duplicateName", "A Position with this Name already exists");
+			if (item.getId() == null)
+				return create(request);
+			else
+				return edit(request);	
+		}
 	}
 	
 	@RequestMapping(value = "Position/getAll")
@@ -114,6 +127,8 @@ public class PositionController extends BaseController<Position>{
 			break;
 		case "Name": Collections.sort(List, (p1, p2) -> p1.getName().compareTo(p2.getName()));
 			break;
+		case "Level": Collections.sort(List, (p1, p2) -> p1.getLevel().compareTo(p2.getLevel()));
+			break;
 		}
 		
 	}
@@ -122,6 +137,7 @@ public class PositionController extends BaseController<Position>{
 	public void feedSortLists(LinkedHashMap<String, String> Map) {
 		Map.put("parentId", "Superior Position");
 		Map.put("name", "Name");
+		Map.put("level", "Level");
 	}
 	
 	@Override
@@ -136,6 +152,8 @@ public class PositionController extends BaseController<Position>{
 			return (ArrayList<Position>) result.stream().filter(p -> p.getParentId().equals(Long.parseLong(searchName))).collect(Collectors.toList());
 		case "Name":
 			return (ArrayList<Position>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
+		case "Level":
+			return (ArrayList<Position>) result.stream().filter(p -> p.getLevel().equals(Long.parseLong(searchName))).collect(Collectors.toList());
 		}
 		return result;	
 	}
@@ -159,7 +177,13 @@ public class PositionController extends BaseController<Position>{
 		return null;
 	}
 
-	
+	public Long getHighestPosition(List<Position> positions) throws InstantiationException, IllegalAccessException
+	{
+		Collections.sort(positions, (p1, p2) -> p1.getLevel().compareTo(p2.getLevel()));
+		
+		System.out.println(positions.get(0).getLevel() + "--------------------------------------------------------------------------------------------");
+		return positions.get(0).getLevel();
+	}
 
 	
 }

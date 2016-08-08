@@ -1,6 +1,7 @@
 package com.cm.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cm.entity.Position;
+import com.cm.entity.Schedule;
 import com.cm.entity.ScheduleActivityReport;
 import com.cm.entity.ScheduleReport;
 import com.cm.entity.User;
+import com.cm.service.PositionService;
 import com.cm.service.ScheduleActivityReportService;
 import com.cm.service.ScheduleActivityService;
 import com.cm.service.ScheduleReportService;
@@ -43,6 +47,9 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 	
 	@Autowired
 	ScheduleActivityReportService sarService;
+	
+	@Autowired
+	PositionController positionController;
 	
 	@Autowired
 	@Qualifier("reportValidator")
@@ -93,8 +100,45 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 	@RequestMapping(value="ScheduleReport/create")
 	public ModelAndView createScheduleReport(HttpServletRequest request) throws Exception
 	{
-		request.getSession().setAttribute("parentSchedule", scheduleService.getById(Long.parseLong(request.getParameter("parentId"))));
-		return create(request);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		User user = (User) request.getSession().getAttribute("LOGGED_USER");
+		Schedule schedule = scheduleService.getById(Long.parseLong(request.getParameter("parentId")));
+		
+		if (user.getAdmin() != true)
+		{
+			//Check if user is in assigned team
+			Boolean check = false;
+			for (User u : schedule.getAssignedTeam().getUsers())
+				if (u.getId() == user.getId())
+					check = true;
+			
+			if (check == false)
+				return new ModelAndView("redirect:/Schedule/getAll");
+			
+			//Check if user is highest position in team
+			List<Position> teamPositions = new ArrayList<Position>();
+			
+			for (User u : schedule.getAssignedTeam().getUsers())
+				teamPositions.add(u.getPosition());
+			
+			if (!user.getPosition().getLevel().equals(positionController.getHighestPosition(teamPositions)))
+				return new ModelAndView("redirect:/Schedule/getAll");
+		}
+			//Check if a report already exists for the current date
+			for (ScheduleReport sr : schedule.getReports())
+				if (sdf.format(sr.getDate()).equals(sdf.format(new Date())))
+					return new ModelAndView("redirect:/Schedule/getAll");
+			
+			
+			//Check if today is the day of the schedule
+			for (long i = sdf.parse(sdf.format(schedule.getStartDate())).getTime(); i <= sdf.parse(sdf.format(schedule.getStartDate())).getTime(); i = i + (schedule.getRecurringTime() * 86400000))
+				if (i == sdf.parse(sdf.format(new Date())).getTime())
+				{
+					request.getSession().setAttribute("parentSchedule", scheduleService.getById(Long.parseLong(request.getParameter("parentId"))));
+					return create(request);
+				}
+			
+		return new ModelAndView("redirect:/Schedule/getAll");
 	}
 	
 	@RequestMapping(value="ScheduleReport/save")

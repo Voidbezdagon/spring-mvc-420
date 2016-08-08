@@ -108,7 +108,17 @@ public class ScheduleController extends BaseController<Schedule>{
 				return edit(request);
 		}
 		
-		return save(item, request);
+		try {
+			return save(item, request);
+		} catch (Exception e) {
+			List<Team> teamList = teamService.getAll();
+			request.setAttribute("teamList", teamList);
+			request.setAttribute("duplicateTitle", "A Schedule with this Title already exists");
+			if (item.getId() == null)
+				return create(request);
+			else
+				return edit(request);	
+		}
 	}
 	
 	@RequestMapping(value = "Schedule/getAll")

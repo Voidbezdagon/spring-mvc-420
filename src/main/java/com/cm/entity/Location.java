@@ -3,6 +3,7 @@ package com.cm.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -15,6 +16,7 @@ public class Location extends BaseEntity{
 
 	private static final long serialVersionUID = -1341116581813648958L;
 	
+	@Column(unique = true)
 	private String name;
 	private String region;
 	private String city;

@@ -3,6 +3,7 @@ package com.cm.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -21,6 +22,7 @@ public class User extends BaseEntity{
 	
 	private String firstname;
 	private String lastname;
+	@Column(unique = true)
 	private String username;
 	private String password;
 	private String avatar;

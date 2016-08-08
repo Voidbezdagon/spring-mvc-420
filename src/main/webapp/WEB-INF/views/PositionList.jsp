@@ -238,6 +238,7 @@
 									<th>Id</th>
 									<th>Name</th>
 									<th>Superior Position</th>
+									<th>Level</th>
 									<th></th>
 									<th></th>
 								</tr>
@@ -248,6 +249,7 @@
 										<th><c:out value="${item.id}" /></th>
 										<th><c:out value="${item.name}" /></th>
 										<th><c:out value="${item.parentId}" /></th>
+										<th><c:out value="${item.level}" /></th>
 										<th><a class="text-muted"
 											href="<%=request.getContextPath()%>/Position/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 										<th><a class="text-muted"

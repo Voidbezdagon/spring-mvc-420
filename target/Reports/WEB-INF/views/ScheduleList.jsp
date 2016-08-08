@@ -11,7 +11,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"/>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" />
 <link rel="stylesheet"
 	href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.css">
 <link rel="stylesheet"
@@ -108,12 +109,12 @@
 .fc-content:hover {
 	cursor: pointer;
 }
-#heading-button:hover
-{
+
+#heading-button:hover {
 	text-decoration: none;
 }
-#heading-button:focus
-{
+
+#heading-button:focus {
 	text-decoration: none;
 }
 </style>
@@ -123,248 +124,250 @@
 		<c:import url="/Menu" />
 		<div id="page-wrapper">
 			<c:if test="${logged_user.admin==true}">
-			
-				
+
+
 				<div class="panel panel-default">
-				<a href="#" id="heading-button" data-toggle="collapse" data-target="#schedule-crud">
-					<div class="panel-title">
-					
-						<h3 align="center" style="font-size: 1.3em;">
-						
-							<b>Schedule List</b>
-						</h3>
-					</div>
-				</a>
+					<a href="#" id="heading-button" data-toggle="collapse"
+						data-target="#schedule-crud">
+						<div class="panel-title">
+
+							<h3 align="center" style="font-size: 1.3em;">
+
+								<b>Schedule List</b>
+							</h3>
+						</div>
+					</a>
 				</div>
 				<div class="collapse" id="schedule-crud">
-				<div class="panel-body">
-					<c:set var="now"
-						value='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:").format(new java.util.Date()).substring(0, 10)%>' />
-					<c:if test="${empty ItemList}">
+					<div class="panel-body">
+						<c:set var="now"
+							value='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:").format(new java.util.Date()).substring(0, 10)%>' />
+						<c:if test="${empty ItemList}">
 					There are no Schedules.
 				</c:if>
-					<c:if test="${not empty ItemList}">
-						<c:set var="object" value="${ItemList[0]}" />
-						<form action="<%=request.getContextPath()%>/Schedule/getAll">
-							<div class="row">
-								<div class="col-md-2">
-									Search by:
-									<div class="col-md-10">
-										<select class="form-control"
-											name="searchColumn${itemClass['class'].simpleName}"
-											id="searchColumn${itemClass['class'].simpleName}">
-											<c:forEach var="field" items="${columnNames}">
-												<c:if test="${searchColumn == field.value}">
-													<option value="${field.value}" label="${field.value}"
-														selected="selected">${field.value}</option>
-												</c:if>
-												<c:if test="${searchColumn != field.value}">
-													<option value="${field.value}" label="${field.value}">${field.value}</option>
-												</c:if>
-											</c:forEach>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									Type your search here:
-									<div class="col-md-12">
-										<input class="form-control" type="text"
-											name="searchName${itemClass['class'].simpleName}"
-											id="searchName${itemClass['class'].simpleName}"
-											value="${searchName}">
-									</div>
-								</div>
-								<div class="col-md-2">
-									Sort By:
-									<div class="col-md-10">
-										<select class="form-control"
-											name="sortColumn${itemClass['class'].simpleName}"
-											id="sortColumn${itemClass['class'].simpleName}">
-											<c:forEach var="field" items="${columnNames}">
-												<c:if test="${sortColumn == field.value}">
-													<option value="${field.value}" label="${field.value}"
-														selected="selected">${field.value}</option>
-												</c:if>
-												<c:if test="${sortColumn != field.value}">
-													<option value="${field.value}" label="${field.value}">${field.value}</option>
-												</c:if>
-											</c:forEach>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									Order:
-									<div class="col-md-10">
-										<select class="form-control"
-											name="sortOrder${itemClass['class'].simpleName}"
-											id="sortOrder${itemClass['class'].simpleName}">
-											<c:if test="${sortOrder == 'ascending'}">
-												<option value="ascending" label="ascending"
-													selected="selected">ascending</option>
-											</c:if>
-											<c:if test="${sortOrder != 'ascending'}">
-												<option value="ascending" label="ascending">ascending</option>
-											</c:if>
-											<c:if test="${sortOrder == 'descending'}">
-												<option value="descending" label="descending"
-													selected="selected">descending</option>
-											</c:if>
-											<c:if test="${sortOrder != 'descending'}">
-												<option value="descending" label="descending">descending</option>
-											</c:if>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									Items per page:
-									<div class="col-md-9">
-										<select class="form-control"
-											name="itemsPerPage${itemClass['class'].simpleName}"
-											id="itemsPerPage${itemClass['class'].simpleName}"
-											onchange="this.form.submit()">
-											<c:forEach var="i" begin="1" end="3">
-												<c:if test="${i == itemsPerPage}">
-													<option value="${i}" label="${i}" selected="selected">${i}</option>
-												</c:if>
-												<c:if test="${i != itemsPerPage}">
-													<option value="${i}" label="${i}">${i}</option>
-												</c:if>
-											</c:forEach>
-										</select>
-									</div>
-
-									<div class="col-md-2 col-md-offset-1">
-										<input class="btn btn-default " type="submit" value='Submit' />
-									</div>
-								</div>
+						<c:if test="${not empty ItemList}">
+							<c:set var="object" value="${ItemList[0]}" />
+							<form action="<%=request.getContextPath()%>/Schedule/getAll">
 								<div class="row">
-									<c:if test="${maxPages != 1}">
-										<c:if test="${page == 0}">
-											<div class="col-md-1"></div>
-											<div class="col-md-1">
-												<button class="btn btn-default "
-													onclick="this.form.submit()"
-													name="page${itemClass['class'].simpleName}"
-													id="page${itemClass['class'].simpleName}"
-													value='${page + 1}'>${page + 1}</button>
-											</div>
+									<div class="col-md-2">
+										Search by:
+										<div class="col-md-10">
+											<select class="form-control"
+												name="searchColumn${itemClass['class'].simpleName}"
+												id="searchColumn${itemClass['class'].simpleName}">
+												<c:forEach var="field" items="${columnNames}">
+													<c:if test="${searchColumn == field.value}">
+														<option value="${field.value}" label="${field.value}"
+															selected="selected">${field.value}</option>
+													</c:if>
+													<c:if test="${searchColumn != field.value}">
+														<option value="${field.value}" label="${field.value}">${field.value}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										Type your search here:
+										<div class="col-md-12">
+											<input class="form-control" type="text"
+												name="searchName${itemClass['class'].simpleName}"
+												id="searchName${itemClass['class'].simpleName}"
+												value="${searchName}">
+										</div>
+									</div>
+									<div class="col-md-2">
+										Sort By:
+										<div class="col-md-10">
+											<select class="form-control"
+												name="sortColumn${itemClass['class'].simpleName}"
+												id="sortColumn${itemClass['class'].simpleName}">
+												<c:forEach var="field" items="${columnNames}">
+													<c:if test="${sortColumn == field.value}">
+														<option value="${field.value}" label="${field.value}"
+															selected="selected">${field.value}</option>
+													</c:if>
+													<c:if test="${sortColumn != field.value}">
+														<option value="${field.value}" label="${field.value}">${field.value}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										Order:
+										<div class="col-md-10">
+											<select class="form-control"
+												name="sortOrder${itemClass['class'].simpleName}"
+												id="sortOrder${itemClass['class'].simpleName}">
+												<c:if test="${sortOrder == 'ascending'}">
+													<option value="ascending" label="ascending"
+														selected="selected">ascending</option>
+												</c:if>
+												<c:if test="${sortOrder != 'ascending'}">
+													<option value="ascending" label="ascending">ascending</option>
+												</c:if>
+												<c:if test="${sortOrder == 'descending'}">
+													<option value="descending" label="descending"
+														selected="selected">descending</option>
+												</c:if>
+												<c:if test="${sortOrder != 'descending'}">
+													<option value="descending" label="descending">descending</option>
+												</c:if>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										Items per page:
+										<div class="col-md-9">
+											<select class="form-control"
+												name="itemsPerPage${itemClass['class'].simpleName}"
+												id="itemsPerPage${itemClass['class'].simpleName}"
+												onchange="this.form.submit()">
+												<c:forEach var="i" begin="1" end="3">
+													<c:if test="${i == itemsPerPage}">
+														<option value="${i}" label="${i}" selected="selected">${i}</option>
+													</c:if>
+													<c:if test="${i != itemsPerPage}">
+														<option value="${i}" label="${i}">${i}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</div>
+
+										<div class="col-md-2 col-md-offset-1">
+											<input class="btn btn-default " type="submit" value='Submit' />
+										</div>
+									</div>
+									<div class="col-md-1 col-md-offset-1" style="margin-top: 18px;">
+										<c:if test="${maxPages != 1}">
+											<c:if test="${page == 0}">
+												<div class="col-md-1"></div>
+												<div class="col-md-1">
+													<button class="btn btn-default "
+														onclick="this.form.submit()"
+														name="page${itemClass['class'].simpleName}"
+														id="page${itemClass['class'].simpleName}"
+														value='${page + 1}'>${page + 1}</button>
+												</div>
+											</c:if>
+											<c:if test="${page == (maxPages - 1)}">
+												<div class="col-md-1">
+													<button class="btn btn-default "
+														onclick="this.form.submit()"
+														name="page${itemClass['class'].simpleName}"
+														id="page${itemClass['class'].simpleName}"
+														value='${page - 1}'>${page - 1}</button>
+												</div>
+												<div class="col-md-1"></div>
+											</c:if>
+											<c:if test="${page > 0 && page < (maxPages-1)}">
+												<div class="col-md-1">
+													<button class="btn btn-default "
+														onclick="this.form.submit()"
+														name="page${itemClass['class'].simpleName}"
+														id="page${itemClass['class'].simpleName}"
+														value='${page - 1}'>${page - 1}</button>
+												</div>
+												<div class="col-md-1">
+													<button class="btn btn-default "
+														onclick="this.form.submit()"
+														name="page${itemClass['class'].simpleName}"
+														id="page${itemClass['class'].simpleName}"
+														value='${page + 1}'>${page + 1}</button>
+												</div>
+											</c:if>
 										</c:if>
-										<c:if test="${page == (maxPages - 1)}">
-											<div class="col-md-1">
-												<button class="btn btn-default "
-													onclick="this.form.submit()"
-													name="page${itemClass['class'].simpleName}"
-													id="page${itemClass['class'].simpleName}"
-													value='${page - 1}'>${page - 1}</button>
-											</div>
-											<div class="col-md-1"></div>
-										</c:if>
-										<c:if test="${page > 0 && page < (maxPages-1)}">
-											<div class="col-md-1">
-												<button class="btn btn-default "
-													onclick="this.form.submit()"
-													name="page${itemClass['class'].simpleName}"
-													id="page${itemClass['class'].simpleName}"
-													value='${page - 1}'>${page - 1}</button>
-											</div>
-											<div class="col-md-1">
-												<button class="btn btn-default "
-													onclick="this.form.submit()"
-													name="page${itemClass['class'].simpleName}"
-													id="page${itemClass['class'].simpleName}"
-													value='${page + 1}'>${page + 1}</button>
-											</div>
-										</c:if>
-									</c:if>
+									</div>
 								</div>
+							</form>
+							<div class="row" style="margin-top: 40px;">
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th>Title</th>
+											<th>Description</th>
+											<th>Start Date</th>
+											<th>End Date</th>
+											<th>Recurring Time</th>
+											<th>Assigned Team</th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+
+										<c:forEach items="${ItemPageList.pageList}" var="item">
+											<tr>
+												<th><c:out value="${item.title}" /></th>
+												<th><c:out value="${item.description}" /></th>
+												<th><c:out value="${item.startDate}" /></th>
+												<th><c:out value="${item.endDate}" /></th>
+												<th><c:out value="${item.recurringTime}" /></th>
+												<th><c:out value="${item.assignedTeam.teamname}" /></th>
+												<th><button type="button" class="btn btn-default"
+														data-toggle="collapse"
+														data-target="#bot<c:out value='${item.title}'/>">Activities</button></th>
+												<th><button type="button" class="btn btn-default"
+														data-toggle="collapse"
+														data-target="#noob<c:out value='${item.title}'/>">Reports</button></th>
+												<th><a class="text-muted"
+													href="<%=request.getContextPath()%>/Schedule/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
+												<th><a class="text-muted"
+													href="<%=request.getContextPath()%>/Schedule/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
+												<th><a class="text-muted"
+													href="<%=request.getContextPath()%>/ScheduleActivity/create?parentId=<c:out value='${item.id}'/>">Create
+														Activity</a></th>
+												<th><a class="text-muted"
+													href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=<c:out value='${item.id}'/>">Create
+														Report</a></th>
+											</tr>
+											<tr>
+												<td colspan="12">
+													<div class="collapse" id="bot${item.title}">
+														<c:forEach items="${item.activities}" var="activity">
+															<div>
+																<c:out value="${activity.description}" />
+																<a
+																	href="<%=request.getContextPath()%>/ScheduleActivity/delete?id=<c:out value='${activity.id}'/>">Delete</a>
+															</div>
+														</c:forEach>
+													</div>
+													<div class="collapse" id="noob${item.title}">
+														<c:forEach items="${item.reports}" var="report">
+															<h3>
+																<c:out value="${report.date}" />
+																:
+																<c:out value="${report.description}" />
+															</h3>
+															<ul>
+																<c:forEach items="${report.activityReports}"
+																	var="aReport">
+																	<li><c:out
+																			value="${aReport.scheduleActivity.description}" /> <c:out
+																			value="${aReport.isFinished}" /></li>
+																</c:forEach>
+															</ul>
+														</c:forEach>
+													</div>
+
+												</td>
+											</tr>
+
+										</c:forEach>
+
+									</tbody>
+								</table>
 							</div>
-						</form>
-						<div class="row" style="margin-top: 40px;">
-							<table class="table table-striped table-hover table-bordered">
-								<thead>
-									<tr>
-										<th>Title</th>
-										<th>Description</th>
-										<th>Start Date</th>
-										<th>End Date</th>
-										<th>Recurring Time</th>
-										<th>Assigned Team</th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
+					</div>
+				</div>
 
-									<c:forEach items="${ItemPageList.pageList}" var="item">
-										<tr>
-											<th><c:out value="${item.title}" /></th>
-											<th><c:out value="${item.description}" /></th>
-											<th><c:out value="${item.startDate}" /></th>
-											<th><c:out value="${item.endDate}" /></th>
-											<th><c:out value="${item.recurringTime}" /></th>
-											<th><c:out value="${item.assignedTeam.teamname}" /></th>
-											<th><button type="button" class="btn btn-default"
-													data-toggle="collapse"
-													data-target="#bot<c:out value='${item.title}'/>">Activities</button></th>
-											<th><button type="button" class="btn btn-default"
-													data-toggle="collapse"
-													data-target="#noob<c:out value='${item.title}'/>">Reports</button></th>
-											<th><a class="text-muted"
-												href="<%=request.getContextPath()%>/Schedule/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
-											<th><a class="text-muted"
-												href="<%=request.getContextPath()%>/Schedule/delete?id=<c:out value='${item.id}'/>">Delete</a></th>
-											<th><a class="text-muted"
-												href="<%=request.getContextPath()%>/ScheduleActivity/create?parentId=<c:out value='${item.id}'/>">Create
-													Activity</a></th>
-											<th><a class="text-muted"
-												href="<%=request.getContextPath()%>/ScheduleReport/create?parentId=<c:out value='${item.id}'/>">Create
-													Report</a></th>
-										</tr>
-										<tr>
-											<td colspan="12">
-												<div class="collapse" id="bot${item.title}">
-													<c:forEach items="${item.activities}" var="activity">
-														<div>
-															<c:out value="${activity.description}" />
-															<a
-																href="<%=request.getContextPath()%>/ScheduleActivity/delete?id=<c:out value='${activity.id}'/>">Delete</a>
-														</div>
-													</c:forEach>
-												</div>
-												<div class="collapse" id="noob${item.title}">
-													<c:forEach items="${item.reports}" var="report">
-														<h3>
-															<c:out value="${report.date}" />
-															:
-															<c:out value="${report.description}" />
-														</h3>
-														<ul>
-															<c:forEach items="${report.activityReports}"
-																var="aReport">
-																<li><c:out
-																		value="${aReport.scheduleActivity.description}" /> <c:out
-																		value="${aReport.isFinished}" /></li>
-															</c:forEach>
-														</ul>
-													</c:forEach>
-												</div>
+			</c:if>
 
-											</td>
-										</tr>
-
-									</c:forEach>
-
-								</tbody>
-							</table>
-						</div>
-						</div>						</div>
-
-					</c:if>
-				
 			</c:if>
 			<input type="hidden" id="contextPath"
 				value="<%=request.getContextPath()%>" />
@@ -377,7 +380,7 @@
 			</div>
 			<div id="calendar"></div>
 		</div>
-		</div>
+	</div>
 	</div>
 	</div>
 

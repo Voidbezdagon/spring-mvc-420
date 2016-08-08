@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FilenameUtils;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -116,7 +117,15 @@ public class UserController extends BaseController<User>{
 		}
 			
 		
-		return save(item, request);
+		try {
+			return save(item, request);
+		} catch (Exception e) {
+			request.setAttribute("duplicateUname", "A User with this Username already exists");
+			if (item.getId() == null)
+				return create(request);
+			else
+				return edit(request);	
+		}
 	}
 	
 	@RequestMapping(value = "User/getAll")

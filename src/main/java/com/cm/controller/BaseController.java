@@ -81,17 +81,13 @@ public abstract class BaseController<T extends BaseEntity>{
 		
 		
 		if(customList(request) != null)
-		{
 			ItemList = customList(request);
-		} 
 		else 
-		{
 			ItemList = (List<T>) baseService.getAll();
-		}
 		
-		if(searchName != null){
+		if(searchName != null && !searchName.equals(""))
 			ItemList = filterAllByString(searchColumn, searchName, ItemList);
-		}
+		
 		setAvatars(ItemList);
 			
 		if (sortColumn != null)

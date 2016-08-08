@@ -64,6 +64,7 @@
 								<form:input cssClass="form-control" path="username"
 									value="${itemObject.username}" />
 								<form:errors path="username" cssClass="error" />
+								<span><c:out value="${duplicateUname}"/></span>
 							</div>
 						</div>
 

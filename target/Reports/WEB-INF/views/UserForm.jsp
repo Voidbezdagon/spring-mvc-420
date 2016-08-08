@@ -64,6 +64,7 @@
 								<form:input cssClass="form-control" path="username"
 									value="${itemObject.username}" />
 								<form:errors path="username" cssClass="error" />
+								<span><c:out value="${duplicateUname}"/></span>
 							</div>
 						</div>
 
@@ -97,7 +98,7 @@
 							<div class="col-xs-6">
 								<select class="form-control" name="position.id" id="position.id">
 									<c:forEach var="item" items="${positions}">
-										<option value="${item.id}" label="${item.name}" />
+										<option value="${item.id}" label="${item.name}">${item.name}</option>
 									</c:forEach>
 								</select>
 							</div>

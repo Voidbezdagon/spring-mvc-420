@@ -69,6 +69,7 @@ pageEncoding="UTF-8" %>
 									<form:hidden path="id" value="${itemObject.id}"/>
 									<form:input cssClass="form-control" path="name" value="${itemObject.name}"/>
 									<form:errors path="name" cssClass="error"/>
+									<span><c:out value="${duplicateName}"/></span>
 								</div>
 							</div> 
 							
