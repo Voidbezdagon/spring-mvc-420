@@ -186,7 +186,7 @@
 										name="itemsPerPage${itemClass['class'].simpleName}"
 										id="itemsPerPage${itemClass['class'].simpleName}"
 										onchange="this.form.submit()">
-										<c:forEach var="i" begin="1" end="3">
+										<c:forEach var="i" begin="5" end="25" step="5">
 											<c:if test="${i == itemsPerPage}">
 												<option value="${i}" label="${i}" selected="selected">${i}</option>
 											</c:if>
