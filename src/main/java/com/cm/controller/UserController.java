@@ -85,6 +85,18 @@ public class UserController extends BaseController<User>{
 	@RequestMapping(value="User/delete")
 	public ModelAndView deleteUser(HttpServletRequest request) throws Exception
 	{
+		User user = userService.getById(Long.parseLong(request.getParameter("id")));
+		User loggedUser = (User) request.getSession().getAttribute("LOGGED_USER");
+		
+		if (user.getId() == loggedUser.getId())
+			return new ModelAndView("redirect:/User/getAll");
+		
+		if (!user.getAvatar().equals("/home/void/workspace/Content Management/upload/default_avatar.png"))
+        {
+        	File oldFile = new File(user.getAvatar());
+        	oldFile.delete();
+        }
+		
 		return delete(request);
 	}
 	
@@ -102,40 +114,52 @@ public class UserController extends BaseController<User>{
 	@RequestMapping(value="User/save")
 	public ModelAndView saveUser(@ModelAttribute("item") @Validated User item, BindingResult bindingResult, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request) throws Exception
 	{	
+		User loggedUser = (User) request.getSession().getAttribute("LOGGED_USER");
 		if (bindingResult.hasErrors()) {
 			request.setAttribute("positions", positionService.getAll());
-			if (item.getId() == null)
-				return create(request);
+			if (loggedUser.getAdmin() == true)
+			{
+				if (item.getId() == null)
+					return create(request);
+				else
+					return edit(request);
+			}
 			else
-				return edit(request);
+			{
+				request.setAttribute("item", item);
+				return new ModelAndView("UserEditForm");
+			}
 		}
 		
 		if (!file.isEmpty())
 		{
-			if (file.getContentType().equals("image/bmp") ||
-				file.getContentType().equals("image/png") ||
-				file.getContentType().equals("image/jpg") ||
-				file.getContentType().equals("image/jpeg"))
-			{
-				setAvatar(item, file);
-			}
-			else
-			{
-				request.setAttribute("avatarError", "Avatar must be .bmp, .jpg or .png");
-				if (item.getId() == null)
-					return create(request);
+				if (file.getContentType().equals("image/bmp") ||
+					file.getContentType().equals("image/png") ||
+					file.getContentType().equals("image/jpg") ||
+					file.getContentType().equals("image/jpeg"))
+				{
+					setAvatar(item, file);
+				}
 				else
-					return edit(request);	
-			}	
+				{
+					request.setAttribute("avatarError", "Avatar must be .bmp, .jpg or .png");
+					if (item.getId() == null)
+						return create(request);
+					else
+						return edit(request);	
+				}	
 		}
 		else
 		{
 			if (item.getAvatar().length() < 10)
-				item.setAvatar(null);
+				item.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
 		}
 		
-		User user = userService.getById(item.getId());
-		item.setTeams(user.getTeams());
+		if (item.getId() != null)
+		{
+			User user = userService.getById(item.getId());
+			item.setTeams(user.getTeams());
+		}
 			
 		try {
 			return save(item, request);
@@ -262,6 +286,7 @@ public class UserController extends BaseController<User>{
 		admin.setUsername("admin");
 		admin.setPassword("admin");
 		admin.setAdmin(true);
+		admin.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
 		
 		userService.create(admin);
 		return new ModelAndView ("redirect:loginForm");
@@ -290,7 +315,7 @@ public class UserController extends BaseController<User>{
         String filePath = uploadsDir + item.getUsername() + "_" +dateFormat.format(cal.getTime()) + "." + FilenameUtils.getExtension(orgName);
         File dest = new File(filePath);
         file.transferTo(dest);
-        if (item.getAvatar() != null)
+        if (!item.getAvatar().equals("/home/void/workspace/Content Management/upload/default_avatar.png"))
         {
         	File oldFile = new File(item.getAvatar());
         	oldFile.delete();

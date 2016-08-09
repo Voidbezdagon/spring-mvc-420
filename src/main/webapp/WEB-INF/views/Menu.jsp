@@ -41,7 +41,9 @@
 					data-target="#users"><i class="fa fa-fw fa-user"></i> Users <i
 						class="fa fa-fw fa-caret-down"></i></a>
 					<ul id="users" class="nav nav-second-level collapse">
+					<c:if test="${loggedUser.admin==false }">
 						<li><a class="text-muted"  href="<%=request.getContextPath()%>/User/editUser?id=<c:out value="${loggedUser.id}"/>">Edit Profile</a></li>
+					</c:if>
 					<c:if test="${loggedUser.admin==true }">
 						<li><a class="text-muted"  href="<%=request.getContextPath()%>/User/getAll">User
 								List</a></li>

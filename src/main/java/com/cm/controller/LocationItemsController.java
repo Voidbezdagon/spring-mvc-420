@@ -68,9 +68,9 @@ public class LocationItemsController extends BaseController<LocationItem> {
 		case "Name":
 			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
 		case "Floor":
-			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getFloor() == Integer.parseInt(searchName)).collect(Collectors.toList());
+			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getFloor().toString().contains(searchName)).collect(Collectors.toList());
 		case "Number":
-			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getNumber() == Integer.parseInt(searchName)).collect(Collectors.toList());
+			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getNumber().toString().contains(searchName)).collect(Collectors.toList());
 		case "Details":
 			return (ArrayList<LocationItem>) result.stream().filter(p -> p.getDetails().contains(searchName)).collect(Collectors.toList());
 		case "Location":

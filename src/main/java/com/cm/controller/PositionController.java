@@ -149,11 +149,11 @@ public class PositionController extends BaseController<Position>{
 		switch (column)
 		{
 		case "Superior Position":
-			return (ArrayList<Position>) result.stream().filter(p -> p.getParentId().equals(Long.parseLong(searchName))).collect(Collectors.toList());
+			return (ArrayList<Position>) result.stream().filter(p -> p.getParentId().toString().contains(searchName)).collect(Collectors.toList());
 		case "Name":
 			return (ArrayList<Position>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
 		case "Level":
-			return (ArrayList<Position>) result.stream().filter(p -> p.getLevel().equals(Long.parseLong(searchName))).collect(Collectors.toList());
+			return (ArrayList<Position>) result.stream().filter(p -> p.getLevel().toString().contains(searchName)).collect(Collectors.toList());
 		}
 		return result;	
 	}

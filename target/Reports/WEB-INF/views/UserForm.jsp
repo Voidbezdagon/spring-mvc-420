@@ -73,7 +73,7 @@
 								<form:label path="password">Password</form:label>
 							</div>
 							<div class="col-xs-6">
-								<form:input cssClass="form-control" path="password"
+								<form:input type="password" cssClass="form-control" path="password"
 									value="${itemObject.password}" />
 								<form:errors path="password" cssClass="error" />
 							</div>
@@ -101,6 +101,7 @@
 										<option value="${item.id}" label="${item.name}">${item.name}</option>
 									</c:forEach>
 								</select>
+								<form:errors path="position" cssClass="error" />
 							</div>
 						</div>
 

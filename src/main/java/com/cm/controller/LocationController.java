@@ -166,11 +166,11 @@ public class LocationController extends BaseController<Location>{
 		case "City":
 			return (ArrayList<Location>) result.stream().filter(p -> p.getCity().contains(searchName)).collect(Collectors.toList());
 		case "ZIP":
-			return (ArrayList<Location>) result.stream().filter(p -> p.getZip() == Integer.parseInt(searchName)).collect(Collectors.toList());
+			return (ArrayList<Location>) result.stream().filter(p -> p.getZip().toString().contains(searchName)).collect(Collectors.toList());
 		case "Street":
 			return (ArrayList<Location>) result.stream().filter(p -> p.getStreet().contains(searchName)).collect(Collectors.toList());
 		case "Street Number":
-			return (ArrayList<Location>) result.stream().filter(p -> p.getStreetNumber() == Integer.parseInt(searchName)).collect(Collectors.toList());
+			return (ArrayList<Location>) result.stream().filter(p -> p.getStreetNumber().toString().contains(searchName)).collect(Collectors.toList());
 		case "Details":
 			return (ArrayList<Location>) result.stream().filter(p -> p.getDetails().contains(searchName)).collect(Collectors.toList());
 		}

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>User Management Form</title>
+<title>Position Management Form</title>
 <!-- Bootstrap CSS -->
 <%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 <link rel="stylesheet"
