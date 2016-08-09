@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Task List</title>
+<title>Team List</title>
 <!-- Bootstrap CSS -->
 <%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
