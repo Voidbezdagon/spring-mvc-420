@@ -27,7 +27,7 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/*"/>
+			<mvc:mapping path="/**"/>
 			<bean class="com.cm.util.AuthInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

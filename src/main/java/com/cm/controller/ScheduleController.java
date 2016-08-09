@@ -31,6 +31,7 @@ import com.cm.service.ScheduleActivityService;
 import com.cm.service.ScheduleReportService;
 import com.cm.service.ScheduleService;
 import com.cm.service.TeamService;
+import com.cm.service.UserService;
 import com.cm.util.ScheduleFormValidator;
 import com.cm.util.UserFormValidator;
 
@@ -48,6 +49,9 @@ public class ScheduleController extends BaseController<Schedule>{
 	
 	@Autowired
 	TeamService teamService;
+	
+	@Autowired
+	UserService userService;
 	
 	@Autowired
 	@Qualifier("scheduleValidator")
@@ -165,7 +169,8 @@ public class ScheduleController extends BaseController<Schedule>{
 
 	@Override
 	public List<Schedule> customList(HttpServletRequest request) throws InstantiationException, IllegalAccessException {
-		User user = (User) request.getSession().getAttribute("LOGGED_USER");
+		User loggedUser = (User) request.getSession().getAttribute("LOGGED_USER");
+		User user = userService.getById(loggedUser.getId());
 
 		if (user.getAdmin() != true)
 		{

@@ -131,13 +131,14 @@ public class ScheduleReportController extends BaseController<ScheduleReport>{
 			
 			
 			//Check if today is the day of the schedule
-			for (long i = sdf.parse(sdf.format(schedule.getStartDate())).getTime(); i <= sdf.parse(sdf.format(schedule.getStartDate())).getTime(); i = i + (schedule.getRecurringTime() * 86400000))
+			for (long i = sdf.parse(sdf.format(schedule.getStartDate())).getTime(); i <= sdf.parse(sdf.format(schedule.getEndDate())).getTime(); i = i + (schedule.getRecurringTime() * 86400000))
+			{
 				if (i == sdf.parse(sdf.format(new Date())).getTime())
 				{
 					request.getSession().setAttribute("parentSchedule", scheduleService.getById(Long.parseLong(request.getParameter("parentId"))));
 					return create(request);
 				}
-			
+			}
 		return new ModelAndView("redirect:/Schedule/getAll");
 	}
 	

@@ -25,6 +25,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 				if (!request.getRequestURI().equals("/content/Schedule/getAll")
 						&& !request.getRequestURI().equals("/content/ScheduleReport/getAll")
 						&& !request.getRequestURI().equals("/content/ScheduleReport/create")
+						&& !request.getRequestURI().equals("/content/ScheduleReport/save")
+						&& !request.getRequestURI().equals("/content/User/editUser")
+						&& !request.getRequestURI().equals("/content/User/save")
 						&& !request.getRequestURI().equals("/content/WEB-INF/views/ScheduleList.jsp")) {
 					if(loggedUser.getAdmin() == false){
 						response.sendRedirect("/content/Schedule/getAll");

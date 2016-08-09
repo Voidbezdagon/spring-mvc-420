@@ -78,7 +78,7 @@ public abstract class BaseController<T extends BaseEntity>{
 		LinkedHashMap<String, String> columnNames = new LinkedHashMap<String, String>();
 		feedSortLists(columnNames);
 		Integer page = null;
-		Integer items = 3;
+		Integer items = 5;
 		if (pageString != null)
 		{
 			page = Integer.parseInt(pageString);
