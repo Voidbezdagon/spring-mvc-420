@@ -22,6 +22,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -34,8 +35,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cm.entity.BaseEntity;
+import com.cm.entity.Team;
 import com.cm.entity.User;
 import com.cm.service.PositionService;
+import com.cm.service.TeamService;
 import com.cm.service.UserService;
 import com.cm.util.UserFormValidator;
 
@@ -44,6 +48,9 @@ public class UserController extends BaseController<User>{
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TeamService teamService;
 	
 	@Autowired
 	private PositionService positionService;
@@ -81,6 +88,17 @@ public class UserController extends BaseController<User>{
 		return delete(request);
 	}
 	
+	@RequestMapping(value="User/editUser")
+	public ModelAndView editUserUser(HttpServletRequest request) throws Exception
+	{
+		User user = userService.getById(Long.parseLong(request.getParameter("id")));
+		if (user.getAvatar() != null)
+			request.setAttribute("userAvatar", getAvatar(user));
+		request.setAttribute("item", user);
+		ModelAndView mav = new ModelAndView("UserEditForm");
+		return mav;
+	}
+	
 	@RequestMapping(value="User/save")
 	public ModelAndView saveUser(@ModelAttribute("item") @Validated User item, BindingResult bindingResult, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request) throws Exception
 	{	
@@ -115,8 +133,10 @@ public class UserController extends BaseController<User>{
 			if (item.getAvatar().length() < 10)
 				item.setAvatar(null);
 		}
-			
 		
+		User user = userService.getById(item.getId());
+		item.setTeams(user.getTeams());
+			
 		try {
 			return save(item, request);
 		} catch (Exception e) {

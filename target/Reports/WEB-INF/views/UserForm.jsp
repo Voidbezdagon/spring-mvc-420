@@ -42,7 +42,10 @@
 							<div class="col-xs-6">
 								<form:hidden path="id" value="${itemObject.id}" />
 								<form:hidden path="avatar" value="${itemObject.avatar}" />
-								<form:input cssClass="form-control" path="firstname"
+								<c:forEach items="${itemObject.teams}" var="team" varStatus="status">
+									<form:hidden path="teams" value="${team.id}" />
+								</c:forEach>
+									<form:input cssClass="form-control" path="firstname"
 									value="${itemObject.firstname}" />
 								<form:errors path="firstname" cssClass="error" />
 							</div>

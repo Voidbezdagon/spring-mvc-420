@@ -42,7 +42,7 @@
 							<div class="col-xs-6">
 								<form:hidden path="id" value="${itemObject.id}" />
 								<form:hidden path="avatar" value="${itemObject.avatar}" />
-								<form:input cssClass="form-control" path="firstname"
+									<form:input cssClass="form-control" path="firstname"
 									value="${itemObject.firstname}" />
 								<form:errors path="firstname" cssClass="error" />
 							</div>

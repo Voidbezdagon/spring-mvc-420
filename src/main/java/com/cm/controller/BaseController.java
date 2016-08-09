@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cm.entity.BaseEntity;
+import com.cm.entity.User;
 import com.cm.service.BaseService;
 import com.cm.util.ReflectionHelper;
 
@@ -54,6 +55,12 @@ public abstract class BaseController<T extends BaseEntity>{
 		else
 			baseService.update(item);
 		
+		User user = (User) request.getSession().getAttribute("LOGGED_USER");
+		
+		if (user.getAdmin() == false)
+		{
+			return new ModelAndView("redirect:/Schedule/getAll");
+		}
 		ModelAndView mav = new ModelAndView("redirect:getAll");
 		return mav;
 	}

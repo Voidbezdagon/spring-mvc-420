@@ -36,16 +36,20 @@
 	<div class=" navbar-default sidebar navbar-ex1-collapse " role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul id="side-menu" class="nav in">
-			<c:if test="${loggedUser.admin==true }">
+			
 				<li><a class="text-muted" href="javascript:;" data-toggle="collapse"
 					data-target="#users"><i class="fa fa-fw fa-user"></i> Users <i
 						class="fa fa-fw fa-caret-down"></i></a>
 					<ul id="users" class="nav nav-second-level collapse">
+						<li><a class="text-muted"  href="<%=request.getContextPath()%>/User/editUser?id=<c:out value="${loggedUser.id}"/>">Edit Profile</a></li>
+					<c:if test="${loggedUser.admin==true }">
 						<li><a class="text-muted"  href="<%=request.getContextPath()%>/User/getAll">User
 								List</a></li>
 						<li><a class="text-muted"  href="<%=request.getContextPath()%>/User/create">Create
 								User</a></li>
+					</c:if>
 					</ul></li>
+				<c:if test="${loggedUser.admin==true }">
 				<li><a class="text-muted" href="javascript:;" data-toggle="collapse"
 					data-target="#positions"><i class="fa fa-fw fa-briefcase"></i>
 						Positions <i class="fa fa-fw fa-caret-down"></i></a>
