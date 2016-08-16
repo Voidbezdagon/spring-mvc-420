@@ -123,8 +123,6 @@ public class PositionController extends BaseController<Position>{
 	public void feedSort(List<Position> List, String column) {
 		switch (column)
 		{
-		case "Superior Position": Collections.sort(List, (p1, p2) -> p1.getParentId().compareTo(p2.getParentId()));
-			break;
 		case "Name": Collections.sort(List, (p1, p2) -> p1.getName().compareTo(p2.getName()));
 			break;
 		case "Level": Collections.sort(List, (p1, p2) -> p1.getLevel().compareTo(p2.getLevel()));
@@ -135,7 +133,6 @@ public class PositionController extends BaseController<Position>{
 
 	@Override
 	public void feedSortLists(LinkedHashMap<String, String> Map) {
-		Map.put("parentId", "Superior Position");
 		Map.put("name", "Name");
 		Map.put("level", "Level");
 	}
@@ -148,8 +145,6 @@ public class PositionController extends BaseController<Position>{
 	public List<Position> filterAllByString(String column, String searchName, List<Position> result) {
 		switch (column)
 		{
-		case "Superior Position":
-			return (ArrayList<Position>) result.stream().filter(p -> p.getParentId().toString().contains(searchName)).collect(Collectors.toList());
 		case "Name":
 			return (ArrayList<Position>) result.stream().filter(p -> p.getName().contains(searchName)).collect(Collectors.toList());
 		case "Level":

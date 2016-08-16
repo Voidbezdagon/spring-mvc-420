@@ -97,10 +97,7 @@
 				</div>
 			</div>
 			<div class="panel-body" style="margin-top: 50px;">
-				<c:if test="${empty ItemList.pageList}">
-					There are no Users.
-				</c:if>
-				<c:if test="${not empty ItemList.pageList}">
+				
 					<c:set var="object" value="${ItemList.pageList[0]}" />
 					<form class="form-control" style="border: none;"
 						action="<%=request.getContextPath()%>/User/getAll">
@@ -233,6 +230,10 @@
 							</div>
 						</div>
 
+						<c:if test="${empty ItemList.pageList}">
+							<h3 align="center">There are no Users.</h3>
+						</c:if>
+						<c:if test="${not empty ItemList.pageList}">
 						<!-- FORM -->
 						<div class="row" style="margin-top: 40px;">
 							<table class="table table-striped table-hover table-bordered">

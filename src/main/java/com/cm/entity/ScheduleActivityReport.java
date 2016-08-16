@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class ScheduleActivityReport extends BaseEntity {
 	
@@ -17,9 +19,11 @@ public class ScheduleActivityReport extends BaseEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="scheduleActivityId")
+	@JsonBackReference
 	private ScheduleActivity scheduleActivity;
 	@ManyToOne
 	@JoinColumn(name="scheduleReportId")
+	@JsonBackReference
 	private ScheduleReport scheduleReport;
 
 	public boolean getIsFinished() {

@@ -24,9 +24,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cm.entity.Location;
 import com.cm.entity.LocationItem;
 import com.cm.entity.Position;
+import com.cm.entity.Schedule;
+import com.cm.entity.ScheduleActivity;
+import com.cm.entity.ScheduleReport;
 import com.cm.entity.User;
 import com.cm.service.LocationItemService;
 import com.cm.service.LocationService;
+import com.cm.service.ScheduleActivityService;
+import com.cm.service.ScheduleReportService;
+import com.cm.service.ScheduleService;
 import com.cm.util.LocationFormValidator;
 
 @Controller
@@ -37,6 +43,15 @@ public class LocationController extends BaseController<Location>{
 	
 	@Autowired
 	private LocationItemService locationItemService;
+	
+	@Autowired
+	private ScheduleService scheduleService;
+	
+	@Autowired
+	ScheduleActivityService scheduleActivityService;
+	
+	@Autowired
+	ScheduleReportService scheduleReportService;
 	
 	@Autowired
 	@Qualifier("locationValidator")
@@ -67,8 +82,17 @@ public class LocationController extends BaseController<Location>{
 		Long id = Long.parseLong(request.getParameter("id"));
 		
 		for (LocationItem li : locationService.getById(id).getLocationItems())
-		{
 			locationItemService.delete(li.getId());
+		
+		for (Schedule s : locationService.getById(id).getSchedules())
+		{
+			for (ScheduleActivity sa : s.getActivities())
+				scheduleActivityService.delete(sa.getId());
+			
+			for (ScheduleReport sr : s.getReports())
+				scheduleReportService.delete(sr.getId());
+			
+			scheduleService.delete(s.getId());
 		}
 		
 		return delete(request);

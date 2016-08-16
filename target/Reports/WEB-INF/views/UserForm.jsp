@@ -14,10 +14,12 @@
 <%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet"
+<link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
 	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
 	crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <style type="text/css">
 .myrow-container {
 	margin: 20px;
@@ -78,6 +80,18 @@
 								<form:errors path="password" cssClass="error" />
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<div class="control-label col-xs-3">
+								<label>Confirm Password</label>
+							</div>
+							<div class="col-xs-6">
+								<input type="password" class="form-control"
+									name="password-confirm" id="password-confirm" />
+								<span id="password-error"></span>
+							</div>
+						</div>
+						
 
 						<div class="form-group">
 							<div class="control-label col-xs-3">
@@ -132,9 +146,38 @@
 			</div>
 		</div>
 	</div>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script>
+		$('#password')
+				.on(
+						"change paste keyup",
+						function() {
+							if (document.getElementById('password').value != document
+									.getElementById('password-confirm').value)
+								document.getElementById('password-error').innerHTML = 'Passwords do not match';
+							else {
+								document.getElementById('password-error').innerHTML = '';
+							}
+						});
+		$('#password-confirm')
+				.on(
+						"change paste keyup",
+						function() {
+							if (document.getElementById('password').value != document
+									.getElementById('password-confirm').value)
+								document.getElementById('password-error').innerHTML = 'Passwords do not match';
+							else
+								document.getElementById('password-error').innerHTML = '';
+						});
 
+		function submitForm() {
+			if (document.getElementById('password').value != document
+					.getElementById('password-confirm').value) {
+				document.getElementById('password-error').innerHTML = 'Passwords do not match';
+				return false;
+			} else {
+				document.getElementById('password-error').innerHTML = '';
+				return true;
+			}
+		};
+	</script>
 </body>

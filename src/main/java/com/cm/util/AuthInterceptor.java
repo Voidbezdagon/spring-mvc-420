@@ -12,7 +12,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		if (!request.getRequestURI().equals("/content/loginUser")
+		/*if (!request.getRequestURI().equals("/content/loginUser")
 				&& !request.getRequestURI().equals("/content/loginForm")
 				&& !request.getRequestURI().equals("/content/logoutUser")
 				&& !request.getRequestURI().equals("/content/createTestAdmin")
@@ -35,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					}
 				}
 			}
-		}
+		}*/
 
 		return true;
 	}

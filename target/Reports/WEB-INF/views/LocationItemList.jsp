@@ -50,10 +50,6 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<c:if test="${empty ItemList}">
-					There are no locations.
-				</c:if>
-				<c:if test="${not empty ItemList}">
 					<c:set var="object" value="${ItemList.pageList[0]}" />
 					<form
 						action="<%=request.getContextPath()%>/LocationItem/getAll?<c:out value='${parentId}'/>">
@@ -133,7 +129,7 @@
 										name="itemsPerPage${itemClass['class'].simpleName}"
 										id="itemsPerPage${itemClass['class'].simpleName}"
 										onchange="this.form.submit()">
-										<c:forEach var="i" begin="1" end="3">
+										<c:forEach var="i" begin="5" end="25" step="5">
 											<c:if test="${i == itemsPerPage}">
 												<option value="${i}" label="${i}" selected="selected">${i}</option>
 											</c:if>
@@ -188,6 +184,10 @@
 						<input type="hidden" name="parentId" id="parentId"
 							value="${parentId}" />
 					</form>
+					<c:if test="${empty ItemList}">
+							<h3 align="center">There are no Location Items.</h3>
+						</c:if>
+						<c:if test="${not empty ItemList}">
 					<div class="row" style="margin-top: 40px;">
 						<table class="table table-striped table-hover table-bordered">
 							<thead>

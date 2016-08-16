@@ -101,10 +101,6 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<c:if test="${empty ItemList.pageList}">
-					There are no teams.
-				</c:if>
-				<c:if test="${not empty ItemList.pageList}">
 					<c:set var="object" value="${ItemList.pageList[0]}" />
 					<form action="<%=request.getContextPath()%>/Team/getAll">
 						<div class="row">
@@ -183,7 +179,7 @@
 										name="itemsPerPage${itemClass['class'].simpleName}"
 										id="itemsPerPage${itemClass['class'].simpleName}"
 										onchange="this.form.submit()">
-										<c:forEach var="i" begin="1" end="3">
+										<c:forEach var="i" begin="5" end="25" step="5">
 											<c:if test="${i == itemsPerPage}">
 												<option value="${i}" label="${i}" selected="selected">${i}</option>
 											</c:if>
@@ -237,6 +233,11 @@
 						</div>
 					</form>
 
+					<c:if test="${empty ItemList.pageList}">
+							<h3 align="center">There are no Teams.</h3>
+						</c:if>
+					<c:if test="${not empty ItemList.pageList}">
+
 					<div class="row" style="margin-top: 40px;">
 						<table class="table table-striped table-hover table-bordered">
 							<thead>
@@ -252,7 +253,7 @@
 									<tr>
 										<th><c:out value="${item.teamname}" /></th>
 										<th><c:forEach var="member" items="${item.users}">
-												<c:out value="${member.username}" />
+												<c:out value="${member.firstname}" /> <c:out value="${member.lastname}" />, <c:out value="${member.position.name}" />
 												<br>
 											</c:forEach></th>
 										<th><a class="text-muted"

@@ -182,8 +182,8 @@ pageEncoding="UTF-8" %>
 		});
 		
 		google.maps.event.addListener(marker, 'dragend', function(evt){
-		    document.getElementById('lat').value = evt.latLng.lat().toFixed(3);
-		    document.getElementById('lng').value = evt.latLng.lng().toFixed(3);
+		    document.getElementById('lat').value = evt.latLng.lat().toFixed(5);
+		    document.getElementById('lng').value = evt.latLng.lng().toFixed(5);
 		});
 		
 		var input = document.getElementById('fullAddress');
@@ -200,9 +200,9 @@ pageEncoding="UTF-8" %>
 			   }
 			   
 			   marker.setPosition(places[0].geometry.location);
-			   document.getElementById('lat').value = places[0].geometry.location.lat().toFixed(3);
+			   document.getElementById('lat').value = places[0].geometry.location.lat().toFixed(5);
 			  
-			   document.getElementById('lng').value = places[0].geometry.location.lng().toFixed(3);
+			   document.getElementById('lng').value = places[0].geometry.location.lng().toFixed(5);
 			   
 		});
 	}

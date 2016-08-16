@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Location extends BaseEntity{
 
@@ -28,7 +30,12 @@ public class Location extends BaseEntity{
 	private Float lng;
 	@OneToMany(mappedBy = "location", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
 	private List<LocationItem> locationItems;
+	@OneToMany(mappedBy = "location", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
+	private List<Schedule> schedules;
 	
 	public String getName() {
 		return name;
@@ -72,12 +79,6 @@ public class Location extends BaseEntity{
 	public void setDetails(String details) {
 		this.details = details;
 	}
-	public List<LocationItem> getLocationItems() {
-		return locationItems;
-	}
-	public void setLocationItems(List<LocationItem> locationItems) {
-		this.locationItems = locationItems;
-	}
 	public Float getLat() {
 		return lat;
 	}
@@ -89,5 +90,17 @@ public class Location extends BaseEntity{
 	}
 	public void setLng(Float lng) {
 		this.lng = lng;
+	}
+	public List<LocationItem> getLocationItems() {
+		return locationItems;
+	}
+	public void setLocationItems(List<LocationItem> locationItems) {
+		this.locationItems = locationItems;
+	}
+	public List<Schedule> getSchedules() {
+		return schedules;
+	}
+	public void setSchedules(List<Schedule> schedules) {
+		this.schedules = schedules;
 	}
 }

@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Team extends BaseEntity{
 
@@ -29,9 +32,11 @@ public class Team extends BaseEntity{
 	@JoinTable(name = "Users_Teams",
     joinColumns = {@JoinColumn(name = "teamId")},
     inverseJoinColumns = @JoinColumn(name = "userId"))
+	@JsonBackReference
     private List<User> users;
 	@OneToMany(mappedBy = "assignedTeam", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonBackReference
 	private List<Schedule> schedules;
 
 	public String getTeamname() {

@@ -30,7 +30,7 @@ public class LocationFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(err, "details", "details.required");
 		
 		Location item = (Location) obj;
-		if (!item.getName().matches("[a-zA-Z]+"))
+		if (!item.getName().matches("[a-zA-Z ]+"))
 			err.rejectValue("name", "name.invalid");
 		if (!item.getStreet().matches("[a-zA-Z]+"))
 			err.rejectValue("street", "street.invalid");

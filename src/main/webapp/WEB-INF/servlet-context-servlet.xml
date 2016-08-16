@@ -86,17 +86,6 @@
 	</bean>
     <tx:annotation-driven />
 	
-	<!-- Converter -->
-	
-	<mvc:annotation-driven conversion-service="conversionService"/>
-	 <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-	    <property name="converters">
-	        <list>
-	            <bean id="teamMember" class="com.cm.util.TeamMemberConverter" />
-	        </list>
-	    </property>
-	</bean>
-	
 	<!-- Transaction -->
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />

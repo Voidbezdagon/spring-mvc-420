@@ -104,10 +104,6 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<c:if test="${empty ItemList.pageList}">
-					There are no locations.
-				</c:if>
-				<c:if test="${not empty ItemList.pageList}">
 					<c:set var="object" value="${ItemList.pageList[0]}" />
 					<form action="<%=request.getContextPath()%>/Location/getAll">
 						<div class="row">
@@ -186,7 +182,7 @@
 										name="itemsPerPage${itemClass['class'].simpleName}"
 										id="itemsPerPage${itemClass['class'].simpleName}"
 										onchange="this.form.submit()">
-										<c:forEach var="i" begin="1" end="3">
+										<c:forEach var="i" begin="5" end="25" step="5">
 											<c:if test="${i == itemsPerPage}">
 												<option value="${i}" label="${i}" selected="selected">${i}</option>
 											</c:if>
@@ -239,6 +235,10 @@
 							</div>
 						</div>
 
+						<c:if test="${empty ItemList.pageList}">
+							<h3 align="center">There are no Locations.</h3>
+						</c:if>
+						<c:if test="${not empty ItemList.pageList}">
 						<div class="row" style="margin-top: 40px;">
 							<table class="table table-striped table-hover table-bordered">
 								<thead>
@@ -271,7 +271,7 @@
 											<th><c:out value="${item.details}" /></th>
 											<th><button type="button" class="btn btn-default"
 													data-toggle="collapse"
-													data-target="#noob<c:out value='${item.name}'/>">Map</button></th>
+													data-target="#noob<c:out value='${item.id}'/>">Map</button></th>
 											<th><a class="text-muted"
 												href="<%=request.getContextPath()%>/Location/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 											<th><a class="text-muted"
@@ -285,7 +285,7 @@
 										</tr>
 										<tr>
 											<td colspan="12">
-												<div class="collapse in" id="noob${item.name}">
+												<div class="collapse in" id="noob${item.id}">
 													<div class="map" id="map${item.name}"></div>
 												</div>
 											</td>
@@ -318,7 +318,7 @@
 						allLngs[key].value);
 				var map = new google.maps.Map(mapDiv, {
 					center : pos,
-					zoom : 14
+					zoom : 16
 				});
 				var marker = new google.maps.Marker({
 					position : pos,

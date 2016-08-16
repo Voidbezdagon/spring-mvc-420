@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class ScheduleReport extends BaseEntity{
 
@@ -22,9 +25,11 @@ public class ScheduleReport extends BaseEntity{
 	private Date date;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "scheduleId")
+	@JsonBackReference
 	private Schedule schedule;
 	@OneToMany(mappedBy = "scheduleReport", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
 	private List<ScheduleActivityReport> activityReports;
 	
 	public String getDescription() {

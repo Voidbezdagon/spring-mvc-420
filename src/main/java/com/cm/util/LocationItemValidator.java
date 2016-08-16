@@ -25,7 +25,7 @@ public class LocationItemValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(err, "details", "details.required");
 		
 		LocationItem item = (LocationItem) obj;
-		if (!item.getName().matches("[a-zA-Z]+"))
+		if (!item.getName().matches("[a-zA-Z ]+"))
 			err.rejectValue("name", "name.invalid");
 	}
 }

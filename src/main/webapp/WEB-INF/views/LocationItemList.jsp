@@ -50,10 +50,6 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<c:if test="${empty ItemList}">
-					There are no locations.
-				</c:if>
-				<c:if test="${not empty ItemList}">
 					<c:set var="object" value="${ItemList.pageList[0]}" />
 					<form
 						action="<%=request.getContextPath()%>/LocationItem/getAll?<c:out value='${parentId}'/>">
@@ -188,6 +184,10 @@
 						<input type="hidden" name="parentId" id="parentId"
 							value="${parentId}" />
 					</form>
+					<c:if test="${empty ItemList}">
+							<h3 align="center">There are no Location Items.</h3>
+						</c:if>
+						<c:if test="${not empty ItemList}">
 					<div class="row" style="margin-top: 40px;">
 						<table class="table table-striped table-hover table-bordered">
 							<thead>

@@ -97,10 +97,6 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<c:if test="${empty ItemList.pageList}">
-					There are no positions.
-				</c:if>
-				<c:if test="${not empty ItemList.pageList}">
 					<c:set var="object" value="${ItemList.pageList[0]}" />
 					<form action="<%=request.getContextPath()%>/Position/getAll">
 						<div class="row">
@@ -179,7 +175,7 @@
 										name="itemsPerPage${itemClass['class'].simpleName}"
 										id="itemsPerPage${itemClass['class'].simpleName}"
 										onchange="this.form.submit()">
-										<c:forEach var="i" begin="1" end="3">
+										<c:forEach var="i" begin="5" end="25" step="5">
 											<c:if test="${i == itemsPerPage}">
 												<option value="${i}" label="${i}" selected="selected">${i}</option>
 											</c:if>
@@ -232,13 +228,15 @@
 							</div>
 						</div>
 					</form>
+					<c:if test="${empty ItemList.pageList}">
+							<h3 align="center">There are no Positions.</h3>
+						</c:if>
+						<c:if test="${not empty ItemList.pageList}">
 					<div class="row" style="margin-top: 40px;">
 						<table class="table table-striped table-hover table-bordered">
 							<thead>
 								<tr>
-									<th>Id</th>
 									<th>Name</th>
-									<th>Superior Position</th>
 									<th>Level</th>
 									<th></th>
 									<th></th>
@@ -247,9 +245,7 @@
 							<tbody>
 								<c:forEach items="${ItemList.pageList}" var="item">
 									<tr>
-										<th><c:out value="${item.id}" /></th>
 										<th><c:out value="${item.name}" /></th>
-										<th><c:out value="${item.parentId}" /></th>
 										<th><c:out value="${item.level}" /></th>
 										<th><a class="text-muted"
 											href="<%=request.getContextPath()%>/Position/edit?id=<c:out value='${item.id}'/>">Edit</a></th>

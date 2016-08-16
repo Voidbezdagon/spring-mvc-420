@@ -97,10 +97,7 @@
 				</div>
 			</div>
 			<div class="panel-body" style="margin-top: 50px;">
-				<c:if test="${empty ItemList.pageList}">
-					There are no Users.
-				</c:if>
-				<c:if test="${not empty ItemList.pageList}">
+				
 					<c:set var="object" value="${ItemList.pageList[0]}" />
 					<form class="form-control" style="border: none;"
 						action="<%=request.getContextPath()%>/User/getAll">
@@ -180,7 +177,7 @@
 										name="itemsPerPage${itemClass['class'].simpleName}"
 										id="itemsPerPage${itemClass['class'].simpleName}"
 										onchange="this.form.submit()">
-										<c:forEach var="i" begin="1" end="3">
+										<c:forEach var="i" begin="5" end="25" step="5">
 											<c:if test="${i == itemsPerPage}">
 												<option value="${i}" label="${i}" selected="selected">${i}</option>
 											</c:if>
@@ -233,6 +230,10 @@
 							</div>
 						</div>
 
+						<c:if test="${empty ItemList.pageList}">
+							<h3 align="center">There are no Users.</h3>
+						</c:if>
+						<c:if test="${not empty ItemList.pageList}">
 						<!-- FORM -->
 						<div class="row" style="margin-top: 40px;">
 							<table class="table table-striped table-hover table-bordered">

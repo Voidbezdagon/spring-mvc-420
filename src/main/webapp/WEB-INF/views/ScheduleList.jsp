@@ -123,10 +123,17 @@
 	<div id="wrapper">
 		<c:import url="/Menu" />
 		<div id="page-wrapper">
+			<div class="panel panel-default">
+				<div class="panel-title">
+					<h3 align="center" style="font-size: 1.3em;">
+						<b>Schedule Calendar</b>
+					</h3>
+				</div>
+			</div>
+			<div id="calendar" style="margin-bottom: 20px;"></div>
 			<c:if test="${logged_user.admin==true}">
 				<div class="panel panel-default">
-					<a href="#" id="heading-button" data-toggle="collapse"
-						data-target="#schedule-crud">
+				
 						<div class="panel-title">
 
 							<h3 align="center" style="font-size: 1.3em;">
@@ -134,16 +141,11 @@
 								<b>Schedule List</b>
 							</h3>
 						</div>
-					</a>
 				</div>
-				<div class="collapse in" id="schedule-crud">
+				<div	 id="schedule-crud">
 					<div class="panel-body">
 						<c:set var="now"
 							value='<%=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:").format(new java.util.Date()).substring(0, 10)%>' />
-						<c:if test="${empty ItemList}">
-					There are no Schedules.
-						</c:if>
-						<c:if test="${not empty ItemList}">
 							<c:set var="object" value="${ItemList[0]}" />
 							<form action="<%=request.getContextPath()%>/Schedule/getAll">
 								<div class="row">
@@ -279,6 +281,11 @@
 									</div>
 								</div>
 							</form>
+							
+							<c:if test="${empty ItemList}">
+								<h3 align="center">There are no Schedules.</h3>
+							</c:if>
+							<c:if test="${not empty ItemList}">
 							<div class="row" style="margin-top: 40px;">
 								<table class="table table-striped table-hover table-bordered">
 									<thead>
@@ -289,6 +296,7 @@
 											<th>End Date</th>
 											<th>Recurring Time</th>
 											<th>Assigned Team</th>
+											<th>Location</th>
 											<th></th>
 											<th></th>
 											<th></th>
@@ -307,12 +315,13 @@
 												<th><c:out value="${item.endDate}" /></th>
 												<th><c:out value="${item.recurringTime}" /></th>
 												<th><c:out value="${item.assignedTeam.teamname}" /></th>
+												<th><c:out value="${item.location.name}" /></th>
 												<th><button type="button" class="btn btn-default"
 														data-toggle="collapse"
-														data-target="#bot<c:out value='${item.title}'/>">Activities</button></th>
+														data-target="#bot<c:out value='${item.id}'/>">Activities</button></th>
 												<th><button type="button" class="btn btn-default"
 														data-toggle="collapse"
-														data-target="#noob<c:out value='${item.title}'/>">Reports</button></th>
+														data-target="#noob<c:out value='${item.id}'/>">Reports</button></th>
 												<th><a class="text-muted"
 													href="<%=request.getContextPath()%>/Schedule/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 												<th><a class="text-muted"
@@ -325,8 +334,8 @@
 														Report</a></th>
 											</tr>
 											<tr>
-												<td colspan="12">
-													<div class="collapse" id="bot${item.title}">
+												<td colspan="13">
+													<div class="collapse" id="bot${item.id}">
 														<div align="center">
 															<table
 																class="table table-striped table-hover table-bordered">
@@ -347,7 +356,7 @@
 															</table>
 														</div>
 													</div>
-													<div class="collapse" id="noob${item.title}">
+													<div class="collapse" id="noob${item.id}">
 														<div align="center">
 															<table
 																class="table table-striped table-hover table-bordered">
@@ -404,20 +413,12 @@
 			</c:if>
 			<input type="hidden" id="contextPath"
 				value="<%=request.getContextPath()%>" />
-			<div class="panel panel-default">
-				<div class="panel-title">
-					<h3 align="center" style="font-size: 1.3em;">
-						<b>Schedule Calendar</b>
-					</h3>
-				</div>
-			</div>
-			<div id="calendar"></div>
+			
 		</div>
 	</div>
 	<script>
 
 	var contextPath = document.getElementById("contextPath");
-	
 	
 	$(document).ready(function()
 	{	
@@ -484,7 +485,8 @@
 		    	    		<c:forEach items="${ItemList}" var="item">
 		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
 		    	    				{
-		    	    					guz = guz + '<div style="height:215px ; width:360px; border:1px solid #ccc; overflow:auto; margin-top: 10px;">';
+		    	    					guz = guz + '<h4>Location: <c:out value="${item.location.name}"/></h4>';
+		    	    					guz = guz + '<div style="height:187px ; width:360px; border:1px solid #ccc; overflow:auto; margin-top: 10px;">';
 			    	    				guz = guz + '<ul style="display: inline-block; float: left">';
 		    	    					<c:forEach items="${item.activities}" var="activity">
 		    	    						guz = guz + '<li><c:out value="${activity.description}"/></li>';
@@ -495,7 +497,7 @@
 		    	    					<c:forEach items="${item.activities}" var="activity">
 		    	    						<c:forEach items="${activity.scheduleActivityReports}" var="report">
 			    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
-		    	    							guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+			    	    							guz = guz + '<li><c:if test="${not empty report.isFinished}"> <i class="fa fa-check-square-o" style="color: green;"></i> </c:if></li>';
 		    	    						</c:forEach>
 	    	    						</c:forEach>
 		    	    					guz = guz + '</ul>';
@@ -511,6 +513,7 @@
 		    	    		<c:forEach items="${ItemList}" var="item">
 		    	    			if (<c:out value="${item.id}"/> == event.scheduleId)
 		    	    				{
+		    	    					guz = guz + '<h4>Location: <c:out value="${item.location.name}"/></h4>';
 		    	    					guz = guz + '<div style="height:215px ; width:360px; border:1px solid #ccc; overflow:auto; margin-top: 10px;">';
 		    	    					guz = guz + '<ul style="display: inline-block; float: left">';
 		    	    					<c:forEach items="${item.activities}" var="activity">
@@ -526,7 +529,7 @@
 		    	    						<c:if test="${not empty activity.scheduleActivityReports}">
 			    	    						<c:forEach items="${activity.scheduleActivityReports}" var="report">
 			    	    						if (moment(new Date('<c:out value="${report.date}"/>')).format('YYYY-MM-DD') == moment(event.start).format('YYYY-MM-DD'))
-		    	    									guz = guz + '<li><c:out value="${report.isFinished}"/></li>';
+		    	    									guz = guz + '<li><c:if test="${not empty report.isFinished}"> <i class="fa fa-check-square-o" style="color: green;"></i> </c:if></li>';
 		    	    							</c:forEach>
 		    	    						</c:if>
 			    	    						

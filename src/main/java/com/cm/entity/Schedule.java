@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Schedule extends BaseEntity{
 
@@ -27,12 +30,19 @@ public class Schedule extends BaseEntity{
 	private Long recurringTime;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "assignedTeamId")
+	@JsonManagedReference
 	private Team assignedTeam;
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "locationId")
+	@JsonBackReference
+	private Location location;
 	@OneToMany(mappedBy = "schedule", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
 	private List<ScheduleActivity> activities;
 	@OneToMany(mappedBy = "schedule", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
 	private List<ScheduleReport> reports;
 	
 	public String getTitle() {
@@ -64,6 +74,12 @@ public class Schedule extends BaseEntity{
 	}
 	public void setAssignedTeam(Team assignedTeam) {
 		this.assignedTeam = assignedTeam;
+	}
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	public List<ScheduleActivity> getActivities() {
 		return activities;

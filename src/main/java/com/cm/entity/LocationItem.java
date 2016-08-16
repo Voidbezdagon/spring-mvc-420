@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class LocationItem extends BaseEntity{
 
@@ -21,6 +23,7 @@ public class LocationItem extends BaseEntity{
 	private String details;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "locationId")
+	@JsonBackReference
 	private Location location;
 	
 	public String getName() {

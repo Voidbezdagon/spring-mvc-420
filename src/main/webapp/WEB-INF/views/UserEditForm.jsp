@@ -43,9 +43,7 @@
 						<form:hidden path="username" value="${itemObject.username}" />
 						<form:hidden path="firstname" value="${itemObject.firstname}" />
 						<form:hidden path="lastname" value="${itemObject.lastname}" />
-						<c:if test="${not empty itemObject.position }">
-							<form:hidden path="position.id" value="${itemObject.position.id}" />
-						</c:if>
+						<form:hidden path="position.id" value="${itemObject.position.id}" />
 						<form:hidden path="admin" value="${itemObject.admin}" />
 						
 						<div class="form-group">

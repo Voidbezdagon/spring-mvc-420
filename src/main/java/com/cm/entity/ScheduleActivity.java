@@ -13,6 +13,9 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class ScheduleActivity extends BaseEntity {
 	private static final long serialVersionUID = -6454954275786468970L;
@@ -21,10 +24,12 @@ public class ScheduleActivity extends BaseEntity {
 	
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="scheduleId")
+	@JsonBackReference
 	private Schedule schedule;
 	
 	@OneToMany(mappedBy="scheduleActivity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
 	private List<ScheduleActivityReport> scheduleActivityReports;
 
 	public String getDescription() {

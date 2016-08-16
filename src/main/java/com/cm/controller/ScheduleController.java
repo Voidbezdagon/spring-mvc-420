@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cm.entity.Location;
 import com.cm.entity.Schedule;
 import com.cm.entity.ScheduleActivity;
 import com.cm.entity.ScheduleReport;
 import com.cm.entity.Team;
 import com.cm.entity.User;
+import com.cm.service.LocationService;
 import com.cm.service.ScheduleActivityService;
 import com.cm.service.ScheduleReportService;
 import com.cm.service.ScheduleService;
@@ -54,6 +56,9 @@ public class ScheduleController extends BaseController<Schedule>{
 	UserService userService;
 	
 	@Autowired
+	LocationService locationService;
+	
+	@Autowired
 	@Qualifier("scheduleValidator")
 	private ScheduleFormValidator validator;
 	
@@ -70,6 +75,8 @@ public class ScheduleController extends BaseController<Schedule>{
 	{
 		List<Team> teamList = teamService.getAll();
 		request.setAttribute("teamList", teamList);
+		List<Location> locationList = locationService.getAll();
+		request.setAttribute("locationList", locationList);
 		return create(request);
 	}
 	
@@ -78,6 +85,8 @@ public class ScheduleController extends BaseController<Schedule>{
 	{
 		List<Team> teamList = teamService.getAll();
 		request.setAttribute("teamList", teamList);
+		List<Location> locationList = locationService.getAll();
+		request.setAttribute("locationList", locationList);
 		return edit(request);
 	}
 	
@@ -89,13 +98,13 @@ public class ScheduleController extends BaseController<Schedule>{
 		Schedule schedule = scheduleService.getById(id);
 		
 		for (ScheduleActivity sa : schedule.getActivities())
-		{
 			scheduleActivityService.delete(sa.getId());
-		}
+		
 		for (ScheduleReport sr : schedule.getReports())
-		{
 			scheduleReportService.delete(sr.getId());
-		}
+		
+		schedule.setLocation(null);
+		scheduleService.update(schedule);
 		
 		return delete(request);
 	}
@@ -106,6 +115,8 @@ public class ScheduleController extends BaseController<Schedule>{
 		if (bindingResult.hasErrors()) {
 			List<Team> teamList = teamService.getAll();
 			request.setAttribute("teamList", teamList);
+			List<Location> locationList = locationService.getAll();
+			request.setAttribute("locationList", locationList);
 			if (item.getId() == null)
 				return create(request);
 			else

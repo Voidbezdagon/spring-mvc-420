@@ -201,6 +201,8 @@ public class UserController extends BaseController<User>{
 			break;
 		case "Admin": Collections.sort(List, (p1, p2) -> p1.getAdmin().compareTo(p2.getAdmin()));
 			break;
+		case "Position": Collections.sort(List, (p1, p2) -> p1.getPosition().getLevel().compareTo(p2.getPosition().getLevel()));
+			break;
 		}
 	}
 	
@@ -211,6 +213,7 @@ public class UserController extends BaseController<User>{
 		Map.put("username", "Username");
 		Map.put("password", "Password");
 		Map.put("admin", "Admin");
+		Map.put("position", "Position");
 	}
 	
 	@Override
@@ -241,6 +244,8 @@ public class UserController extends BaseController<User>{
 				return (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == true).collect(Collectors.toList());
 			else
 				return (ArrayList<User>) result.stream().filter(p -> p.getAdmin() == false).collect(Collectors.toList());
+		case "Position":
+			return (ArrayList<User>) result.stream().filter(p -> p.getPosition().getName().contains(searchName)).collect(Collectors.toList());
 		}
 		return result;	
 		

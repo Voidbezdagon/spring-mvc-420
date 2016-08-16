@@ -83,6 +83,17 @@ pageEncoding="UTF-8" %>
 							</div>
 							
 							<div class="form-group">
+								<div class="control-label col-xs-3"><label name="location.id">Location</label></div>
+								<div class="col-xs-6">
+									<select class="form-control" id="location.id" name="location.id">
+									<c:forEach var="location" items="${locationList}">
+									   <option value="${location.id}">${location.name}</option>
+									</c:forEach>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group">
 								<div class="control-label col-xs-3"><form:label path="startDate">Start Date: </form:label></div>
 								<div class=" col-xs-6">
 									<div class='input-group date' id='datetimepicker1'>

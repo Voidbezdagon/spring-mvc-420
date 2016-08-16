@@ -49,7 +49,7 @@ pageEncoding="UTF-8" %>
 								<div class="col-xs-6">
 								<form:select path="users" class="selectpicker  form-control" multiple="true">
 									<c:forEach var="noobs" items="${userList}" varStatus="status">
-										<option value="${noobs.id}">${noobs.username}</option>
+										<option value="${noobs.id}">${noobs.firstname} ${noobs.lastname}, ${noobs.position.name}</option>
 									</c:forEach>
 								</form:select>			
 								</div>
