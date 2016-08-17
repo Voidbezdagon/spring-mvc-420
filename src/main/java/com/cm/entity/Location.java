@@ -11,9 +11,12 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Location extends BaseEntity{
 
 	private static final long serialVersionUID = -1341116581813648958L;
@@ -30,11 +33,11 @@ public class Location extends BaseEntity{
 	private Float lng;
 	@OneToMany(mappedBy = "location", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JsonManagedReference
+	//@JsonManagedReference(value="location-locationitem")
 	private List<LocationItem> locationItems;
 	@OneToMany(mappedBy = "location", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JsonManagedReference
+	//@JsonManagedReference(value="location-schedule")
 	private List<Schedule> schedules;
 	
 	public String getName() {

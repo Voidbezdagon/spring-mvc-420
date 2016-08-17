@@ -14,9 +14,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class ScheduleReport extends BaseEntity{
 
 	private static final long serialVersionUID = -3425599246883252616L;
@@ -25,11 +28,11 @@ public class ScheduleReport extends BaseEntity{
 	private Date date;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "scheduleId")
-	@JsonBackReference
+	//@JsonBackReference(value="schedule-schedulereport")
 	private Schedule schedule;
 	@OneToMany(mappedBy = "scheduleReport", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JsonManagedReference
+	//@JsonManagedReference(value="schedulereport-scheduleactivityreport")
 	private List<ScheduleActivityReport> activityReports;
 	
 	public String getDescription() {

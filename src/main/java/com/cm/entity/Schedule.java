@@ -15,9 +15,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Schedule extends BaseEntity{
 
 	private static final long serialVersionUID = 2509332616418806377L;
@@ -30,19 +33,19 @@ public class Schedule extends BaseEntity{
 	private Long recurringTime;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "assignedTeamId")
-	@JsonManagedReference
+	//@JsonManagedReference(value="schedule-team")
 	private Team assignedTeam;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "locationId")
-	@JsonBackReference
+	//@JsonBackReference(value="location-schedule")
 	private Location location;
 	@OneToMany(mappedBy = "schedule", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JsonManagedReference
+	//@JsonManagedReference(value="schedule-scheduleactivity")
 	private List<ScheduleActivity> activities;
 	@OneToMany(mappedBy = "schedule", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JsonManagedReference
+	//@JsonManagedReference(value="schedule-schedulereport")
 	private List<ScheduleReport> reports;
 	
 	public String getTitle() {

@@ -16,9 +16,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class User extends BaseEntity{
 
 	private static final long serialVersionUID = -1575291126704315651L;
@@ -32,7 +35,7 @@ public class User extends BaseEntity{
 	private Boolean admin;
 	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name="positionId")
-	@JsonBackReference
+	//@JsonBackReference(value="position-user")
 	private Position position;
 	@ManyToMany(cascade = 
 		{
@@ -44,7 +47,7 @@ public class User extends BaseEntity{
 	@JoinTable(name = "Users_Teams",
     joinColumns = {@JoinColumn(name = "userId")},
     inverseJoinColumns = @JoinColumn(name = "teamId"))
-	@JsonManagedReference
+	//@JsonManagedReference(value="user-team")
 	private List<Team> teams;
 	
 	public List<Team> getTeams() {

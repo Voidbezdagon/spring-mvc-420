@@ -8,8 +8,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class ScheduleActivityReport extends BaseEntity {
 	
 	private static final long serialVersionUID = -6454954275786468970L;
@@ -19,11 +22,11 @@ public class ScheduleActivityReport extends BaseEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="scheduleActivityId")
-	@JsonBackReference
+	//@JsonBackReference(value="scheduleactivity-scheduleactivityreport")
 	private ScheduleActivity scheduleActivity;
 	@ManyToOne
 	@JoinColumn(name="scheduleReportId")
-	@JsonBackReference
+	//@JsonBackReference(value="schedulereport-scheduleactivityreport")
 	private ScheduleReport scheduleReport;
 
 	public boolean getIsFinished() {

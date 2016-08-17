@@ -11,9 +11,12 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Position extends BaseEntity{
 
 	private static final long serialVersionUID = -4597852384321501319L;
@@ -24,7 +27,7 @@ public class Position extends BaseEntity{
 	private String name;
 	@OneToMany(mappedBy = "position", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},  fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	@JsonManagedReference
+	//@JsonManagedReference(value="position-user")
 	private List<User> users;
 	
 	public Long getParentId() {

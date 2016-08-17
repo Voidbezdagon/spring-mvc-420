@@ -11,8 +11,11 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class LocationItem extends BaseEntity{
 
 	private static final long serialVersionUID = 9025159218335679638L;
@@ -23,7 +26,7 @@ public class LocationItem extends BaseEntity{
 	private String details;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "locationId")
-	@JsonBackReference
+	//@JsonBackReference(value="location-locationitem")
 	private Location location;
 	
 	public String getName() {
