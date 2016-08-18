@@ -21,6 +21,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
 
+import com.cm.entity.Position;
 import com.cm.entity.User;
 import com.cm.service.PositionService;
 import com.cm.service.UserService;
@@ -60,16 +61,20 @@ public class UserWebService extends BaseWebService<User>{
 			System.out.println("deba maznata pi6ka");	
 			return new ResponseEntity<User>(item, HttpStatus.BAD_REQUEST);
 		}
-		else
+		
+		if (item.getId() != null)
 		{
-			if (item.getId() != null)
-			{
-				User user = uService.getById(item.getId());
-				item.setTeams(user.getTeams());
-			}
-			item.setPosition(pService.getById(item.getPosition().getId()));
-			item.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
+			User user = uService.getById(item.getId());
+			item.setTeams(user.getTeams());
+		}
+		item.setPosition(pService.getById(item.getPosition().getId()));
+		item.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
+		
+		try {
 			return save(item);
+		} catch (Exception e) {
+			System.out.println("Duplicate Name");
+			return new ResponseEntity<User>(item, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
