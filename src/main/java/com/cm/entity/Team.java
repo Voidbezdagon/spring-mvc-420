@@ -13,13 +13,16 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.cm.json.UserSerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@teamId")
 public class Team extends BaseEntity{
 
 	private static final long serialVersionUID = 3372842139548747831L;
@@ -36,6 +39,7 @@ public class Team extends BaseEntity{
     joinColumns = {@JoinColumn(name = "teamId")},
     inverseJoinColumns = @JoinColumn(name = "userId"))
 	//@JsonBackReference(value="user-team")
+	@JsonSerialize(using = UserSerializer.class)
     private List<User> users;
 	@OneToMany(mappedBy = "assignedTeam", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)

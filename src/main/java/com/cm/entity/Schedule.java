@@ -14,13 +14,16 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.cm.json.LocationSerializer;
+import com.cm.json.TeamSerializer;
+import com.cm.json.ScheduleActivitySerializer;
+import com.cm.json.ScheduleReportSerializer;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@scheduleId")
 public class Schedule extends BaseEntity{
 
 	private static final long serialVersionUID = 2509332616418806377L;
@@ -33,18 +36,22 @@ public class Schedule extends BaseEntity{
 	private Long recurringTime;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "assignedTeamId")
+	@JsonSerialize(using = TeamSerializer.class)
 	//@JsonManagedReference(value="schedule-team")
 	private Team assignedTeam;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "locationId")
+	@JsonSerialize(using = LocationSerializer.class)
 	//@JsonBackReference(value="location-schedule")
 	private Location location;
 	@OneToMany(mappedBy = "schedule", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonSerialize(using = ScheduleActivitySerializer.class)
 	//@JsonManagedReference(value="schedule-scheduleactivity")
 	private List<ScheduleActivity> activities;
 	@OneToMany(mappedBy = "schedule", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonSerialize(using = ScheduleReportSerializer.class)
 	//@JsonManagedReference(value="schedule-schedulereport")
 	private List<ScheduleReport> reports;
 	

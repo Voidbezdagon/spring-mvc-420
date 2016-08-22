@@ -96,7 +96,7 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value = "/api/ScheduleReport/getAll", method = RequestMethod.GET, produces="application/json")
+	@RequestMapping(value = "/api/ScheduleReport/getAll/{id}", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<List<ScheduleReport>> getAllScheduleReports(@PathVariable("id") long id) throws InstantiationException, IllegalAccessException
 	{	
 		return getAll();

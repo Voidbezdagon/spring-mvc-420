@@ -13,13 +13,15 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.cm.json.ScheduleActivityReportSerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@scheduleReportId")
 public class ScheduleReport extends BaseEntity{
 
 	private static final long serialVersionUID = -3425599246883252616L;
@@ -32,6 +34,7 @@ public class ScheduleReport extends BaseEntity{
 	private Schedule schedule;
 	@OneToMany(mappedBy = "scheduleReport", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
+	//@JsonSerialize(using = ScheduleActivityReportSerializer.class)
 	//@JsonManagedReference(value="schedulereport-scheduleactivityreport")
 	private List<ScheduleActivityReport> activityReports;
 	
