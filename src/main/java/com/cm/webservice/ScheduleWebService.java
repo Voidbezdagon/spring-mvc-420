@@ -106,47 +106,82 @@ public class ScheduleWebService extends BaseWebService<Schedule>{
 	 
 	@CrossOrigin
 	@RequestMapping(value = "/api/Schedule/save", method = RequestMethod.POST)
-	public ResponseEntity<Schedule> createSchedule(@Valid @RequestBody Schedule item, BindingResult bindingResult) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<Schedule> createSchedule(@Valid @RequestBody Schedule item, BindingResult bindingResult, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{
 		if (bindingResult.hasErrors()) {
 			System.out.println("deba maznata pi6ka");	
 			return new ResponseEntity<Schedule>(item, HttpStatus.BAD_REQUEST);
 		}
 		
-		try 
+		if (key != null)
 		{
-			return save(item);
-		} 
-		catch (Exception e) 
-		{
-			System.out.println("Duplicate Name");
-			return new ResponseEntity<Schedule>(item, HttpStatus.BAD_REQUEST);
+			User user = uService.getUserByKey(key);
+			if (user != null)
+			{
+				if (user.getAdmin() == true)
+				{
+					try 
+					{
+						return save(item);
+					} 
+					catch (Exception e) 
+					{
+						System.out.println("Duplicate Name");
+						return new ResponseEntity<Schedule>(item, HttpStatus.BAD_REQUEST);
+					}
+				}
+			}
 		}
+		
+		return new ResponseEntity<Schedule>(new Schedule(), HttpStatus.FORBIDDEN);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/api/Schedule/get/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Schedule> getScheduleById(@PathVariable("id") long id) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<Schedule> getScheduleById(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{
-		return getById(id);
+		if (key != null)
+		{
+			User user = uService.getUserByKey(key);
+			if (user != null)
+			{
+				if (user.getAdmin() == true)
+				{
+					return getById(id);
+				}
+			}
+		}
+		
+		return new ResponseEntity<Schedule>(new Schedule(), HttpStatus.FORBIDDEN);
+		
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/api/Schedule/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Schedule> deleteSchedule(@PathVariable("id") long id) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<Schedule> deleteSchedule(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{
-		Schedule schedule = sService.getById(id);
-		
-		for (ScheduleActivity sa : schedule.getActivities())
-			saService.delete(sa.getId());
-		
-		for (ScheduleReport sr : schedule.getReports())
-			srService.delete(sr.getId());
-		
-		schedule.setLocation(null);
-		sService.update(schedule);
-		
-		return delete(id);
+		if (key != null)
+		{
+			User user = uService.getUserByKey(key);
+			if (user != null)
+			{
+				if (user.getAdmin() == true)
+				{
+					Schedule schedule = sService.getById(id);
+					
+					for (ScheduleActivity sa : schedule.getActivities())
+						saService.delete(sa.getId());
+					
+					for (ScheduleReport sr : schedule.getReports())
+						srService.delete(sr.getId());
+					
+					schedule.setLocation(null);
+					sService.update(schedule);
+					
+					return delete(id);
+				}
+			}
+		}
+		return new ResponseEntity<Schedule>(new Schedule(), HttpStatus.FORBIDDEN);
 	}
-
 }
