@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -32,6 +33,7 @@ public class User extends BaseEntity{
 	private String username;
 	private String password;
 	private String avatar;
+	private String accesskey;
 	private Boolean admin;
 	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name="positionId")
@@ -98,5 +100,10 @@ public class User extends BaseEntity{
 	public void setPosition(Position position) {
 		this.position = position;
 	}
-	
+	public String getAccesskey() {
+		return accesskey;
+	}
+	public void setAccesskey(String accesskey) {
+		this.accesskey = accesskey;
+	}
 }

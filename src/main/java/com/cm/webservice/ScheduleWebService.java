@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,8 +65,9 @@ public class ScheduleWebService extends BaseWebService<Schedule>{
 	
 	@CrossOrigin
 	@RequestMapping(value = "/api/Schedule/getAll/{id}", method = RequestMethod.GET, produces="application/json")
-	public ResponseEntity<List<Schedule>> getAllSchedules(@PathVariable("id") long id) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<List<Schedule>> getAllSchedules(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{	
+		System.out.println(key);
 		//TODO Get Logged User's Schedules
 		return getAll();
 	}

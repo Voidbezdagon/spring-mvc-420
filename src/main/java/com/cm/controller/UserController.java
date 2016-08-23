@@ -2,9 +2,11 @@ package com.cm.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,9 +50,6 @@ public class UserController extends BaseController<User>{
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private TeamService teamService;
 	
 	@Autowired
 	private PositionService positionService;
@@ -158,10 +157,24 @@ public class UserController extends BaseController<User>{
 		if (item.getId() != null)
 		{
 			User user = userService.getById(item.getId());
+			item.setAccesskey(user.getAccesskey());
 			item.setTeams(user.getTeams());
+		}
+		else
+		{
+			User user = null;
+			SecureRandom random = null;
+			do {
+				user = null;
+				random = new SecureRandom();
+				user = userService.getUserByKey(new BigInteger(130, random).toString(32));
+			}
+			while (user != null);
+			item.setAccesskey(new BigInteger(130, random).toString(32));
 		}
 			
 		try {
+			
 			return save(item, request);
 		} catch (Exception e) {
 			request.setAttribute("duplicateUname", "A User with this Username already exists");
@@ -292,6 +305,8 @@ public class UserController extends BaseController<User>{
 		admin.setPassword("admin");
 		admin.setAdmin(true);
 		admin.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
+		SecureRandom random = new SecureRandom();
+		admin.setAccesskey(new BigInteger(130, random).toString(32));
 		
 		userService.create(admin);
 		return new ModelAndView ("redirect:loginForm");

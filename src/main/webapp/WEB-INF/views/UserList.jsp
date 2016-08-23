@@ -246,6 +246,7 @@
 										<th>Avatar</th>
 										<th>Admin</th>
 										<th>Position</th>
+										<th>Key</th>
 										<th></th>
 										<th></th>
 									</tr>
@@ -266,6 +267,7 @@
 												<th><c:out value="False" /></th>
 											</c:if>
 											<th><c:out value="${item.position.name}" /></th>
+											<th><c:out value="${item.accesskey}" /></th>
 											<th><a class="text-muted"
 												href="<%=request.getContextPath()%>/User/edit?id=<c:out value='${item.id}'/>">Edit</a></th>
 											<th><a class="text-muted"

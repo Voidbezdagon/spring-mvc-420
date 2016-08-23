@@ -41,4 +41,17 @@ public class UserRepository extends BaseRepository<User>{
 		else
 			return result.get(0);
 	}
+	
+	public User getUserByKey(String key) throws InstantiationException, IllegalAccessException
+	{
+		ArrayList<User> result = new ArrayList<User>();
+		result = (ArrayList<User>) getAll().stream()
+				.filter(p -> p.getAccesskey().equals(key))
+				.collect(Collectors.toList());
+		
+		if (result.size() == 0)
+			return null;
+		else
+			return result.get(0);
+	}
 }
