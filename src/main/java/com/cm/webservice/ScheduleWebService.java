@@ -1,6 +1,7 @@
 package com.cm.webservice;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,16 +27,22 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.cm.entity.Schedule;
 import com.cm.entity.ScheduleActivity;
 import com.cm.entity.ScheduleReport;
+import com.cm.entity.Team;
+import com.cm.entity.User;
 import com.cm.service.LocationItemService;
 import com.cm.service.LocationService;
 import com.cm.service.ScheduleActivityService;
 import com.cm.service.ScheduleReportService;
 import com.cm.service.ScheduleService;
+import com.cm.service.UserService;
 import com.cm.util.ScheduleFormValidator;
 
 @RestController
 @EnableWebMvc
 public class ScheduleWebService extends BaseWebService<Schedule>{
+	@Autowired
+	UserService uService;
+	
 	@Autowired
 	LocationService lService;
 	
@@ -64,12 +71,37 @@ public class ScheduleWebService extends BaseWebService<Schedule>{
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value = "/api/Schedule/getAll/{id}", method = RequestMethod.GET, produces="application/json")
-	public ResponseEntity<List<Schedule>> getAllSchedules(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
+	@RequestMapping(value = "/api/Schedule/getAll/", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<List<Schedule>> getAllSchedules(@RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{	
-		System.out.println(key);
-		//TODO Get Logged User's Schedules
-		return getAll();
+		//System.out.println(key);
+		if (key != null)
+		{
+			User user = uService.getUserByKey(key);
+			if (user != null)
+			{
+				if (user.getAdmin() == true)
+				{
+					return getAll();
+				}
+				else
+				{
+					List<Team> teams = user.getTeams();
+					List<Schedule> result = new ArrayList<Schedule>();
+					
+					for (Team team : teams)
+					{
+						for (Schedule schedule : team.getSchedules())
+						{
+							if(!result.contains(schedule))
+								result.add(schedule);
+						}
+					}
+					return new ResponseEntity<List<Schedule>>(result, HttpStatus.OK);
+				}
+			}
+		}
+		return new ResponseEntity<List<Schedule>>(new ArrayList<Schedule>(), HttpStatus.FORBIDDEN);
 	}
 	 
 	@CrossOrigin

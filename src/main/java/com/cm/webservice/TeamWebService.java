@@ -1,5 +1,6 @@
 package com.cm.webservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -92,56 +94,104 @@ public class TeamWebService extends BaseWebService<Team>{
 	
 	@CrossOrigin
 	@RequestMapping(value = "/api/Team/getAll", method = RequestMethod.GET, produces="application/json")
-	public ResponseEntity<List<Team>> getAllTeams() throws InstantiationException, IllegalAccessException
+	public ResponseEntity<List<Team>> getAllTeams(@RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{
-		return getAll();
+		if (key != null)
+		{
+			User keyUser = uService.getUserByKey(key);
+			if (keyUser != null)
+			{
+				if (keyUser.getAdmin() == true)
+				{
+					return getAll();
+				}
+			}
+		}
+		
+		return new ResponseEntity<List<Team>>(new ArrayList<Team>(), HttpStatus.FORBIDDEN);
 	}
 	 
 	@CrossOrigin
 	@RequestMapping(value = "/api/Team/save", method = RequestMethod.POST)
-	public ResponseEntity<Team> createTeam(@Valid @RequestBody Team item, BindingResult bindingResult) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<Team> createTeam(@Valid @RequestBody Team item, BindingResult bindingResult, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{
 		if (bindingResult.hasErrors()) {
 			System.out.println("deba maznata pi6ka");	
 			return new ResponseEntity<Team>(item, HttpStatus.BAD_REQUEST);
 		}
 		
-		try 
+		if (key != null)
 		{
-			return save(item);
-		} 
-		catch (Exception e) 
-		{
-			System.out.println("Duplicate Name");
-			return new ResponseEntity<Team>(item, HttpStatus.BAD_REQUEST);
+			User keyUser = uService.getUserByKey(key);
+			if (keyUser != null)
+			{
+				if (keyUser.getAdmin() == true)
+				{
+					try 
+					{
+						return save(item);
+					} 
+					catch (Exception e) 
+					{
+						System.out.println("Duplicate Name");
+						return new ResponseEntity<Team>(item, HttpStatus.BAD_REQUEST);
+					}
+				}
+			}
 		}
+		
+		return new ResponseEntity<Team>(new Team(), HttpStatus.FORBIDDEN);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/api/Team/get/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Team> getTeamById(@PathVariable("id") long id) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<Team> getTeamById(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{
-		return getById(id);
+		if (key != null)
+		{
+			User keyUser = uService.getUserByKey(key);
+			if (keyUser != null)
+			{
+				if (keyUser.getAdmin() == true)
+				{
+					return getById(id);
+				}
+			}
+		}
+		
+		return new ResponseEntity<Team>(new Team(), HttpStatus.FORBIDDEN);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value = "/api/Team/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Team> deleteTeam(@PathVariable("id") long id) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<Team> deleteTeam(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
 	{
-		List<Schedule> schedules = sService.getAll();
-		for(Schedule s : schedules)
+		if (key != null)
 		{
-			for (ScheduleActivity sa : s.getActivities())
+			User keyUser = uService.getUserByKey(key);
+			if (keyUser != null)
 			{
-				saService.delete(sa.getId());
+				if (keyUser.getAdmin() == true)
+				{
+					List<Schedule> schedules = sService.getAll();
+					for(Schedule s : schedules)
+					{
+						for (ScheduleActivity sa : s.getActivities())
+						{
+							saService.delete(sa.getId());
+						}
+						for (ScheduleReport sr : s.getReports())
+						{
+							srService.delete(sr.getId());
+						}
+						sService.delete(s.getId());
+					}
+					
+					return delete(id);
+				}
 			}
-			for (ScheduleReport sr : s.getReports())
-			{
-				srService.delete(sr.getId());
-			}
-			sService.delete(s.getId());
 		}
 		
-		return delete(id);
+		return new ResponseEntity<Team>(new Team(), HttpStatus.FORBIDDEN);
 	}
 }

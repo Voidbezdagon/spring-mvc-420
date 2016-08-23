@@ -26,6 +26,6 @@ public class UserService extends BaseService<User> {
 	
 	public User getUserByKey(String key) throws InstantiationException, IllegalAccessException
 	{
-		return userRepository.getUserByUname(key);
+		return userRepository.getUserByKey(key);
 	}
 }
