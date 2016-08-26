@@ -128,7 +128,7 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 	 
 	@CrossOrigin
 	@RequestMapping(value = "/api/ScheduleReport/save", method = RequestMethod.POST)
-	public ResponseEntity<ScheduleReport> createScheduleReport(@PathVariable("id") long id, @Valid @RequestBody ScheduleReport item, BindingResult bindingResult, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException, ParseException
+	public ResponseEntity<ScheduleReport> createScheduleReport(@Valid @RequestBody ScheduleReport item, BindingResult bindingResult, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException, ParseException
 	{
 		if (bindingResult.hasErrors()) {
 			System.out.println("deba maznata pi6ka");	
@@ -142,7 +142,7 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 			{
 				if (user.getAdmin() == true)
 				{
-					Schedule schedule = scheduleService.getById(id);
+					Schedule schedule = scheduleService.getById(item.getSchedule().getId());
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Date date = new Date();
 					
@@ -178,7 +178,7 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 				}
 				else
 				{
-					Schedule schedule = scheduleService.getById(id);
+					Schedule schedule = scheduleService.getById(item.getSchedule().getId());
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Date date = new Date();
 					
@@ -232,7 +232,7 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 							noob.setDate(sdf.parse(sdf.format(date)));
 							sarService.create(noob);
 						}
-					}
+					}  			
 					
 					return save(item);
 				}

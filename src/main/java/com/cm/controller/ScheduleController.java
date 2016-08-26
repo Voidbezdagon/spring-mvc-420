@@ -25,10 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cm.entity.Location;
 import com.cm.entity.Schedule;
 import com.cm.entity.ScheduleActivity;
+import com.cm.entity.ScheduleActivityReport;
 import com.cm.entity.ScheduleReport;
 import com.cm.entity.Team;
 import com.cm.entity.User;
 import com.cm.service.LocationService;
+import com.cm.service.ScheduleActivityReportService;
 import com.cm.service.ScheduleActivityService;
 import com.cm.service.ScheduleReportService;
 import com.cm.service.ScheduleService;
@@ -48,6 +50,9 @@ public class ScheduleController extends BaseController<Schedule>{
 	
 	@Autowired
 	ScheduleReportService scheduleReportService;
+	
+	@Autowired
+	ScheduleActivityReportService sarService;
 	
 	@Autowired
 	TeamService teamService;
@@ -98,10 +103,28 @@ public class ScheduleController extends BaseController<Schedule>{
 		Schedule schedule = scheduleService.getById(id);
 		
 		for (ScheduleActivity sa : schedule.getActivities())
+		{
+			for (ScheduleActivityReport sar : sa.getScheduleActivityReports())
+			{
+				sar.setScheduleActivity(null);
+				sar.setScheduleReport(null);
+				sarService.delete(sar.getId());
+			}
 			scheduleActivityService.delete(sa.getId());
+		}
+			
 		
 		for (ScheduleReport sr : schedule.getReports())
+		{
+			for (ScheduleActivityReport sar : sr.getActivityReports())
+			{
+				sar.setScheduleActivity(null);
+				sar.setScheduleReport(null);
+				sarService.delete(sar.getId());
+			}
 			scheduleReportService.delete(sr.getId());
+		}
+			
 		
 		schedule.setLocation(null);
 		scheduleService.update(schedule);
