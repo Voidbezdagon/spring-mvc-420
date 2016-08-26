@@ -207,12 +207,17 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 					
 					
 					//Check if today is the day of the schedule
+					Boolean check2 = false;
 					for (long i = sdf.parse(sdf.format(schedule.getStartDate())).getTime(); i <= sdf.parse(sdf.format(schedule.getEndDate())).getTime(); i = i + (schedule.getRecurringTime() * 86400000))
 					{
 						if (i == sdf.parse(sdf.format(new Date())).getTime())
 						{
-							new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
+							check2 = true;
 						}
+					}
+					if (check2 == false)
+					{
+						new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
 					}
 					
 					item.setDate(sdf.parse(sdf.format(date)));
