@@ -113,6 +113,7 @@ public class ScheduleController extends BaseController<Schedule>{
 			scheduleActivityService.delete(sa.getId());
 		}
 			
+		schedule = scheduleService.getById(id);
 		
 		for (ScheduleReport sr : schedule.getReports())
 		{

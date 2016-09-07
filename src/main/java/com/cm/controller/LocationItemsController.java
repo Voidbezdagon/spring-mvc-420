@@ -109,7 +109,11 @@ public class LocationItemsController extends BaseController<LocationItem> {
 				return edit(request);
 		}
 		
-		item.setLocation(locationService.getById((long) request.getSession().getAttribute("parentId")));
+		if (item.getId() == null)
+			item.setLocation(locationService.getById((long) request.getSession().getAttribute("parentId")));
+		else
+			item.setLocation(locationItemService.getById(item.getId()).getLocation());
+		
 		request.getSession().removeAttribute("parentId");
 		
 		if (item.getId() == null)

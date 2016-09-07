@@ -1,6 +1,7 @@
 package com.cm.webservice;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
 
+import com.cm.controller.UserController;
 import com.cm.entity.Schedule;
 import com.cm.entity.User;
 import com.cm.service.PositionService;
@@ -41,6 +43,9 @@ public class UserWebService extends BaseWebService<User>{
 	UserService uService;
 	
 	@Autowired
+	UserController uController;
+	
+	@Autowired
 	@Qualifier("userValidator")
 	private UserFormValidator validator;
 
@@ -51,13 +56,17 @@ public class UserWebService extends BaseWebService<User>{
 	
 	@CrossOrigin
 	@RequestMapping(value = "/api/User/login", method = RequestMethod.POST)
-	public ResponseEntity<User> loginUser(@RequestBody User item) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<User> loginUser(@RequestBody User item) throws InstantiationException, IllegalAccessException, IOException
 	{
 		User user = uService.getUserByUnamePwd(item.getUsername(), item.getPassword());
+		
 		if (user == null)
 			return new ResponseEntity<User>(item, HttpStatus.BAD_REQUEST);
 		else
+		{
+			user.setAvatar(uController.getAvatar(user));
 			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}
 	}
 	
 	@CrossOrigin

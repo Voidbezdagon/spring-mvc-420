@@ -32,7 +32,7 @@ public class LocationFormValidator implements Validator {
 		Location item = (Location) obj;
 		if (!item.getName().matches("[a-zA-Z ]+"))
 			err.rejectValue("name", "name.invalid");
-		if (!item.getStreet().matches("[a-zA-Z]+"))
+		if (!item.getStreet().matches("[a-zA-Z ]+"))
 			err.rejectValue("street", "street.invalid");
 		if (!item.getCity().matches("[a-zA-Z]+"))
 			err.rejectValue("city", "city.invalid");

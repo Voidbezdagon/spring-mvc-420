@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cm.entity.BaseEntity;
 import com.cm.service.BaseService;
+import com.cm.util.ReflectionHelper;
 
 @MappedSuperclass
 public class BaseWebService<T extends BaseEntity> {
@@ -33,7 +34,8 @@ public class BaseWebService<T extends BaseEntity> {
     
     public ResponseEntity<T> delete(Long id) throws InstantiationException, IllegalAccessException {
     	baseService.delete(id);
-        return new ResponseEntity<T>(HttpStatus.NO_CONTENT);
+    	T item = ReflectionHelper.CreateInstance(this.getClass(), 1);
+        return new ResponseEntity<T>(item, HttpStatus.OK);
     }
 	
 	public ResponseEntity<List<T>> getAll() throws InstantiationException, IllegalAccessException

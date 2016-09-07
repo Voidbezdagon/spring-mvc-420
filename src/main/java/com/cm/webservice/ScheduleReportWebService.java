@@ -143,21 +143,29 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 				if (user.getAdmin() == true)
 				{
 					Schedule schedule = scheduleService.getById(item.getSchedule().getId());
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					Date date = new Date();
 					
+					System.out.println(sdf.parse(sdf.format(item.getDate())).getTime() + " -------------------------------------------------------");
+					System.out.println(sdf.parse(sdf.format(new Date())).getTime() + " +++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+					//Check if a report already exists for the current date
 					for (ScheduleReport sr : schedule.getReports())
-						if (sdf.format(sr.getDate()).equals(sdf.format(new Date())))
-							new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
+						if (sdf.parse(sdf.format(sr.getDate())).getTime() == sdf.parse(sdf.format(new Date())).getTime())
+							return new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
 					
 					
 					//Check if today is the day of the schedule
+					Boolean check2 = false;
 					for (long i = sdf.parse(sdf.format(schedule.getStartDate())).getTime(); i <= sdf.parse(sdf.format(schedule.getEndDate())).getTime(); i = i + (schedule.getRecurringTime() * 86400000))
 					{
 						if (i == sdf.parse(sdf.format(new Date())).getTime())
 						{
-							new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
+							check2 = true;
 						}
+					}
+					if (check2 == false)
+					{
+						return new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
 					}
 					
 					item.setDate(sdf.parse(sdf.format(date)));
@@ -189,7 +197,7 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 							check = true;
 					
 					if (check == false)
-						new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
+						return new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
 					
 					//Check if user is highest position in team
 					List<Position> teamPositions = new ArrayList<Position>();
@@ -198,12 +206,12 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 						teamPositions.add(u.getPosition());
 					
 					if (!user.getPosition().getLevel().equals(pController.getHighestPosition(teamPositions)))
-						new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
+						return new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
 					
 					//Check if a report already exists for the current date
 					for (ScheduleReport sr : schedule.getReports())
-						if (sdf.format(sr.getDate()).equals(sdf.format(new Date())))
-							new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
+						if (sdf.parse(sdf.format(sr.getDate())).getTime() == sdf.parse(sdf.format(new Date())).getTime())
+							return new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
 					
 					
 					//Check if today is the day of the schedule
@@ -217,7 +225,7 @@ public class ScheduleReportWebService extends BaseWebService<ScheduleReport>{
 					}
 					if (check2 == false)
 					{
-						new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
+						return new ResponseEntity<ScheduleReport>(new ScheduleReport(), HttpStatus.FORBIDDEN);
 					}
 					
 					item.setDate(sdf.parse(sdf.format(date)));

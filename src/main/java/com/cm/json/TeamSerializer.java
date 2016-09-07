@@ -18,25 +18,29 @@ public class TeamSerializer extends JsonSerializer<Team>{
 	public void serialize(Team arg0, JsonGenerator arg1, SerializerProvider arg2)
 			throws IOException, JsonProcessingException {
 			ArrayList<User> users = new ArrayList<User>();
-			for (User u: arg0.getUsers())
+			
+			if (arg0.getUsers() != null)
 			{
-				User user = new User();
-				user.setAccesskey(u.getAccesskey());
-				user.setAdmin(u.getAdmin());
-				user.setAvatar(u.getAvatar());
-				user.setFirstname(u.getFirstname());
-				user.setId(u.getId());
-				user.setLastname(u.getLastname());
-				user.setPassword(u.getPassword());
-				user.setUsername(u.getUsername());
-				//Setting Position
-					Position p = new Position();
-					p.setId(u.getPosition().getId());
-					p.setLevel(u.getPosition().getLevel());
-					p.setName(u.getPosition().getName());
-					p.setParentId(u.getPosition().getParentId());
-				user.setPosition(p);
-				users.add(user);
+				for (User u: arg0.getUsers())
+				{
+					User user = new User();
+					user.setAccesskey(u.getAccesskey());
+					user.setAdmin(u.getAdmin());
+					user.setAvatar(u.getAvatar());
+					user.setFirstname(u.getFirstname());
+					user.setId(u.getId());
+					user.setLastname(u.getLastname());
+					user.setPassword(u.getPassword());
+					user.setUsername(u.getUsername());
+					//Setting Position
+						Position p = new Position();
+						p.setId(u.getPosition().getId());
+						p.setLevel(u.getPosition().getLevel());
+						p.setName(u.getPosition().getName());
+						p.setParentId(u.getPosition().getParentId());
+					user.setPosition(p);
+					users.add(user);
+				}
 			}
 	        final SimpleTeam list = new SimpleTeam(arg0.getId(), arg0.getTeamname(), users);
 	        arg1.writeObject(list);
