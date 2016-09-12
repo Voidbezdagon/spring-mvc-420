@@ -108,6 +108,7 @@ public class UserWebService extends BaseWebService<User>{
 						User user = uService.getById(item.getId());
 						item.setAccesskey(user.getAccesskey());
 						item.setTeams(user.getTeams());
+						item.setAvatar(user.getAvatar());
 					}
 					else
 					{
@@ -120,10 +121,10 @@ public class UserWebService extends BaseWebService<User>{
 						}
 						while (user != null);
 						item.setAccesskey(new BigInteger(130, random).toString(32));
+						item.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
 					}
 					
 					item.setPosition(pService.getById(item.getPosition().getId()));
-					item.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
 					
 					try {
 						return save(item);
@@ -139,8 +140,57 @@ public class UserWebService extends BaseWebService<User>{
 	}
 	
 	@CrossOrigin
+	@RequestMapping(value = "/api/User/saveLoggedUser", method = RequestMethod.POST)
+	public ResponseEntity<User> editLoggedUser(@Valid @RequestBody User item, BindingResult bindingResult, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
+	{
+		if (bindingResult.hasErrors()) {
+			System.out.println("deba maznata pi6ka");	
+			return new ResponseEntity<User>(item, HttpStatus.BAD_REQUEST);
+		}
+		
+		if (key != null)
+		{
+			User keyUser = uService.getUserByKey(key);
+			if (keyUser != null)
+			{
+					if (item.getId() != null)
+					{
+						User user = uService.getById(item.getId());
+						item.setAccesskey(user.getAccesskey());
+						item.setTeams(user.getTeams());
+						item.setAvatar(user.getAvatar());
+					}
+					else
+					{
+						User user = null;
+						SecureRandom random = null;
+						do {
+							user = null;
+							random = new SecureRandom();
+							user = uService.getUserByKey(new BigInteger(130, random).toString(32));
+						}
+						while (user != null);
+						item.setAccesskey(new BigInteger(130, random).toString(32));
+						item.setAvatar("/home/void/workspace/Content Management/upload/default_avatar.png");
+					}
+					
+					item.setPosition(pService.getById(item.getPosition().getId()));
+					
+					try {
+						return save(item);
+					} catch (Exception e) {
+						System.out.println("Duplicate Name");
+						return new ResponseEntity<User>(item, HttpStatus.BAD_REQUEST);
+					}
+			}
+		}
+		
+		return new ResponseEntity<User>(new User(), HttpStatus.FORBIDDEN);
+	}
+	
+	@CrossOrigin
 	@RequestMapping(value = "/api/User/get/{id}", method = RequestMethod.GET)
-	public ResponseEntity<User> getUserById(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException
+	public ResponseEntity<User> getUserById(@PathVariable("id") long id, @RequestHeader("access-key") String key) throws InstantiationException, IllegalAccessException, IOException
 	{
 		if (key != null)
 		{
@@ -149,7 +199,9 @@ public class UserWebService extends BaseWebService<User>{
 			{
 				if (keyUser.getAdmin() == true)
 				{
-					return getById(id);
+					User user = uService.getById(id);
+					user.setAvatar(uController.getAvatar(user));
+					return new ResponseEntity<User>(user, HttpStatus.OK);
 				}
 			}
 		}
